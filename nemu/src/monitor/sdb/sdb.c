@@ -34,6 +34,7 @@ static int cmd_c(char *args) {
 
 
 static int cmd_q(char *args) {
+  printf("Bye\n");
   return -1;
 }
 
