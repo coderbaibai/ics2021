@@ -43,7 +43,7 @@ static int cmd_si(char *args) {
   }
   if(stepNumber==0){
     Log("Error args:%s",args);
-    exit(-1);
+    return 0;
   }
   cpu_exec(stepNumber);
   return 0;
