@@ -49,6 +49,16 @@ static int cmd_si(char *args) {
   return 0;
 }
 
+static int cmd_info(char *args) {
+  if(strcmp("r",args)==0){
+    isa_reg_display();
+  }
+  else{
+    Log("Error args:%s",args);
+  }
+  return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -60,6 +70,7 @@ static struct {
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
   { "si", "exec step by step", cmd_si },
+  { "info", "print the status of a program",cmd_info }
 
   /* TODO: Add more commands */
 
