@@ -42,7 +42,7 @@ static int cmd_si(char *args) {
     stepNumber = atoi(args);
   }
   if(stepNumber==0){
-    printf("Error args:%s",args);
+    printf("Error args:%s\n",args);
     return 0;
   }
   cpu_exec(stepNumber);
@@ -51,13 +51,13 @@ static int cmd_si(char *args) {
 
 static int cmd_info(char *args) {
   if(args==NULL){
-    printf("No Arg input");
+    printf("No Arg input\n");
   }
   else if(strcmp("r",args)==0){
     isa_reg_display();
   }
   else{
-    printf("Error args:%s",args);
+    printf("Error args:%s\n",args);
   }
   return 0;
 }
