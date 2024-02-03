@@ -9,7 +9,7 @@ void init_regex();
 int main(int argc,char**argv){
     init_monitor(argc, argv);
     bool res = false;
-    expr("3 +4*5",&res);
+    expr("3+(4+$s11)*5",&res);
     printf("%d",res);
     return 0;
 }
