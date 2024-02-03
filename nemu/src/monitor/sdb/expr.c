@@ -74,6 +74,7 @@ static bool make_token(char *e) {
 
   nr_token = 0;
 
+  int tokenPos = 0;
   while (e[position] != '\0') {
     /* Try all rules one by one. */
     for (i = 0; i < NR_REGEX; i ++) {
@@ -90,11 +91,17 @@ static bool make_token(char *e) {
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
-
-        switch (rules[i].token_type) {
-          default: TODO();
+        if(substr_len>32){
+          printf("token is longer than 32\n");
+          return false;
         }
 
+        tokens[tokenPos].type = rules[i].token_type;
+        switch (rules[i].token_type) {
+          case TK_REG: case TK_HEX: case TK_DEC: 
+            strncpy(tokens[tokenPos].str,substr_start,substr_len);
+        }
+        tokenPos++;
         break;
       }
     }
