@@ -154,7 +154,7 @@ word_t evaluate(bool *success,int p,int q){
       *success = false;
       return 0;
     }
-    sprintf(tokens[p].str,"%d",res);
+    sscanf(tokens[p].str,"%d",&res);
     return res;
   }
   else{
