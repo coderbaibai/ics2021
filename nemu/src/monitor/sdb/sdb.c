@@ -65,7 +65,7 @@ static int cmd_info(char *args) {
 
 static int cmd_x(char* args){
   char * arg_1 = args;
-  char * arg_2 = args + strlen(arg_1)+1;
+  char * arg_2 = arg_1 + strlen(arg_1)+1;
   char * expr = NULL;
   int stepNumber = 1;
   paddr_t addr;
