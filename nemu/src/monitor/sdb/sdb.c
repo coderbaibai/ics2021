@@ -64,7 +64,8 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char* args){
-  char * arg_1 = args;
+  char * end = args+strlen(args);
+  char * arg_1 = strtok(args, " ");;
   char * arg_2 = arg_1 + strlen(arg_1)+1;
   char * expr = NULL;
   int stepNumber = 1;
@@ -72,9 +73,9 @@ static int cmd_x(char* args){
   if(!args){
     printf("Error args\n");
     return 0;
-  } 
+  }
   // 如果没有第二个参数
-  if(arg_2==NULL){
+  if(arg_2>=end){
     expr = arg_1;
   }
   // 如果有第二个参数
