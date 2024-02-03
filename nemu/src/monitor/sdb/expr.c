@@ -161,12 +161,12 @@ word_t evaluate(bool *success,int p,int q){
     int left = 0,right = 0;
     word_t lval=0,rval=0;
     for(int i=p;i<=q;i++){
-      if(tokens[p].type=='*'||tokens[p].type=='/'){
+      if(tokens[i].type=='*'||tokens[i].type=='/'){
         if(left!=right)
           continue;
         lval = evaluate(success,p,i-1);
         rval = evaluate(success,i+1,q);
-        switch (tokens[p].type)
+        switch (tokens[i].type)
         {
           case '*':
             return lval*rval;
@@ -178,8 +178,8 @@ word_t evaluate(bool *success,int p,int q){
             return lval/rval;
         }
       }
-      else if(tokens[p].type=='(') left++;
-      else if(tokens[p].type==')') right++;
+      else if(tokens[i].type=='(') left++;
+      else if(tokens[i].type==')') right++;
     }
     if(left!=right){
       *success = false;
@@ -187,12 +187,12 @@ word_t evaluate(bool *success,int p,int q){
     }
     left = right = 0;
     for(int i=p;i<=q;i++){
-      if(tokens[p].type=='+'||tokens[p].type=='-'){
+      if(tokens[i].type=='+'||tokens[i].type=='-'){
         if(left!=right)
           continue;
         lval = evaluate(success,p,i-1);
         rval = evaluate(success,i+1,q);
-        switch (tokens[p].type)
+        switch (tokens[i].type)
         {
           case '+':
             return lval-rval;
@@ -200,8 +200,8 @@ word_t evaluate(bool *success,int p,int q){
             return lval-rval;
         }
       }
-      else if(tokens[p].type=='(') left++;
-      else if(tokens[p].type==')') right++;
+      else if(tokens[i].type=='(') left++;
+      else if(tokens[i].type==')') right++;
     }
     return evaluate(success,p+1,q-1);
   }
