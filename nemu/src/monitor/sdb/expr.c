@@ -138,19 +138,82 @@ static bool make_token(char *e) {
       return false;
     }
   }
+  nr_token = tokenPos;
 
   return true;
 }
 
+word_t evaluate(bool *success,int p,int q){
+  int res = 0;
+  if(p>q){
+    *success = false;
+    return 0;
+  }
+  if(p==q){
+    if(tokens[p].type!=TK_DEC){
+      *success = false;
+      return 0;
+    }
+    sprintf(tokens[p].str,"%d",res);
+    return res;
+  }
+  else{
+    int left = 0,right = 0;
+    word_t lval=0,rval=0;
+    for(int i=p;i<=q;i++){
+      if(tokens[p].type=='*'||tokens[p].type=='/'){
+        if(left!=right)
+          continue;
+        lval = evaluate(success,p,i-1);
+        rval = evaluate(success,i+1,q);
+        switch (tokens[p].type)
+        {
+          case '*':
+            return lval*rval;
+          case '/':
+            if(rval==0){
+              *success = false;
+              return 0;
+            }
+            return lval/rval;
+        }
+      }
+      else if(tokens[p].type=='(') left++;
+      else if(tokens[p].type==')') right++;
+    }
+    if(left!=right){
+      *success = false;
+      return 0;
+    }
+    left = right = 0;
+    for(int i=p;i<=q;i++){
+      if(tokens[p].type=='+'||tokens[p].type=='-'){
+        if(left!=right)
+          continue;
+        lval = evaluate(success,p,i-1);
+        rval = evaluate(success,i+1,q);
+        switch (tokens[p].type)
+        {
+          case '+':
+            return lval-rval;
+          case '-':
+            return lval-rval;
+        }
+      }
+      else if(tokens[p].type=='(') left++;
+      else if(tokens[p].type==')') right++;
+    }
+    return evaluate(success,p+1,q-1);
+  }
+}
 
 word_t expr(char *e, bool *success) {
   if (!make_token(e)) {
     *success = false;
     return 0;
   }
-
-  /* TODO: Insert codes to evaluate the expression. */
-  TODO();
+  evaluate(success,0,nr_token-1);
 
   return 0;
 }
+
