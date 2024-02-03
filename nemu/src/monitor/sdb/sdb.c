@@ -74,7 +74,7 @@ static int cmd_x(char* args){
     return 0;
   } 
   // 如果没有第二个参数
-  if(!arg_2){
+  if(arg_2==NULL){
     expr = arg_1;
   }
   // 如果有第二个参数
