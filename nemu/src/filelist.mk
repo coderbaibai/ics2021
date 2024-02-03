@@ -1,4 +1,7 @@
-SRCS-y += src/nemu-main.c
+# MAIN = src/nemu-main.c
+MAIN := src/test.c
+
+SRCS-y += ${MAIN}
 DIRS-y += src/cpu src/monitor src/utils
 DIRS-$(CONFIG_MODE_SYSTEM) += src/memory
 DIRS-BLACKLIST-$(CONFIG_TARGET_AM) += src/monitor/sdb

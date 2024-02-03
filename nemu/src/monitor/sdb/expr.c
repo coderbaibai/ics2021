@@ -6,7 +6,11 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,
+  TK_NOTYPE = 256, 
+  TK_EQ,
+  TK_DEC,
+  TK_HEX,
+  TK_REG
 
   /* TODO: Add more token types */
 
@@ -21,9 +25,17 @@ static struct rule {
    * Pay attention to the precedence level of different rules.
    */
 
-  {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
-  {"==", TK_EQ},        // equal
+  {" +", TK_NOTYPE},     // spaces
+  {"\\+", '+'},          // plus
+  {"\\-", '-'},          // minus
+  {"\\*", '*'},          // multipy
+  {"/", '/'},            // divide
+  {"\\(", '('},            // (
+  {"\\)", ')'},            // )
+  {"$(0|ra|sp|gp|tp|t[0-6]|a[0-7]|s[0-9]|s1[01])", TK_REG},         // REGISTER
+  {"==", TK_EQ},         // equal
+  {"[+-]?0x[0-9]+", TK_HEX},// numer_hex
+  {"[+-]?[0-9]+", TK_DEC},  // numer_dec
 };
 
 #define NR_REGEX ARRLEN(rules)
