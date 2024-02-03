@@ -169,7 +169,7 @@ word_t evaluate(bool *success,int p,int q){
         switch (tokens[i].type)
         {
           case '+':
-            return lval-rval;
+            return lval+rval;
           case '-':
             return lval-rval;
         }
