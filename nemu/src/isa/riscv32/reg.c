@@ -13,7 +13,7 @@ void isa_reg_display() {
     if(i%2)
       printf("%3s = 0x%08x\n",regs[i],cpu.gpr[i]._32);
     else
-      printf("%3s = 0x%08x",regs[i],cpu.gpr[i]._32);
+      printf("%3s = 0x%08x  ",regs[i],cpu.gpr[i]._32);
   }
 }
 
