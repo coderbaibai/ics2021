@@ -97,7 +97,7 @@ static int cmd_x(char* args){
   word_t val;
   for(int i=0;i<stepNumber;i++){
     val = paddr_read(addr+i*4,4);
-    printf("<0x%08x>: %x\n",addr+i*4,val);
+    printf("<0x%08x>: %08x\n",addr+i*4,val);
   }
   return 0;
 }
