@@ -80,7 +80,7 @@ static int cmd_x(char* args){
   // 如果有第二个参数
   else{
     // 第一个参数一定是个大于1的数
-    stepNumber = atoi(args);
+    stepNumber = atoi(arg_1);
     if(stepNumber<=0){
       printf("Error args\n");
       return 0;
