@@ -16,6 +16,8 @@ enum {
 
 };
 
+extern const char *regs[];
+
 static struct rule {
   const char *regex;
   int token_type;
@@ -96,12 +98,32 @@ static bool make_token(char *e) {
           return false;
         }
 
-        tokens[tokenPos].type = rules[i].token_type;
         switch (rules[i].token_type) {
-          case TK_REG: case TK_HEX: case TK_DEC: 
+          case TK_NOTYPE: break;
+          case TK_REG:{
+            for(int i=0;i<32;i++){
+              if(strncmp(regs[i],substr_start,substr_len)==0){
+                tokens[tokenPos].type = TK_DEC;
+                sprintf(tokens[tokenPos].str,"%d",cpu.gpr[i]._32);
+                tokenPos++;
+                break;
+              }
+            }
+          } 
+          case TK_HEX:{
             strncpy(tokens[tokenPos].str,substr_start,substr_len);
+            int temp = 0;
+            sscanf(tokens[tokenPos].str,"%x",&temp);
+            tokens[tokenPos].type = TK_DEC;
+            sprintf(tokens[tokenPos].str,"%d",temp);
+            tokenPos++;
+            break;
+          } 
+          case TK_DEC:{
+            strncpy(tokens[tokenPos].str,substr_start,substr_len);
+            break;
+          }
         }
-        tokenPos++;
         break;
       }
     }
