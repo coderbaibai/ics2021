@@ -16,7 +16,8 @@ enum {
 
 };
 
-extern const char *regs[];
+extern const char * const regsRegEx;
+word_t isa_reg_str2val(const char *s, bool *success);
 
 static struct rule {
   const char *regex;
@@ -34,7 +35,7 @@ static struct rule {
   {"/", '/'},            // divide
   {"\\(", '('},            // (
   {"\\)", ')'},            // )
-  {"\\$(0|ra|sp|gp|tp|t[0-6]|a[0-7]|s[0-9]|s1[01])", TK_REG},         // REGISTER
+  {"$[a-zA-Z0-9]+", TK_REG},         // REGISTER
   {"==", TK_EQ},         // equal
   {"0x[0-9]+", TK_HEX},// numer_hex
   {"[0-9]+", TK_DEC},  // numer_dec
@@ -101,14 +102,15 @@ static bool make_token(char *e) {
         switch (rules[i].token_type) {
           case TK_NOTYPE: break;
           case TK_REG:{
-            for(int i=0;i<32;i++){
-              if(strncmp(regs[i],substr_start,substr_len)==0){
-                tokens[tokenPos].type = TK_DEC;
-                sprintf(tokens[tokenPos].str,"%d",cpu.gpr[i]._32);
-                tokenPos++;
-                break;
-              }
-            }
+            strncpy(tokens[tokenPos].str,substr_start,substr_len);
+            bool success = true;
+            word_t val = isa_reg_str2val(tokens[tokenPos].str,&success);
+            if(!success)
+              return false;
+            tokens[tokenPos].type = TK_DEC;
+            sprintf(tokens[tokenPos].str,"%d",val);
+            tokenPos++;
+            break;
           } 
           case TK_HEX:{
             strncpy(tokens[tokenPos].str,substr_start,substr_len);
