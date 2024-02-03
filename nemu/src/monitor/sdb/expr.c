@@ -121,8 +121,13 @@ static bool make_token(char *e) {
           } 
           case TK_DEC:{
             strncpy(tokens[tokenPos].str,substr_start,substr_len);
+            tokens[tokenPos].type = rules[i].token_type;
+            tokenPos++;
             break;
           }
+          default:
+            tokens[tokenPos].type = rules[i].token_type;
+            tokenPos++;
         }
         break;
       }
