@@ -107,7 +107,7 @@ static int cmd_p(char *args){
     printf("Error args\n");
     return 0;
   }
-  bool success;
+  bool success = true;
   word_t val = expr(args,&success);
   if(!success){
     printf("Error expression\n");
