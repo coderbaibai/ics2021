@@ -8,14 +8,25 @@ word_t expr(char *e, bool *success);
 void init_regex();
 int main(int argc,char**argv){
     init_monitor(argc, argv);
-    uint32_t resReal[200];
-    char expression[200][100];
-    for(int pos = 0;pos<200;pos++){
+    const size_t numSize = 200;
+    uint32_t resReal[numSize];
+    char expression[numSize][100];
+    for(int pos = 0;pos<numSize;pos++){
         scanf("%u",&resReal[pos]);
         scanf("%s",&expression[pos][0]);
     }
     bool res = true;
-    word_t s = expr("3-4",&res);
-    printf("%u\n",s);
+    word_t s;
+    for(int i=0;i<numSize;i++){
+        s = expr(expression[i],&res);
+        if(!res||s!=resReal[i]){
+            printf("error at %s\n",expression[i]);
+            printf("real: %u\n",resReal[i]);
+            printf("my result %u\n",s);
+        }
+        else{
+            printf("success\n");
+        }
+    }
     return 0;
 }
