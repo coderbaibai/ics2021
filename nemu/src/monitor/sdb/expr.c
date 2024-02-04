@@ -253,7 +253,7 @@ word_t evaluate(bool *success,int p,int q){
     }
     if(tokens[p].type=='*'){
       rval = (word_t)evaluate(success,p+1,q);
-      return paddr_read(rval,1);
+      return paddr_read(rval,4);
     }
     return evaluate(success,p+1,q-1);
   }
