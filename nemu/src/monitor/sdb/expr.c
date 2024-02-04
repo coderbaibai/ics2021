@@ -145,7 +145,7 @@ static bool make_token(char *e) {
   return true;
 }
 
-word_t evaluate(bool *success,int p,int q){
+int evaluate(bool *success,int p,int q){
   int res = 0;
   if(p>q){
     *success = false;
@@ -161,7 +161,7 @@ word_t evaluate(bool *success,int p,int q){
   }
   else{
     int left = 0,right = 0;
-    word_t lval=0,rval=0;
+    int lval=0,rval=0;
     for(int i=p;i<=q;i++){
       if(tokens[i].type=='+'||tokens[i].type=='-'){
         if(left!=right)
