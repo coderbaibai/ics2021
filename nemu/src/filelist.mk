@@ -1,5 +1,5 @@
-# MAIN = src/nemu-main.c
-MAIN := src/test.c
+MAIN = src/nemu-main.c
+# MAIN := src/test.c
 
 SRCS-y += ${MAIN}
 DIRS-y += src/cpu src/monitor src/utils
