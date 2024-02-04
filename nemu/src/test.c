@@ -8,6 +8,13 @@ word_t expr(char *e, bool *success);
 void init_regex();
 int main(int argc,char**argv){
     init_monitor(argc, argv);
+    uint32_t resReal[200];
+    char expression[200];
+    int pos = 0;
+    while(true){
+        scanf("%u",&resReal[pos]);
+        scanf("%s",&expression[pos]);
+    }
     bool res = true;
     word_t s = expr("3-4",&res);
     printf("%u\n",s);
