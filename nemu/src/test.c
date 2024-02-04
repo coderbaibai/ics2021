@@ -23,6 +23,7 @@ int main(int argc,char**argv){
             printf("error at %s\n",expression[i]);
             printf("real: %u\n",resReal[i]);
             printf("my result %u\n",s);
+            break;
         }
         else{
             printf("success\n");
