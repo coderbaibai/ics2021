@@ -9,7 +9,7 @@ void init_regex();
 int main(int argc,char**argv){
     init_monitor(argc, argv);
     bool res = true;
-    word_t s = expr("0x20+(4+$s7)*5",&res);
-    printf("%u",s);
+    word_t s = expr("3-4",&res);
+    printf("%u\n",s);
     return 0;
 }
