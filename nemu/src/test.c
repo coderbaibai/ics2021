@@ -9,11 +9,11 @@ void init_regex();
 int main(int argc,char**argv){
     init_monitor(argc, argv);
     uint32_t resReal[200];
-    char expression[200];
+    char expression[200][100];
     int pos = 0;
-    while(true){
+    while(100){
         scanf("%u",&resReal[pos]);
-        scanf("%s",&expression[pos]);
+        scanf("%s",&expression[pos][0]);
     }
     bool res = true;
     word_t s = expr("3-4",&res);
