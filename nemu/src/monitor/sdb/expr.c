@@ -4,13 +4,16 @@
  * Type 'man regex' for more information about POSIX regex functions.
  */
 #include <regex.h>
+#include "memory/paddr.h"
 
 enum {
   TK_NOTYPE = 256, 
   TK_EQ,
+  TK_NEQ,
   TK_DEC,
   TK_HEX,
-  TK_REG
+  TK_REG,
+  TK_AND
 
   /* TODO: Add more token types */
 
@@ -37,6 +40,8 @@ static struct rule {
   {"\\)", ')'},            // )
   {"\\$[a-zA-Z0-9]+", TK_REG},         // REGISTER
   {"==", TK_EQ},         // equal
+  {"!=", TK_NEQ},         // not equal
+  {"&&", TK_AND},         // not equal
   {"0x[0-9]+", TK_HEX},// numer_hex
   {"[0-9]+", TK_DEC},  // numer_dec
 };
@@ -150,7 +155,7 @@ static bool make_token(char *e) {
   return true;
 }
 
-int evaluate(bool *success,int p,int q){
+word_t evaluate(bool *success,int p,int q){
   int res = 0;
   if(p>q){
     *success = false;
@@ -167,6 +172,43 @@ int evaluate(bool *success,int p,int q){
   else{
     int left = 0,right = 0;
     int lval=0,rval=0;
+
+    for(int i=q;i>=p;i--){
+      if(tokens[i].type==TK_AND){
+        if(left!=right)
+          continue;
+        lval = evaluate(success,p,i-1);
+        rval = evaluate(success,i+1,q);
+        return lval&&rval;
+      }
+      else if(tokens[i].type=='(') left++;
+      else if(tokens[i].type==')') right++;
+    }
+    if(left!=right){
+      *success = false;
+      return 0;
+    }
+    left = right = 0;
+
+    for(int i=q;i>=p;i--){
+      if(tokens[i].type==TK_EQ||tokens[i].type==TK_NEQ){
+        if(left!=right)
+          continue;
+        lval = evaluate(success,p,i-1);
+        rval = evaluate(success,i+1,q);
+        switch (tokens[i].type)
+        {
+          case TK_EQ:
+            return lval==rval;
+          case TK_NEQ:
+            return lval!=rval;
+        }
+      }
+      else if(tokens[i].type=='(') left++;
+      else if(tokens[i].type==')') right++;
+    }
+    left = right = 0;
+
     for(int i=q;i>=p;i--){
       if(tokens[i].type=='+'||tokens[i].type=='-'){
         if(left!=right)
@@ -184,14 +226,13 @@ int evaluate(bool *success,int p,int q){
       else if(tokens[i].type=='(') left++;
       else if(tokens[i].type==')') right++;
     }
-    if(left!=right){
-      *success = false;
-      return 0;
-    }
     left = right = 0;
+
     for(int i=q;i>=p;i--){
       if(tokens[i].type=='*'||tokens[i].type=='/'){
         if(left!=right)
+          continue;
+        if(i==p)
           continue;
         lval = evaluate(success,p,i-1);
         rval = evaluate(success,i+1,q);
@@ -209,6 +250,10 @@ int evaluate(bool *success,int p,int q){
       }
       else if(tokens[i].type=='(') left++;
       else if(tokens[i].type==')') right++;
+    }
+    if(tokens[p].type=='*'){
+      rval = (word_t)evaluate(success,p+1,q);
+      return paddr_read(rval,1);
     }
     return evaluate(success,p+1,q-1);
   }
