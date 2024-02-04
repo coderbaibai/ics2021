@@ -8,7 +8,7 @@ word_t expr(char *e, bool *success);
 void init_regex();
 int main(int argc,char**argv){
     init_monitor(argc, argv);
-    const size_t numSize = 200;
+    const size_t numSize = 1;
     uint32_t resReal[numSize];
     char expression[numSize][100];
     for(int pos = 0;pos<numSize;pos++){
