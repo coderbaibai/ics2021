@@ -10,7 +10,7 @@ int main(int argc,char**argv){
     init_monitor(argc, argv);
     uint32_t resReal[200];
     char expression[200][100];
-    for(int pos = 0;pos<50;pos++){
+    for(int pos = 0;pos<200;pos++){
         scanf("%u",&resReal[pos]);
         scanf("%s",&expression[pos][0]);
     }

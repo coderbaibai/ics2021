@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
     fclose(fp);
 
     int ret = system("gcc /tmp/.code.c -Werror -o /tmp/.expr>/dev/null 2>&1");
-    if (ret != 0) continue;
+    if (ret != 0){i--; continue;}
 
     fp = popen("/tmp/.expr", "r");
     assert(fp != NULL);
