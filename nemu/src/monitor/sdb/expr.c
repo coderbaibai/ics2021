@@ -38,10 +38,10 @@ static struct rule {
   {"/", '/'},            // divide
   {"\\(", '('},            // (
   {"\\)", ')'},            // )
-  {"\\$[a-zA-Z0-9]+", TK_REG},         // REGISTER
+  {"\\$[a-zA-Z0-9]+", TK_REG},         // register
   {"==", TK_EQ},         // equal
   {"!=", TK_NEQ},         // not equal
-  {"&&", TK_AND},         // not equal
+  {"&&", TK_AND},         // and
   {"0x[0-9]+", TK_HEX},// numer_hex
   {"[0-9]+", TK_DEC},  // numer_dec
 };

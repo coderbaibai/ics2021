@@ -9,6 +9,7 @@ static int is_batch_mode = false;
 void init_regex();
 void init_wp_pool();
 word_t paddr_read(paddr_t addr, int len);
+word_t expr(char *e, bool *success);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -67,7 +68,7 @@ static int cmd_x(char* args){
   char * end = args+strlen(args);
   char * arg_1 = strtok(args, " ");;
   char * arg_2 = arg_1 + strlen(arg_1)+1;
-  char * expr = NULL;
+  char * exprP = NULL;
   int stepNumber = 1;
   paddr_t addr;
   if(!args){
@@ -76,7 +77,7 @@ static int cmd_x(char* args){
   }
   // 如果没有第二个参数
   if(arg_2>=end){
-    expr = arg_1;
+    exprP = arg_1;
   }
   // 如果有第二个参数
   else{
@@ -86,19 +87,33 @@ static int cmd_x(char* args){
       printf("Error args\n");
       return 0;
     }
-    expr = arg_2;
+    exprP = arg_2;
   }
   // 第一个参数一定是一个表达式
-  if(expr[0]!='0'||expr[1]!='x'){
-    printf("Error args\n");
-    return 0;
+  bool success = true;
+  addr = expr(exprP,&success);
+  if(!success){
+    printf("Error address\n");
   }
-  sscanf(expr,"%x",&addr);
   word_t val;
   for(int i=0;i<stepNumber;i++){
     val = paddr_read(addr+i*4,4);
     printf("<0x%08x>: %08x\n",addr+i*4,val);
   }
+  return 0;
+}
+static int cmd_p(char *args){
+  if(!args){
+    printf("Error args\n");
+    return 0;
+  }
+  bool success;
+  word_t val = expr(args,&success);
+  if(!success){
+    printf("Error expression\n");
+    return 0;
+  }
+  printf("%u\n",val);
   return 0;
 }
 
@@ -114,7 +129,8 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
   { "si", "exec step by step", cmd_si },
   { "info", "print the status of a program",cmd_info },
-  { "x", "print the values of a segement of memory or the register",cmd_x }
+  { "x", "print the values of a segement of memory or the register",cmd_x },
+  { "p", "print the value of the expression",cmd_p }
 
   /* TODO: Add more commands */
 
