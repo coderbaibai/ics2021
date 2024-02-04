@@ -162,7 +162,7 @@ int evaluate(bool *success,int p,int q){
   else{
     int left = 0,right = 0;
     int lval=0,rval=0;
-    for(int i=p;i<=q;i++){
+    for(int i=q;i>=p;i--){
       if(tokens[i].type=='+'||tokens[i].type=='-'){
         if(left!=right)
           continue;
@@ -184,7 +184,7 @@ int evaluate(bool *success,int p,int q){
       return 0;
     }
     left = right = 0;
-    for(int i=p;i<=q;i++){
+    for(int i=q;i>=p;i--){
       if(tokens[i].type=='*'||tokens[i].type=='/'){
         if(left!=right)
           continue;
