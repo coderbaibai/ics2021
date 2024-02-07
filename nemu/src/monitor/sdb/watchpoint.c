@@ -23,6 +23,7 @@ void init_wp_pool() {
     wp_pool[i].NO = i;
     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
     wp_pool[i].wp_expr = NULL;
+    wp_pool[i].val = 0;
   }
 
   head = NULL;
@@ -39,9 +40,9 @@ void new_wp(char * wp_expr){
   }
   if(head==NULL){
     head = free_;
-    head->next = NULL;
     free_ = free_->next;
-    head->wp_expr =wp_expr;
+    head->next = NULL;
+    head->wp_expr = wp_expr;
     head->val = value;
     printf("hardware watchpoint %d: %s\n",head->NO,wp_expr);
     return;
