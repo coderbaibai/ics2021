@@ -57,7 +57,7 @@ void new_wp(char * wp_expr){
     cur->next = NULL;
     cur->wp_expr = wp_expr;
     cur->val = value;
-    printf("hardware watchpoint %d: %s\n",cur->NO,wp_expr);
+    printf("Hardware watchpoint %d: %s\n",cur->NO,wp_expr);
     return;
   }
 }
@@ -89,7 +89,7 @@ void watchpoint_display(){
   }
   printf("NO    expr\n");
   while(cur!=NULL){
-    printf("%-6d%s",cur->NO,cur->wp_expr);
+    printf("%-6d%s\n",cur->NO,cur->wp_expr);
     cur = cur->next;
   }
 }
