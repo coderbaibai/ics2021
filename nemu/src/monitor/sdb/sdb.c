@@ -10,6 +10,9 @@ void init_regex();
 void init_wp_pool();
 word_t paddr_read(paddr_t addr, int len);
 word_t expr(char *e, bool *success);
+void watchpoint_display();
+void free_wp(int number);
+void new_wp(char * wp_expr);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -57,6 +60,9 @@ static int cmd_info(char *args) {
   }
   else if(strcmp("r",args)==0){
     isa_reg_display();
+  }
+  else if(strcmp("w",args)==0){
+    watchpoint_display();
   }
   else{
     printf("Error args\n");
@@ -116,7 +122,32 @@ static int cmd_p(char *args){
   printf("%u\n",val);
   return 0;
 }
+static int cmd_w(char* args){
+  if(!args){
+    printf("Error args\n");
+    return 0;
+  }
+  new_wp(args);
+  return 0;
+}
 
+static int cmd_d(char* args){
+  if(!args){
+    printf("Error args\n");
+    return 0;
+  }
+  if(strlen(args)==1&&args[0]=='0'){
+    free_wp(0);
+    return 0;
+  }
+  int wp_number = atoi(args);
+  if(wp_number==0){
+    printf("Error number\n");
+    return 0;
+  }
+  free_wp(wp_number);
+  return 0;
+}
 static int cmd_help(char *args);
 
 static struct {
@@ -130,7 +161,9 @@ static struct {
   { "si", "exec step by step", cmd_si },
   { "info", "print the status of a program",cmd_info },
   { "x", "print the values of a segement of memory or the register",cmd_x },
-  { "p", "print the value of the expression",cmd_p }
+  { "p", "print the value of the expression",cmd_p },
+  { "w", "add a watchpoint",cmd_w },
+  { "d", "delete a watchpoint",cmd_d }
 
   /* TODO: Add more commands */
 
