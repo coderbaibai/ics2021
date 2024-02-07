@@ -22,7 +22,7 @@ void init_wp_pool() {
   for (i = 0; i < NR_WP; i ++) {
     wp_pool[i].NO = i;
     wp_pool[i].next = (i == NR_WP - 1 ? NULL : &wp_pool[i + 1]);
-    wp_pool[i].wp_expr = NULL;
+    wp_pool[i].wp_expr = (char*)malloc(sizeof(char)*100);
     wp_pool[i].val = 0;
   }
 
@@ -42,7 +42,7 @@ void new_wp(char * wp_expr){
     head = free_;
     free_ = free_->next;
     head->next = NULL;
-    head->wp_expr = wp_expr;
+    strcpy(head->wp_expr,wp_expr);
     head->val = value;
     printf("hardware watchpoint %d: %s\n",head->NO,wp_expr);
     return;
@@ -56,7 +56,7 @@ void new_wp(char * wp_expr){
     free_ = free_->next;
     cur = cur->next;
     cur->next = NULL;
-    cur->wp_expr = wp_expr;
+    strcpy(cur->wp_expr,wp_expr);
     cur->val = value;
     printf("Hardware watchpoint %d: %s\n",cur->NO,wp_expr);
     return;
