@@ -91,21 +91,25 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
   g_print_step = (n < MAX_INSTR_TO_PRINT);
+  // 判断状态，如果是end和abort，就退出执行函数。其他情况统一将state改成running
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
       printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
       return;
     default: nemu_state.state = NEMU_RUNNING;
   }
-
+  // 统计执行时间
   uint64_t timer_start = get_time();
 
   Decode s;
   for (;n > 0; n --) {
+    // 取指_译码_执行_更新PC
     fetch_decode_exec_updatepc(&s);
     g_nr_guest_instr ++;
     trace_and_difftest(&s, cpu.pc);
+    // 如果在循环执行过程中修改nemu_state为非running，就退出执行
     if (nemu_state.state != NEMU_RUNNING) break;
+    // 如果定义了外设，执行外设的函数。
     IFDEF(CONFIG_DEVICE, device_update());
   }
 
@@ -113,8 +117,10 @@ void cpu_exec(uint64_t n) {
   g_timer += timer_end - timer_start;
 
   switch (nemu_state.state) {
+    // 如果还在running态，说明执行次数到了，改成挂起态
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
 
+    // 如果在end态或abort态，说明执行完成了，打印程序执行的状态信息。
     case NEMU_END: case NEMU_ABORT:
       Log("nemu: %s at pc = " FMT_WORD,
           (nemu_state.state == NEMU_ABORT ? ASNI_FMT("ABORT", ASNI_FG_RED) :
