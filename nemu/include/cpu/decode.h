@@ -4,6 +4,7 @@
 #include <isa.h>
 
 typedef struct {
+  // RISC-V32中不存在直接寻址，所以操作数要么是立即数，要么是寄存器(用地址表示)
   union {
     IFDEF(CONFIG_ISA_x86, uint64_t *pfreg);
     IFDEF(CONFIG_ISA_x86, uint64_t fval);
