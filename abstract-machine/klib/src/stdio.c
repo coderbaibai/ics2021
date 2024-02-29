@@ -52,9 +52,9 @@ int sprintf(char *out, const char *fmt, ...) {
   int tempInteger = 0;
   va_list va;
   va_start(va,fmt);
-  while(*p!='\0'){
+  while(*q!='\0'){
     if(*q=='%'){
-      switch (*(q++))
+      switch (*(++q))
       {
         case 's':{
           tempString = va_arg(va,char*);
