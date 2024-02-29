@@ -76,7 +76,6 @@ int sprintf(char *out, const char *fmt, ...) {
           ++q;
           continue;
         }
-        // default: panic("Error fmt");
       }
     }
     *p = *q;
