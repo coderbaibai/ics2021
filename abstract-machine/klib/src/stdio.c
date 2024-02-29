@@ -19,7 +19,7 @@ void intToString(int val,char* res){
     negtive = 1;
   }
   while(val!=0){
-    res[i] = val%10;
+    res[i] = val%10+'0';
     val /= 10;
     i++;
   }
