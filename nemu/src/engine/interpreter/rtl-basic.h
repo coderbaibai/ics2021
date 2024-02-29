@@ -71,6 +71,11 @@ def_rtl_compute_reg(remw)
 def_rtl_compute_reg(remuw)
 #endif
 
+static inline def_rtl(mulsu_hi, rtlreg_t* dest,
+    const rtlreg_t* src1, const rtlreg_t* src2) {
+  *dest = (((int64_t)(sword_t)(*src1) * (uint64_t)(*src2)) >> 32);
+}
+
 static inline def_rtl(div64u_q, rtlreg_t* dest,
     const rtlreg_t* src1_hi, const rtlreg_t* src1_lo, const rtlreg_t* src2) {
   uint64_t dividend = ((uint64_t)(*src1_hi) << 32) | (*src1_lo);

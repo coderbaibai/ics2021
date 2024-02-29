@@ -8,6 +8,8 @@
     f(sb) f(sh) f(sw) \
     f(beq) f(bne) f(blt) f(bge) f(bltu) f(bgeu) \
     f(jal) f(jalr) \
-    f(inv) f(nemu_trap)
+    f(mul) f(mulh) f(mulhsu) f(mulhu) f(div) f(divu) f(rem) f(remu) \
+    f(inv) f(nemu_trap) \
+
 
 def_all_EXEC_ID();
