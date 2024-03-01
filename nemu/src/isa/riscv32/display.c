@@ -48,14 +48,14 @@ void pc_around_instrs_display(uint32_t size){
       cpu.pc, (uint8_t *)&instr_total, ilen);
   }
   for(char**buf = bufBefore,j=0;j<sizeBefore;j++,buf++){
-    if(j!=sizeBefore)
+    if(j!=sizeBefore-1)
         printf("   ""%s\n",*buf);
     else
         printf("-->""%s\n",*buf);
     free(*buf);
   }
   free(bufBefore);
-  for(char**buf = bufAfter+sizeBefore-1,j=0;j<sizeBefore;j++,buf--){
+  for(char**buf = bufAfter+sizeAfter-1,j=0;j<sizeAfter;j++,buf--){
     printf("   ""%s\n",*buf);
     free(*buf);
   }
