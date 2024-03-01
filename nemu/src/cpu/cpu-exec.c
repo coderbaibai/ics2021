@@ -88,12 +88,6 @@ void fetch_decode(Decode *s, vaddr_t pc) {
 #endif
 }
 
-// void pc_around_instrs_display(uint32_t size){
-//   uint32_t realSize;
-//   char** buf = (char**) malloc(sizeof(char*)*size);
-// }
-
-
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
   g_print_step = (n < MAX_INSTR_TO_PRINT);

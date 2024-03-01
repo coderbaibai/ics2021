@@ -141,11 +141,23 @@ static int cmd_d(char* args){
     return 0;
   }
   int wp_number = atoi(args);
-  if(wp_number==0){
+  if(!wp_number){
     printf("Error number\n");
     return 0;
   }
   free_wp(wp_number);
+  return 0;
+}
+static int cmd_ls(char* args){
+  int lineNumber = 10;
+  if(args){
+    lineNumber = atoi(args);
+    if(!lineNumber){
+      printf("Error number\n");
+      return 0;
+    }
+  }
+  pc_around_instrs_display(lineNumber);
   return 0;
 }
 static int cmd_help(char *args);
@@ -163,7 +175,8 @@ static struct {
   { "x", "print the values of a segement of memory or the register",cmd_x },
   { "p", "print the value of the expression",cmd_p },
   { "w", "add a watchpoint",cmd_w },
-  { "d", "delete a watchpoint",cmd_d }
+  { "d", "delete a watchpoint",cmd_d },
+  { "ls", "list the context",cmd_ls },
 
   /* TODO: Add more commands */
 
