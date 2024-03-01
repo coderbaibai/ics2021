@@ -42,7 +42,7 @@ static struct rule {
   {"==", TK_EQ},         // equal
   {"!=", TK_NEQ},         // not equal
   {"&&", TK_AND},         // and
-  {"0x[0-9]+", TK_HEX},// numer_hex
+  {"0x[0-9a-f]+", TK_HEX},// numer_hex
   {"[0-9]+", TK_DEC},  // numer_dec
 };
 
