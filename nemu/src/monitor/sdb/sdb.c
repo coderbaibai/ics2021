@@ -102,6 +102,7 @@ static int cmd_x(char* args){
     printf("Error address\n");
   }
   word_t val;
+  printf("addr:<0x%08x>\n",addr);
   for(int i=0;i<stepNumber;i++){
     val = paddr_read(addr+i*4,4);
     printf("<0x%08x>: %08x\n",addr+i*4,val);
