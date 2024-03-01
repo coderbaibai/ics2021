@@ -26,7 +26,7 @@ void pc_around_instrs_display(uint32_t size){
     memset(p, ' ', 1);
     p += 1;
     void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
-  disassemble(p, *buf + sizeof(128) - p,
+  disassemble(p, *buf + 128 - p,
       cpu.pc, (uint8_t *)&instr_total, ilen);
   }
   j = 0;
@@ -44,7 +44,7 @@ void pc_around_instrs_display(uint32_t size){
     memset(p, ' ', 1);
     p += 1;
     void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
-  disassemble(p, *buf + sizeof(128) - p,
+  disassemble(p, *buf + 128 - p,
       cpu.pc, (uint8_t *)&instr_total, ilen);
   }
   for(char**buf = bufBefore,j=0;j<sizeBefore;j++,buf++){
