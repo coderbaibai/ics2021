@@ -13,9 +13,9 @@ void pc_around_instrs_display(uint32_t size){
   char** bufAfter = (char**) malloc(sizeof(char*)*sizeAfter);
   int j = 0;
   for(char** buf = bufBefore;j<sizeBefore;buf++,j++,posBefore+=4){
-    *buf = (char*)malloc(sizeof(char)*64);
+    *buf = (char*)malloc(sizeof(char)*128);
     char* p = *buf;
-    p += snprintf(p, 64, FMT_WORD ":", cpu.pc);
+    p += snprintf(p, 128, FMT_WORD ":", cpu.pc);
     int ilen = 4;
     int i;
     uint32_t instr_total = vaddr_ifetch(posBefore,4);
@@ -26,14 +26,14 @@ void pc_around_instrs_display(uint32_t size){
     memset(p, ' ', 1);
     p += 1;
     void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
-  disassemble(p, *buf + sizeof(64) - p,
+  disassemble(p, *buf + sizeof(128) - p,
       cpu.pc, (uint8_t *)&instr_total, ilen);
   }
   j = 0;
   for(char** buf = bufAfter;j<sizeAfter;buf++,j++,posAfter-=4){
-    *buf = (char*)malloc(sizeof(char)*64);
+    *buf = (char*)malloc(sizeof(char)*128);
     char* p = *buf;
-    p += snprintf(p, 64, FMT_WORD ":", cpu.pc);
+    p += snprintf(p, 128, FMT_WORD ":", cpu.pc);
     int ilen = 4;
     int i;
     uint32_t instr_total = vaddr_ifetch(posBefore,4);
@@ -44,7 +44,7 @@ void pc_around_instrs_display(uint32_t size){
     memset(p, ' ', 1);
     p += 1;
     void disassemble(char *str, int size, uint64_t pc, uint8_t *code, int nbyte);
-  disassemble(p, *buf + sizeof(64) - p,
+  disassemble(p, *buf + sizeof(128) - p,
       cpu.pc, (uint8_t *)&instr_total, ilen);
   }
   for(char**buf = bufBefore,j=0;j<sizeBefore;j++,buf++){
