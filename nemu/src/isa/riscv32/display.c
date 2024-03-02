@@ -15,7 +15,7 @@ void pc_around_instrs_display(uint32_t size){
   for(char** buf = bufBefore;j<sizeBefore;buf++,j++,posBefore+=4){
     *buf = (char*)malloc(sizeof(char)*128);
     char* p = *buf;
-    p += snprintf(p, 128, FMT_WORD ":", cpu.pc);
+    p += snprintf(p, 128, FMT_WORD ":", cpu.pc-(sizeBefore-j-1)*4);
     int ilen = 4;
     int i;
     uint32_t instr_total = vaddr_ifetch(posBefore,4);
@@ -33,7 +33,7 @@ void pc_around_instrs_display(uint32_t size){
   for(char** buf = bufAfter;j<sizeAfter;buf++,j++,posAfter-=4){
     *buf = (char*)malloc(sizeof(char)*128);
     char* p = *buf;
-    p += snprintf(p, 128, FMT_WORD ":", cpu.pc);
+    p += snprintf(p, 128, FMT_WORD ":", cpu.pc+j*4);
     int ilen = 4;
     int i;
     uint32_t instr_total = vaddr_ifetch(posBefore,4);
