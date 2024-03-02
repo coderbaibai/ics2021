@@ -47,7 +47,8 @@ void pc_around_instrs_display(uint32_t size){
   disassemble(p, *buf + 128 - p,
       cpu.pc, (uint8_t *)&instr_total, ilen);
   }
-  for(char**buf = bufBefore,j=0;j<sizeBefore;j++,buf++){
+  j = 0;
+  for(char**buf = bufBefore;j<sizeBefore;j++,buf++){
     if(j!=sizeBefore-1)
         printf("   ""%s\n",*buf);
     else
@@ -55,7 +56,8 @@ void pc_around_instrs_display(uint32_t size){
     free(*buf);
   }
   free(bufBefore);
-  for(char**buf = bufAfter+sizeAfter-1,j=0;j<sizeAfter;j++,buf--){
+  j = 0;
+  for(char**buf = bufAfter+sizeAfter-1;j<sizeAfter;j++,buf--){
     printf("   ""%s\n",*buf);
     free(*buf);
   }
