@@ -39,6 +39,7 @@ void init_mem() {
 word_t paddr_read(paddr_t addr, int len) {
   if (likely(in_pmem(addr))){
     #ifdef CONFIG_MTRACE
+    if(addr!=cpu.pc)
       printf("read  memory:<0x%08x> ,range: %d bits\n",addr,len);
     #endif
     return pmem_read(addr, len);
@@ -51,7 +52,8 @@ word_t paddr_read(paddr_t addr, int len) {
 void paddr_write(paddr_t addr, int len, word_t data) {
   if (likely(in_pmem(addr))) {
     #ifdef CONFIG_MTRACE
-      printf("write memory:<0x%08x> ,range: %d bits\n",addr,len);
+      if(addr!=cpu.pc)
+        printf("write memory:<0x%08x> ,range: %d bits\n",addr,len);
     #endif
     pmem_write(addr, len, data); 
     return;
