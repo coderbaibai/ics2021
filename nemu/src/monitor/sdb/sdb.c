@@ -105,7 +105,7 @@ static int cmd_x(char* args){
   for(int i=0;i<stepNumber;i++){
     if(!in_pmem(addr)){
       printf("error addr: <0x%08x>\n",addr);
-      return -1;
+      return 0;
     }
     val = paddr_read(addr+i*4,4);
     printf("<0x%08x>: %08x\n",addr+i*4,val);
