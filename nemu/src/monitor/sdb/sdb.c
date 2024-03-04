@@ -3,12 +3,12 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
+#include "memory/paddr.h"
 
 static int is_batch_mode = false;
 
 void init_regex();
 void init_wp_pool();
-word_t paddr_read(paddr_t addr, int len);
 word_t expr(char *e, bool *success);
 void watchpoint_display();
 void free_wp(int number);
@@ -103,6 +103,9 @@ static int cmd_x(char* args){
   }
   word_t val;
   for(int i=0;i<stepNumber;i++){
+    if(!in_pmem(addr)){
+      printf("error addr: <0x%08x>",addr);
+    }
     val = paddr_read(addr+i*4,4);
     printf("<0x%08x>: %08x\n",addr+i*4,val);
   }
