@@ -17,6 +17,7 @@ void init_isa();
 extern CPU_state cpu;
 void isa_reg_display();
 void pc_around_instrs_display(uint32_t);
+void init_ftracer(const char* target);
 word_t isa_reg_str2val(const char *name, bool *success);
 
 // exec
