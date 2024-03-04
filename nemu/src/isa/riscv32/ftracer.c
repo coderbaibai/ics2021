@@ -97,7 +97,7 @@ void fs_pop(){
 }
 char* get_func_name(paddr_t pc){
 	for(int i=0;i<fn_size;i++){
-		if(fn_table[i].start<pc&&pc<fn_table[i].start+fn_table[i].size){
+		if(fn_table[i].start<=pc&&pc<=fn_table[i].start+fn_table[i].size){
 			char * ret = (char*)malloc(sizeof(char)*(strlen(fn_table[i].name)+1));
 			strcpy(ret,fn_table[i].name);
 			return ret;
