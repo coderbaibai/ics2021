@@ -14,7 +14,7 @@ int fn_size = 0;
 Elf32_Func* fn_table = NULL;
 void init_ftracer(const char* target){
 	// 获取文件指针并且判断类型
-	FILE*fp = fopen("add-riscv32-nemu.elf","rb");
+	FILE*fp = fopen(target,"rb");
 	Assert(fp!=NULL,"error file name");
 	Elf32_Ehdr elf_header;
 	fread(&elf_header,sizeof(Elf32_Ehdr),1,fp);
