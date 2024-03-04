@@ -4,19 +4,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <memory/paddr.h>
+#include <isa.h>
 typedef struct{
 	char* name;
 	paddr_t start;
 	uint32_t size;
 }Elf32_Func;
 
-// typedef struct 
-// {
-// 	LinkedNode* next;
-// 	char* name;
-// 	paddr_t cur_pc;
-// }LinkedNode,FuncStack;
-
+FuncStack* fs;
 
 int fn_size = 0;
 Elf32_Func* fn_table = NULL;
@@ -79,4 +74,34 @@ void init_ftracer(const char* target){
 		}
 	}
 	fclose(fp);
+
+	fs = (FuncStack*)malloc(sizeof(FuncStack));
+	fs->next = NULL;
+	fs->name = NULL;
+	fs->cur_pc = 0;
+}
+
+void fs_push(const char* inp_name,paddr_t inp_pc){
+	LinkedNode* node = (LinkedNode*)malloc(sizeof(LinkedNode));
+	node->name = (char*)malloc(strlen(inp_name)+1);
+	strcpy(node->name,inp_name);
+	node->cur_pc = inp_pc;
+	node->next = fs->next;
+	fs->next = node;
+}
+void fs_pop(){
+	FuncStack* temp = fs->next;
+	fs->next = fs->next->next;
+	free(temp->name);
+	free(temp);
+}
+char* get_func_name(paddr_t pc){
+	for(int i=0;i<fn_size;i++){
+		if(fn_table[i].start<pc&&pc<fn_table[i].start+fn_table[i].size){
+			char * ret = (char*)malloc(sizeof(char)*(strlen(fn_table[i].name)+1));
+			strcpy(ret,fn_table[i].name);
+			return ret;
+		}
+	}
+	return NULL;
 }

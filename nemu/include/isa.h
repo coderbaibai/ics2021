@@ -12,12 +12,19 @@ typedef concat(__GUEST_ISA__, _ISADecodeInfo) ISADecodeInfo;
 // monitor
 extern char isa_logo[];
 void init_isa();
-
+typedef struct LinkedNode{
+	struct LinkedNode* next;
+	char* name;
+	paddr_t cur_pc;
+}LinkedNode,FuncStack;
 // reg
 extern CPU_state cpu;
 void isa_reg_display();
 void pc_around_instrs_display(uint32_t);
 void init_ftracer(const char* target);
+void fs_push(const char* inp_name,paddr_t inp_pc);
+void fs_pop();
+char* get_func_name(paddr_t pc);
 word_t isa_reg_str2val(const char *name, bool *success);
 
 // exec

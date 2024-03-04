@@ -43,7 +43,7 @@ word_t paddr_read(paddr_t addr, int len) {
       printf("read  memory:<0x%08x> ,range: %d bits\n",addr,len);
     #endif
     return pmem_read(addr, len);
-  } 
+  }
   MUXDEF(CONFIG_DEVICE, return mmio_read(addr, len),
     panic("address = " FMT_PADDR " is out of bound of pmem [" FMT_PADDR ", " FMT_PADDR ") at pc = " FMT_WORD,
       addr, CONFIG_MBASE, CONFIG_MBASE + CONFIG_MSIZE, cpu.pc));
