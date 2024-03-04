@@ -5,7 +5,7 @@ extern long img_size;
 void pc_around_instrs_display(uint32_t size){
 // 获取边界虚拟地址
   vaddr_t posBefore = cpu.pc-size*4>RESET_VECTOR?cpu.pc-size*4:RESET_VECTOR;
-  vaddr_t posAfter = cpu.pc+size*4<RESET_VECTOR+img_size/2?cpu.pc+size*4:RESET_VECTOR+img_size/2;
+  vaddr_t posAfter = cpu.pc+size*4;
 //  获取长度 
   uint32_t sizeBefore = (cpu.pc-posBefore)/4+1;
   uint32_t sizeAfter = (posAfter-cpu.pc)/4;

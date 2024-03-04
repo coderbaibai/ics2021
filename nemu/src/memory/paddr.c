@@ -2,7 +2,7 @@
 #include <memory/paddr.h>
 #include <device/mmio.h>
 #include <isa.h>
-
+extern NEMUState nemu_state;
 #if   defined(CONFIG_TARGET_AM)
 static uint8_t *pmem = NULL;
 #else
@@ -39,7 +39,7 @@ void init_mem() {
 word_t paddr_read(paddr_t addr, int len) {
   if (likely(in_pmem(addr))){
     #ifdef CONFIG_MTRACE
-    if(addr!=cpu.pc)
+    if(addr!=cpu.pc&&nemu_state.state == NEMU_RUNNING)
       printf("read  memory:<0x%08x> ,range: %d bits\n",addr,len);
     #endif
     return pmem_read(addr, len);
@@ -52,7 +52,7 @@ word_t paddr_read(paddr_t addr, int len) {
 void paddr_write(paddr_t addr, int len, word_t data) {
   if (likely(in_pmem(addr))) {
     #ifdef CONFIG_MTRACE
-      if(addr!=cpu.pc)
+      if(addr!=cpu.pc&&nemu_state.state == NEMU_RUNNING)
         printf("write memory:<0x%08x> ,range: %d bits\n",addr,len);
     #endif
     pmem_write(addr, len, data); 
