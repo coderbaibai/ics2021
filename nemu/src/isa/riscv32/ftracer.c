@@ -1,14 +1,22 @@
-#include<elf.h>
-#include<stdio.h>
-#include<assert.h>
-#include<stdlib.h>
-#include<string.h>
-#include<memory/paddr.h>
+#include <elf.h>
+#include <stdio.h>
+#include <assert.h>
+#include <stdlib.h>
+#include <string.h>
+#include <memory/paddr.h>
 typedef struct{
 	char* name;
 	paddr_t start;
 	uint32_t size;
 }Elf32_Func;
+
+// typedef struct 
+// {
+// 	LinkedNode* next;
+// 	char* name;
+// 	paddr_t cur_pc;
+// }LinkedNode,FuncStack;
+
 
 int fn_size = 0;
 Elf32_Func* fn_table = NULL;
