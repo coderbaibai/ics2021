@@ -167,10 +167,6 @@ static int cmd_ls(char* args){
   pc_around_instrs_display(lineNumber);
   return 0;
 }
-static int cmd_ftrace(char* args){
-  
-  return 0;
-}
 static int cmd_help(char *args);
 
 static struct {
