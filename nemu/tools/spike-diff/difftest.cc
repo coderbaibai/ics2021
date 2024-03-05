@@ -58,7 +58,7 @@ void sim_t::diff_memcpy(reg_t dest, void* src, size_t n){
 void sim_t::diff_idle(){
     idle();
 }
-
+extern "C" {
 void difftest_memcpy_from_dut(reg_t dest, void *src, size_t n){
     s->diff_memcpy(dest, src, n);
 }
@@ -80,4 +80,5 @@ void difftest_init(){
     s = new sim_t(DEFAULT_ISA, DEFAULT_PRIV, DEFAULT_VARCH, 1, false, false,
         0, 0, NULL, reg_t(-1), difftest_mem, difftest_plugin_devices, difftest_htif_args,
         std::move(difftest_hartids), difftest_dm_config, nullptr, true, NULL);
+}
 }
