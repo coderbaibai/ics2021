@@ -27,7 +27,7 @@ static char *log_file = NULL;
 static char *diff_so_file = NULL;
 static char *img_file = NULL;
 static char *elf_file = NULL;
-static int difftest_port = 8848;
+static int difftest_port = 1234;
 long img_size = 4096;
 static long load_img() {
   if (img_file == NULL) {
