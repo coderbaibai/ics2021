@@ -108,7 +108,7 @@ void func_stack_display(){
 	LinkedNode* cur = fs->next;
 	for(int i=0;cur!=NULL;i++,cur = cur->next){
 		if(i!=0){
-			printf("\t\t^\n\t\t|\n\t\t|\n");
+			printf("|\n");
 		}
 		printf("%s\n",cur->name);
 	}
