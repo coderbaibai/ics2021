@@ -4,6 +4,8 @@
 
 def_all_THelper();
 
+word_t zero_null = 0;
+
 static uint32_t get_instr(Decode *s) {
   return s->isa.instr.val;
 }
@@ -18,7 +20,7 @@ static def_DopHelper(i) {
 
 static def_DopHelper(r) {
   bool is_write = flag;
-  static word_t zero_null = 0;
+  word_t zero_null;
   // 如果不是对寄存器进行写，或者寄存器不是0号，则存入寄存器地址，否则存入一个虚空地址
   // 如果要写0号寄存器，写入虚空地址
   op->preg = (is_write && val == 0) ? &zero_null : &gpr(val);
