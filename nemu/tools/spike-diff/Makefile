@@ -1,33 +1,39 @@
-SRC_DIR = ..
+REPO_PATH = repo
+ifeq ($(wildcard repo/spike_main),)
+  $(shell git clone --depth=1 https://github.com/NJU-ProjectN/riscv-isa-sim $(REPO_PATH))
+endif
+
+REPO_BUILD_PATH = $(REPO_PATH)/build
+REPO_MAKEFILE = $(REPO_BUILD_PATH)/Makefile
+$(REPO_MAKEFILE):
+	@mkdir -p $(@D)
+	cd $(@D) && $(abspath $(REPO_PATH))/configure
+	sed -i -e 's/-g -O2/-O2/' $@
+
+SPIKE = $(REPO_BUILD_PATH)/spike
+$(SPIKE): $(REPO_MAKEFILE)
+	$(MAKE) -C $(^D)
+
 BUILD_DIR = ./build
-ORI_MAKE  = ../build/Makefile
-inc_dependencies = fesvr riscv disasm customext fdt softfloat spike_main spike_dasm build
-INC_DIR   = -I. -I$(SRC_DIR) $(addprefix -I$(SRC_DIR)/, $(inc_dependencies))
-lib_dependencies = libspike_main.a  libriscv.a  libdisasm.a  libsoftfloat.a  libfesvr.a  libfdt.a
-INC_LIBS  = $(addprefix $(SRC_DIR)/build/, $(lib_dependencies))
-
-DIFF_BINARY = difftest
-DIFF_SRC = difftest.cc
-DIFF_SO  = difftest.so
-TEST_BINARY = test
-TEST_SRC = test.cc
-EXEC = $(BUILD_DIR)/$(TEST_BINARY)
-
-CFLAGS = -O2 -MMD -ggdb3
-SO_FLAGS = -shared -fPIC
-
 $(shell mkdir -p $(BUILD_DIR))
 
-difftest:
-	make -f $(ORI_MAKE)
-	g++ $(CFLAGS) $(INC_DIR) $(DIFF_SRC) $(INC_LIBS) $(SO_FLAGS) -o $(BUILD_DIR)/$(DIFF_SO)
-	g++ $(TEST_SRC) -ldl -o $(BUILD_DIR)/$(TEST_BINARY)
+inc_dependencies = fesvr riscv disasm customext fdt softfloat spike_main spike_dasm build
+INC_PATH  = -I$(REPO_PATH) $(addprefix -I$(REPO_PATH)/, $(inc_dependencies))
+INC_PATH += -I$(NEMU_HOME)/include
+lib_dependencies = libspike_main.a libriscv.a libdisasm.a libsoftfloat.a libfesvr.a libfdt.a
+INC_LIBS  = $(addprefix $(REPO_PATH)/build/, $(lib_dependencies))
 
-test:
-	$(EXEC)
+NAME = $(GUEST_ISA)-spike-so
+BINARY = $(BUILD_DIR)/$(NAME)
+SRCS = difftest.cc
+
+$(BINARY): $(SPIKE) $(SRCS)
+	g++ -O2 -shared -fPIC $(INC_PATH) $(SRCS) $(INC_LIBS) -o $@
 
 clean:
 	rm -rf $(BUILD_DIR)
 
+all: $(BINARY)
+.DEFAULT_GOAL = all
 
-.PHONY: difftest test clean
+.PHONY: all clean $(SPIKE)
