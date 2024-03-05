@@ -112,6 +112,6 @@ void func_stack_display(){
 		memset(space,'-',i*2);
 		space[i*2] = '\0';
 		printf("%s",space);
-		printf("%s\n",fs->name);
+		printf("%s\n",cur->name);
 	}
 }
