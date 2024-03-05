@@ -111,7 +111,7 @@ void func_stack_display(){
 		space = malloc(sizeof(char)*i*2+1);
 		memset(space,'-',i*2);
 		space[i*2] = '\0';
-		printf(space);
+		printf("%s",space);
 		printf("%s\n",fs->name);
 	}
 }
