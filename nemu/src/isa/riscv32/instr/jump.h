@@ -26,5 +26,11 @@ def_EHelper(jalr){
             free(temp);
         }
     }
+    else{
+        char* temp = get_func_name(s->dnpc);
+        Assert(temp!=NULL,"func not found");
+        fs_push(temp,s->dnpc);
+        free(temp);
+    }
     #endif
 }
