@@ -65,7 +65,7 @@ static int cmd_info(char *args) {
     watchpoint_display();
   }
   else if(strcmp("f",args)==0){
-    func_stack_display();
+    MUXDEF(CONFIG_FTRACE, func_stack_display(),printf("ftrace not defined\n"));
   }
   else{
     printf("Error args\n");
