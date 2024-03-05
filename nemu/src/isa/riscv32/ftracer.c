@@ -78,14 +78,13 @@ void init_ftracer(const char* target){
 	fs = (FuncStack*)malloc(sizeof(FuncStack));
 	fs->next = NULL;
 	fs->name = NULL;
-	fs->cur_pc = 0;
 }
 
 void fs_push(const char* inp_name,paddr_t inp_pc){
 	LinkedNode* node = (LinkedNode*)malloc(sizeof(LinkedNode));
-	node->name = (char*)malloc(strlen(inp_name)+1);
+	node->name = (char*)malloc(strlen(inp_name)+12);
 	strcpy(node->name,inp_name);
-	node->cur_pc = inp_pc;
+	sprintf(node->name+strlen(node->name),"@0x%08x",inp_pc);
 	node->next = fs->next;
 	fs->next = node;
 }
@@ -104,4 +103,15 @@ char* get_func_name(paddr_t pc){
 		}
 	}
 	return NULL;
+}
+void func_stack_display(){
+	LinkedNode* cur = fs->next;
+	char* space = NULL;
+	for(int i=0;cur!=NULL;i++,cur = cur->next){
+		space = malloc(sizeof(char)*i*2+1);
+		memset(space,'-',i*2);
+		space[i*2] = '\0';
+		printf(space);
+		printf("%s\n",fs->name);
+	}
 }

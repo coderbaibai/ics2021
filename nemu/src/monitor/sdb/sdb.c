@@ -64,6 +64,9 @@ static int cmd_info(char *args) {
   else if(strcmp("w",args)==0){
     watchpoint_display();
   }
+  else if(strcmp("f",args)==0){
+    
+  }
   else{
     printf("Error args\n");
   }
@@ -162,6 +165,10 @@ static int cmd_ls(char* args){
     }
   }
   pc_around_instrs_display(lineNumber);
+  return 0;
+}
+static int cmd_ftrace(char* args){
+  
   return 0;
 }
 static int cmd_help(char *args);

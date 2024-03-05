@@ -15,11 +15,11 @@ void init_isa();
 typedef struct LinkedNode{
 	struct LinkedNode* next;
 	char* name;
-	paddr_t cur_pc;
 }LinkedNode,FuncStack;
 // reg
 extern CPU_state cpu;
 void isa_reg_display();
+void func_stack_display();
 void pc_around_instrs_display(uint32_t);
 void init_ftracer(const char* target);
 void fs_push(const char* inp_name,paddr_t inp_pc);
