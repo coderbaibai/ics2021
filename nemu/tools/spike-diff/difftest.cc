@@ -18,12 +18,16 @@
 #include "../../include/common.h"
 #include <difftest-def.h>
 
-#define NR_GPR MUXDEF(CONFIG_RVE, 16, 32)
+#ifdef CONFIG_ISA_riscv32
+#undef DEFAULT_ISA
+#define DEFAULT_ISA "RV32IM"
+#endif
 
 static std::vector<std::pair<reg_t, abstract_device_t*>> difftest_plugin_devices;
 static std::vector<std::string> difftest_htif_args;
 static std::vector<std::pair<reg_t, mem_t*>> difftest_mem(
     1, std::make_pair(reg_t(DRAM_BASE), new mem_t(CONFIG_MSIZE)));
+static std::vector<int> difftest_hartids;
 static debug_module_config_t difftest_dm_config = {
   .progbufsize = 2,
   .max_sba_data_width = 0,
@@ -37,7 +41,7 @@ static debug_module_config_t difftest_dm_config = {
 };
 
 struct diff_context_t {
-  word_t gpr[MUXDEF(CONFIG_RVE, 16, 32)];
+  word_t gpr[32];
   word_t pc;
 };
 
@@ -56,7 +60,7 @@ void sim_t::diff_step(uint64_t n) {
 
 void sim_t::diff_get_regs(void* diff_context) {
   struct diff_context_t* ctx = (struct diff_context_t*)diff_context;
-  for (int i = 0; i < NR_GPR; i++) {
+  for (int i = 0; i < NXPR; i++) {
     ctx->gpr[i] = state->XPR[i];
   }
   ctx->pc = state->pc;
@@ -64,7 +68,7 @@ void sim_t::diff_get_regs(void* diff_context) {
 
 void sim_t::diff_set_regs(void* diff_context) {
   struct diff_context_t* ctx = (struct diff_context_t*)diff_context;
-  for (int i = 0; i < NR_GPR; i++) {
+  for (int i = 0; i < NXPR; i++) {
     state->XPR.write(i, (sword_t)ctx->gpr[i]);
   }
   state->pc = ctx->pc;
@@ -87,7 +91,7 @@ void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   }
 }
 
- void difftest_regcpy(void* dut, bool direction) {
+void difftest_regcpy(void* dut, bool direction) {
   if (direction == DIFFTEST_TO_REF) {
     s->diff_set_regs(dut);
   } else {
@@ -95,16 +99,15 @@ void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   }
 }
 
- void difftest_exec(uint64_t n) {
+void difftest_exec(uint64_t n) {
   s->diff_step(n);
 }
 
- void difftest_init(int port) {
+void difftest_init(int port) {
   difftest_htif_args.push_back("");
-  const char *isa = "RV" MUXDEF(CONFIG_RV64, "64", "32") MUXDEF(CONFIG_RVE, "E", "I") "MAFDC";
   cfg_t cfg(/*default_initrd_bounds=*/std::make_pair((reg_t)0, (reg_t)0),
             /*default_bootargs=*/nullptr,
-            /*default_isa=*/isa,
+            /*default_isa=*/DEFAULT_ISA,
             /*default_priv=*/DEFAULT_PRIV,
             /*default_varch=*/DEFAULT_VARCH,
             /*default_misaligned=*/false,
@@ -123,7 +126,7 @@ void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   s->diff_init(port);
 }
 
- void difftest_raise_intr(uint64_t NO) {
+void difftest_raise_intr(uint64_t NO) {
   trap_t t(NO);
   p->take_trap_public(t, state->pc);
 }
