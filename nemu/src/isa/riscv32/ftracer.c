@@ -106,12 +106,10 @@ char* get_func_name(paddr_t pc){
 }
 void func_stack_display(){
 	LinkedNode* cur = fs->next;
-	char* space = NULL;
 	for(int i=0;cur!=NULL;i++,cur = cur->next){
-		space = malloc(sizeof(char)*i*2+1);
-		memset(space,'-',i*2);
-		space[i*2] = '\0';
-		printf("%s",space);
+		if(i!=0){
+			printf("\t\t^\n\t\t|\n\t\t|\n");
+		}
 		printf("%s\n",cur->name);
 	}
 }
