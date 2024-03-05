@@ -79,7 +79,7 @@ void sim_t::diff_memcpy(reg_t dest, void* src, size_t n) {
 
 extern "C" {
 
-__EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
+void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction) {
   if (direction == DIFFTEST_TO_REF) {
     s->diff_memcpy(addr, buf, n);
   } else {
@@ -87,7 +87,7 @@ __EXPORT void difftest_memcpy(paddr_t addr, void *buf, size_t n, bool direction)
   }
 }
 
-__EXPORT void difftest_regcpy(void* dut, bool direction) {
+void difftest_regcpy(void* dut, bool direction) {
   if (direction == DIFFTEST_TO_REF) {
     s->diff_set_regs(dut);
   } else {
@@ -95,11 +95,11 @@ __EXPORT void difftest_regcpy(void* dut, bool direction) {
   }
 }
 
-__EXPORT void difftest_exec(uint64_t n) {
+void difftest_exec(uint64_t n) {
   s->diff_step(n);
 }
 
-__EXPORT void difftest_init(int port) {
+void difftest_init(int port) {
   difftest_htif_args.push_back("");
   const char *isa = "RV" MUXDEF(CONFIG_RV64, "64", "32") MUXDEF(CONFIG_RVE, "E", "I") "MAFDC";
   cfg_t cfg(/*default_initrd_bounds=*/std::make_pair((reg_t)0, (reg_t)0),
@@ -123,7 +123,7 @@ __EXPORT void difftest_init(int port) {
   s->diff_init(port);
 }
 
-__EXPORT void difftest_raise_intr(uint64_t NO) {
+void difftest_raise_intr(uint64_t NO) {
   trap_t t(NO);
   p->take_trap_public(t, state->pc);
 }
