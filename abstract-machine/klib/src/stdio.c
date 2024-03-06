@@ -2,39 +2,10 @@
 #include <klib.h>
 #include <klib-macros.h>
 #include <stdarg.h>
+#include "stdio-utils.h"
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-void intToString(int val,char* res){
-  if(val==0){
-    res[0] = '0';
-    res[1] = '\0';
-    return;
-  }
-  int negtive = 0;
-  int i = 0;
-  if(val<0){
-    res[0] = '-';
-    val = -val;
-    negtive = 1;
-  }
-  while(val!=0){
-    res[i] = val%10+'0';
-    val /= 10;
-    i++;
-  }
-  res[i] = '\0';
-  i--;
-  int j = negtive?1:0;
-  char t;
-  while(i>j){
-    t = res[i];
-    res[i] = res[j];
-    res[j] = t;
-    i--;
-    j++;
-  }
-}
 
 int printf(const char *fmt, ...) {
   panic("Not implemented");
@@ -54,28 +25,47 @@ int sprintf(char *out, const char *fmt, ...) {
   va_start(va,fmt);
   while(*q!='\0'){
     if(*q=='%'){
-      switch (*(++q))
+      q++;
+      Fmt_Detail fmtd = parse_fmt(q);
+      switch (fmtd.spec)
       {
-        case 's':{
+        case s_sign:{
           tempString = va_arg(va,char*);
+          int space_size = fmtd.width-strlen(tempString);
+          char padding = ' ';
+          if(fmtd.flag==zero) padding = '0';
+          while(space_size>0){
+            *p = padding;
+            ++p;
+            --space_size;
+          }
           for(char* t = tempString;*t!='\0';t++){
             *p = *t;
             ++p;
           }
           tempString = NULL;
-          ++q;
+          q+=fmtd.size;
           continue;
         }
-        case 'd':{
+        case d_sign:{
           tempInteger = va_arg(va,int);
           intToString(tempInteger,aidString);
+          int space_size = fmtd.width-strlen(aidString);
+          char padding = ' ';
+          if(fmtd.flag==zero) padding = '0';
+          while(space_size>0){
+            *p = padding;
+            ++p;
+            --space_size;
+          }
           for(char* t = aidString;*t!='\0';t++){
             *p = *t;
             ++p;
           }
-          ++q;
+          q+=fmtd.size;
           continue;
         }
+        default: panic("sign not impl");
       }
     }
     *p = *q;
