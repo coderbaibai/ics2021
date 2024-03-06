@@ -58,6 +58,7 @@ static void statistic() {
 void assert_fail_msg() {
   pc_around_instrs_display(10);
   isa_reg_display();
+  MUXDEF(CONFIG_FTRACE, func_stack_display(),printf("ftrace not defined\n"));
   statistic();
 }
 
