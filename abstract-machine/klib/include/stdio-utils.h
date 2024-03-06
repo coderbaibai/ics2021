@@ -180,6 +180,7 @@ int fmt_to_out(char *out, const char *fmt, ...){
   int tempInteger = 0;
   va_list va;
   va_start(va,fmt);
+  va_end(va);
   while(*q!='\0'){
     if(*q=='%'){
       q++;
@@ -229,7 +230,6 @@ int fmt_to_out(char *out, const char *fmt, ...){
     ++p;
     ++q;
   }
-  va_end(va);
   *p = '\0';
   return p-out;
 }
