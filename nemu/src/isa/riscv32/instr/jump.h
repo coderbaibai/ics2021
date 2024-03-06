@@ -10,7 +10,7 @@ def_EHelper(jal){
     char* temp = get_func_name(s->dnpc,&isCall);
     Assert(temp!=NULL,"func not found");
     if(isCall) fs_push(temp,s->dnpc);
-    else Assert(strcmp(temp,fs_top()->name)==0,"func not found");
+    else Assert(strcmp(temp,fs_top()->name)==0,"temp:%s,top:%s\n",temp,fs_top()->name);
     free(temp);
     #endif
 }
