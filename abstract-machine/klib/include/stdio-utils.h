@@ -127,7 +127,7 @@ static inline Fmt_Detail parse_fmt(const char*target){
       while(*target<'9'&&*target>'0'){
         target++;
       }
-      assert(temp!=target);
+      halt(2);
       fmtd.precision = 0;
       while(temp!=target){
         fmtd.precision*=10;
@@ -165,7 +165,7 @@ static inline Fmt_Detail parse_fmt(const char*target){
           target+=3;
           break;
       }
-      assert(0);
+      halt(4);
     }
   }
   fmtd.size = target-base;
