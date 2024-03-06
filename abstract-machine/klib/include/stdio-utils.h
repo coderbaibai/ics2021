@@ -40,7 +40,7 @@ typedef enum Flag{
   flag_none
 }Flag;
 
-static char* flags[5]{
+static char* flags[5]={
     "-","+"," ","#","0"
 };
 
@@ -51,7 +51,7 @@ typedef enum Length{
   length_none
 }Length;
 
-static char* lengths[3]{
+static char* lengths[3]={
     "h","l","L"
 };
 
@@ -72,7 +72,7 @@ typedef enum Specifier{
   spec_none
 }Specifier;
 
-static char* specs[13]{
+static char* specs[13]={
     "a","d","o","x","u","f","e","g","c","s","p","lu","llu"
 };
 
@@ -86,7 +86,7 @@ typedef struct Fmt_Detail
   int size;
 } Fmt_Detail;
 
-static inline Fmt_Detail parse_fmt(char*target){
+static inline Fmt_Detail parse_fmt(const char*target){
   Fmt_Detail fmtd;
   char* base;
   for(int i=0;i<5;i++)
@@ -105,7 +105,7 @@ static inline Fmt_Detail parse_fmt(char*target){
     }
     case 1:{
       fmtd.width = -1;
-      char* temp = target;
+      const char* temp = target;
       while(*target<'9'&&*target>'0'){
         target++;
       }
@@ -123,7 +123,7 @@ static inline Fmt_Detail parse_fmt(char*target){
       fmtd.precision = -1;
       if(*target!='.') break;
       target++;
-      char* temp = target;
+      const char* temp = target;
       while(*target<'9'&&*target>'0'){
         target++;
       }
@@ -138,7 +138,7 @@ static inline Fmt_Detail parse_fmt(char*target){
     }
     case 3:{
       for(int i=0;i<length_none;i++){
-        if(strncmp(target,flags[i],1)==0){
+        if(strncmp(target,lengths[i],1)==0){
           fmtd.length = (Length)i;
           target++;
           break;
@@ -149,7 +149,7 @@ static inline Fmt_Detail parse_fmt(char*target){
     }
     case 4:{
       for(int i=0;i<spec_none-2;i++){
-        if(strncmp(target,flags[i],1)==0){
+        if(strncmp(target,specs[i],1)==0){
           fmtd.spec = (Specifier)i;
           target++;
           break;
