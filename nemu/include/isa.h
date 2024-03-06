@@ -24,7 +24,8 @@ void pc_around_instrs_display(uint32_t);
 void init_ftracer(const char* target);
 void fs_push(const char* inp_name,paddr_t inp_pc);
 void fs_pop();
-char* get_func_name(paddr_t pc);
+LinkedNode* fs_top();
+char* get_func_name(paddr_t pc,bool* isJump);
 word_t isa_reg_str2val(const char *name, bool *success);
 
 // exec

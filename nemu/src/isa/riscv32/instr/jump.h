@@ -6,9 +6,11 @@ def_EHelper(jal){
     if(ddest==&cpu.gpr[0]._32){
         fs_pop();
     }
-    char* temp = get_func_name(s->dnpc);
+    bool isCall = true;
+    char* temp = get_func_name(s->dnpc,&isCall);
     Assert(temp!=NULL,"func not found");
-    fs_push(temp,s->dnpc);
+    if(isCall) fs_push(temp,s->dnpc);
+    else Assert(strcmp(temp,fs_top()->name)==0,"func not found");
     free(temp);
     #endif
 }
@@ -17,20 +19,23 @@ def_EHelper(jalr){
     rtl_addi(s,ddest,&s->pc,4);
     s->dnpc = *dsrc1+id_src2->imm;
     #ifdef CONFIG_FTRACE
+    bool isCall = true;
     if(ddest==&zero_null){
         fs_pop();
         if(dsrc1==&cpu.gpr[1]._32) return;
         else{
-            char* temp = get_func_name(s->dnpc);
+            char* temp = get_func_name(s->dnpc,&isCall);
             Assert(temp!=NULL,"func not found");
-            fs_push(temp,s->dnpc);
+            if(isCall) fs_push(temp,s->dnpc);
+            else Assert(strcmp(temp,fs_top()->name)==0,"func not found");
             free(temp);
         }
     }
     else{
-        char* temp = get_func_name(s->dnpc);
+        char* temp = get_func_name(s->dnpc,&isCall);
         Assert(temp!=NULL,"func not found");
-        fs_push(temp,s->dnpc);
+        if(isCall) fs_push(temp,s->dnpc);
+        else Assert(strcmp(temp,fs_top()->name)==0,"func not found");
         free(temp);
     }
     #endif

@@ -94,11 +94,17 @@ void fs_pop(){
 	free(temp->name);
 	free(temp);
 }
-char* get_func_name(paddr_t pc){
+LinkedNode* fs_top(){
+	return fs->next;
+}
+char* get_func_name(paddr_t pc,bool* isCall){
 	for(int i=0;i<fn_size;i++){
-		if(fn_table[i].start==pc){
+		if(fn_table[i].start<=pc&&fn_table[i].start+fn_table[i].size>pc){
 			char * ret = (char*)malloc(sizeof(char)*(strlen(fn_table[i].name)+1));
 			strcpy(ret,fn_table[i].name);
+			if(fn_table[i].start!=pc){
+				*isCall = false;
+			}
 			return ret;
 		}
 	}
