@@ -10,7 +10,16 @@ def_EHelper(jal){
     char* temp = get_func_name(s->dnpc,&isCall);
     Assert(temp!=NULL,"func not found");
     if(isCall) fs_push(temp,s->dnpc);
-    else Assert(strcmp(temp,fs_top()->name)==0,"temp:%s,top:%s\n",temp,fs_top()->name);
+    else {
+        char*top_name = fs_top()->name;
+        for(int i=0;i<strlen(top_name);i++){
+            if(top_name[i]=='@'){
+                top_name[i] = '\0';
+                break;
+            }
+        }
+        Assert(strcmp(temp,fs_top()->name)==0,"temp:%s,top:%s\n",temp,fs_top()->name);
+    }
     free(temp);
     #endif
 }
@@ -27,7 +36,16 @@ def_EHelper(jalr){
             char* temp = get_func_name(s->dnpc,&isCall);
             Assert(temp!=NULL,"func not found");
             if(isCall) fs_push(temp,s->dnpc);
-            else Assert(strcmp(temp,fs_top()->name)==0,"func not found");
+            else {
+                char*top_name = fs_top()->name;
+                for(int i=0;i<strlen(top_name);i++){
+                    if(top_name[i]=='@'){
+                        top_name[i] = '\0';
+                        break;
+                    }
+                }
+                Assert(strcmp(temp,fs_top()->name)==0,"temp:%s,top:%s\n",temp,fs_top()->name);
+            }
             free(temp);
         }
     }
@@ -35,7 +53,16 @@ def_EHelper(jalr){
         char* temp = get_func_name(s->dnpc,&isCall);
         Assert(temp!=NULL,"func not found");
         if(isCall) fs_push(temp,s->dnpc);
-        else Assert(strcmp(temp,fs_top()->name)==0,"func not found");
+        else {
+            char*top_name = fs_top()->name;
+            for(int i=0;i<strlen(top_name);i++){
+                if(top_name[i]=='@'){
+                    top_name[i] = '\0';
+                    break;
+                }
+            }
+            Assert(strcmp(temp,fs_top()->name)==0,"temp:%s,top:%s\n",temp,fs_top()->name);
+        }
         free(temp);
     }
     #endif
