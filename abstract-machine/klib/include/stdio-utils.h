@@ -223,7 +223,7 @@ int fmt_to_out(char *out, const char *fmt, ...){
           q+=fmtd.size;
           continue;
         }
-        default: panic("sign not impl");
+        default: halt(fmtd.spec);
       }
     }
     *p = *q;
