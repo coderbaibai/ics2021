@@ -88,19 +88,19 @@ typedef struct Fmt_Detail
 
 static inline Fmt_Detail parse_fmt(const char*target){
   Fmt_Detail fmtd;
-  char* base;
+  const char* base = target;
   for(int i=0;i<5;i++)
     switch (i)
     {
     case 0:{
-      for(int i=0;i<flag_none;i++){
-        if(strncmp(target,flags[i],1)==0){
-          fmtd.flag = (Flag)i;
+      fmtd.flag = flag_none;
+      for(int j=0;j<flag_none;j++){
+        if(strncmp(target,flags[j],1)==0){
+          fmtd.flag = (Flag)j;
           target++;
           break;
         }
       }
-      fmtd.flag = flag_none;
       break;
     }
     case 1:{
@@ -137,20 +137,20 @@ static inline Fmt_Detail parse_fmt(const char*target){
       break;
     }
     case 3:{
-      for(int i=0;i<length_none;i++){
-        if(strncmp(target,lengths[i],1)==0){
-          fmtd.length = (Length)i;
+      fmtd.length = length_none;
+      for(int j=0;j<length_none;j++){
+        if(strncmp(target,lengths[j],1)==0){
+          fmtd.length = (Length)j;
           target++;
           break;
         }
       }
-      fmtd.flag = flag_none;
       break;
     }
     case 4:{
-      for(int i=0;i<spec_none-2;i++){
-        if(strncmp(target,specs[i],1)==0){
-          fmtd.spec = (Specifier)i;
+      for(int j=0;j<spec_none-2;j++){
+        if(strncmp(target,specs[j],1)==0){
+          fmtd.spec = (Specifier)j;
           target++;
           break;
         }
