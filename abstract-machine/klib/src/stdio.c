@@ -8,12 +8,12 @@
 
 
 int printf(const char *fmt, ...) {
-  va_list args;
-  va_start(args,0);
-  va_end(args);
   char out[500];
   out[499] = '\0';
+  va_list args;
+  va_start(args,fmt);
   int res = fmt_to_out(out,fmt,args);
+  va_end(args);
   putstr(out);
   return res;
 }
@@ -24,9 +24,10 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
 int sprintf(char *out, const char *fmt, ...) {
   va_list args;
-  va_start(args,0);
+  va_start(args,fmt);
+  int res = fmt_to_out(out,fmt,args);
   va_end(args);
-  return fmt_to_out(out,fmt,args);
+  return res;
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
