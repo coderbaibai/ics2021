@@ -147,6 +147,7 @@ static inline Fmt_Detail parse_fmt(const char*target){
       break;
     }
     case 4:{
+      fmtd.spec = spec_none;
       for(int j=0;j<spec_none-2;j++){
         if(strncmp(target,specs[j],1)==0){
           fmtd.spec = (Specifier)j;
@@ -157,13 +158,12 @@ static inline Fmt_Detail parse_fmt(const char*target){
       if(strncmp(target,"lu",2)==0){
           fmtd.spec = lu_sign;
           target+=2;
-          break;
       }
-      if(strncmp(target,"llu",3)==0){
+      else if(strncmp(target,"llu",3)==0){
           fmtd.spec = llu_sign;
           target+=3;
-          break;
       }
+      if(fmtd.spec==spec_none) halt(4);
     }
   }
   fmtd.size = target-base;
