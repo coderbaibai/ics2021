@@ -18,7 +18,7 @@ char *strcpy(char *dst, const char *src) {
     tSrc++;
     tDst++;
   }
-  tDst = '\0';
+  *tDst = '\0';
   return dst;
 }
 
