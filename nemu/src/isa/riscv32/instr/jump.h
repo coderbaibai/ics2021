@@ -15,10 +15,11 @@ def_EHelper(jal){
         for(int i=0;i<strlen(top_name);i++){
             if(top_name[i]=='@'){
                 top_name[i] = '\0';
+                Assert(strcmp(temp,fs_top()->name)==0,"temp:%s,top:%s\n",temp,fs_top()->name);
+                top_name[i] = '@';
                 break;
             }
         }
-        Assert(strcmp(temp,fs_top()->name)==0,"temp:%s,top:%s\n",temp,fs_top()->name);
     }
     free(temp);
     #endif
