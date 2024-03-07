@@ -3,7 +3,7 @@ def_EHelper(jal){
     rtl_addi(s,ddest,&s->pc,4);
     s->dnpc = s->pc+id_src1->imm;
     #ifdef CONFIG_FTRACE
-    if(ddest==&cpu.gpr[0]._32){
+    if(ddest==&zero_null){
         fs_pop();
     }
     bool isCall = true;
