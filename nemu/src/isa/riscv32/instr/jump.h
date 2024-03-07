@@ -40,11 +40,14 @@ def_EHelper(jalr){
     // 可能是尾调用、函数返回、函数内跳转
     if(ddest==&zero_null){
         // 说明是函数返回指令
-        if(dsrc1==&cpu.gpr[1]._32) return;
+        if(dsrc1==&cpu.gpr[1]._32){
+            fs_pop();
+            return;
+        } 
         else{
             char* temp = get_func_name(s->dnpc,&isCall);
             Assert(temp!=NULL,"func not found");
-            // 是函数调用
+            // 是函数尾调用
             if(isCall) {
                 fs_pop();
                 fs_push(temp,s->dnpc);
