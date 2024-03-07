@@ -2,10 +2,12 @@
 int strncmp(const char *s1, const char *s2, size_t n);
 static inline void intToString(int val,char* res){
   if(val==0){
+    res = (char*)malloc(2*sizeof(char));
     res[0] = '0';
     res[1] = '\0';
     return;
   }
+  res = (char*)malloc(20*sizeof(char));
   int negtive = 0;
   int i = 0;
   if(val<0){
@@ -31,6 +33,59 @@ static inline void intToString(int val,char* res){
   }
 }
 
+static inline void uintToStringHex(uint32_t val,char* res){
+  if(val==0){
+    res = (char*)malloc(2*sizeof(char));
+    res[0] = '0';
+    res[1] = '\0';
+    return;
+  }
+  res = (char*)malloc(20*sizeof(char));
+  int i = 0;
+  while(val!=0){
+    char t = val%16;
+    res[i] = t<10?t+'0':t-10+'a';
+    val /= 16;
+    i++;
+  }
+  res[i] = '\0';
+  i--;
+  int j = 0;
+  char t;
+  while(i>j){
+    t = res[i];
+    res[i] = res[j];
+    res[j] = t;
+    i--;
+    j++;
+  }
+}
+static inline void uintToStringdec(uint32_t val,char* res){
+  if(val==0){
+    res = (char*)malloc(2*sizeof(char));
+    res[0] = '0';
+    res[1] = '\0';
+    return;
+  }
+  res = (char*)malloc(20*sizeof(char));
+  int i = 0;
+  while(val!=0){
+    res[i] = val%10+'0';
+    val /= 10;
+    i++;
+  }
+  res[i] = '\0';
+  i--;
+  int j = 0;
+  char t;
+  while(i>j){
+    t = res[i];
+    res[i] = res[j];
+    res[j] = t;
+    i--;
+    j++;
+  }
+}
 typedef enum Flag{
   negtive,
   positive,
@@ -170,53 +225,62 @@ static inline Fmt_Detail parse_fmt(const char*target){
   return fmtd;
 }
 
+void fillOutString(char** out,const char* in,Fmt_Detail fmtd){
+  int space_size = fmtd.width-strlen(in);
+  char padding = ' ';
+  if(fmtd.flag==zero) padding = '0';
+  while(space_size>0){
+    **out = padding;
+    (*out)++;
+    --space_size;
+  }
+  for(const char* t = in;*t!='\0';t++){
+    **out = *t;
+    (*out)++;
+  }
+}
+
 int fmt_to_out(char *out, const char *fmt, va_list va){
   char * p = out;
   const char * q = fmt;
   char * tempString = NULL;
-  char aidString[20];
-  int tempInteger = 0;
+  uint64_t tempValue = 0;
   while(*q!='\0'){
     if(*q=='%'){
       q++;
       Fmt_Detail fmtd = parse_fmt(q);
+      q+=fmtd.size;
       switch (fmtd.spec)
       {
         case s_sign:{
           tempString = va_arg(va,char*);
-          int space_size = fmtd.width-strlen(tempString);
-          char padding = ' ';
-          if(fmtd.flag==zero) padding = '0';
-          while(space_size>0){
-            *p = padding;
-            ++p;
-            --space_size;
-          }
-          for(char* t = tempString;*t!='\0';t++){
-            *p = *t;
-            ++p;
-          }
+          fillOutString(&p,tempString,fmtd);
           tempString = NULL;
-          q+=fmtd.size;
-          continue;
+          break;
         }
         case d_sign:{
-          tempInteger = va_arg(va,int);
-          intToString(tempInteger,aidString);
-          int space_size = fmtd.width-strlen(aidString);
-          char padding = ' ';
-          if(fmtd.flag==zero) padding = '0';
-          while(space_size>0){
-            *p = padding;
-            ++p;
-            --space_size;
-          }
-          for(char* t = aidString;*t!='\0';t++){
-            *p = *t;
-            ++p;
-          }
-          q+=fmtd.size;
-          continue;
+          tempValue = va_arg(va,int);
+          intToString(tempValue,tempString);
+          fillOutString(&p,tempString,fmtd);
+          free(tempString);
+          tempString = NULL;
+          break;
+        }
+        case u_sign:{
+          tempValue = va_arg(va,uint32_t);
+          uintToStringdec(tempValue,tempString);
+          fillOutString(&p,tempString,fmtd);
+          free(tempString);
+          tempString = NULL;
+          break;
+        }
+        case x_sign:{
+          tempValue = va_arg(va,uint32_t);
+          uintToStringHex(tempValue,tempString);
+          fillOutString(&p,tempString,fmtd);
+          free(tempString);
+          tempString = NULL;
+          break;
         }
         default: halt(fmtd.spec);
       }

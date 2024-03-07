@@ -23,7 +23,16 @@ char *strcpy(char *dst, const char *src) {
 }
 
 char *strncpy(char *dst, const char *src, size_t n) {
-  panic("Not implemented");
+  char* tDst = dst;
+  const char* tSrc = src;
+  int i = 0;
+  while(i<n){
+    *tDst = *tSrc;
+    tSrc++;
+    tDst++;
+    i++;
+  }
+  return dst;
 }
 
 char *strcat(char *dst, const char *src) {
@@ -77,11 +86,29 @@ void *memset(void *s, int c, size_t n) {
 }
 
 void *memmove(void *dst, const void *src, size_t n) {
-  panic("Not implemented");
+  char* tDst = dst;
+  const char* tSrc = src;
+  int i = 0;
+  while(i<n){
+    *tDst = *tSrc;
+    tSrc++;
+    tDst++;
+    i++;
+  }
+  return dst;
 }
 
 void *memcpy(void *out, const void *in, size_t n) {
-  panic("Not implemented");
+  char* tDst = out;
+  const char* tSrc = in;
+  int i = 0;
+  while(i<n){
+    *tDst = *tSrc;
+    tSrc++;
+    tDst++;
+    i++;
+  }
+  return out;
 }
 
 int memcmp(const void *s1, const void *s2, size_t n) {
