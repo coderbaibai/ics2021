@@ -3,6 +3,7 @@
 #include <memory/vaddr.h>
 extern long img_size;
 void pc_around_instrs_display(uint32_t size){
+#ifdef CONFIG_ITRACE
 // 获取边界虚拟地址
   vaddr_t posBefore = cpu.pc-size*4>RESET_VECTOR?cpu.pc-size*4:RESET_VECTOR;
   vaddr_t posAfter = cpu.pc+size*4;
@@ -62,4 +63,5 @@ void pc_around_instrs_display(uint32_t size){
     free(*buf);
   }
   free(bufAfter);
+#endif
 }
