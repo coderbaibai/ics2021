@@ -20,33 +20,39 @@ void init_ftracer(const char* target){
 	FILE*fp = fopen(target,"rb");
 	Assert(fp!=NULL,"error file name");
 	Elf32_Ehdr elf_header;
-	fread(&elf_header,sizeof(Elf32_Ehdr),1,fp);
+	int ret = fread(&elf_header,sizeof(Elf32_Ehdr),1,fp);
+	char* get_ret = NULL;
+	assert(ret == 1);
 	Assert(elf_header.e_machine==EM_RISCV,"error file type");
 	Assert(elf_header.e_type==ET_EXEC,"error file type");
 
 	fseek(fp,elf_header.e_shoff,SEEK_SET);
 	Elf32_Shdr* sh_table = (Elf32_Shdr*)malloc(sizeof(Elf32_Shdr)*elf_header.e_shnum);
-	fread(sh_table,sizeof(Elf32_Shdr),elf_header.e_shnum,fp);
+	ret = fread(sh_table,sizeof(Elf32_Shdr),elf_header.e_shnum,fp);
+	assert(ret == 1);
 	// 找到strtab节
 	char name_buf[256];
-	int strndx;
+	int strndx = -1;;
 	for(int i=1;i<elf_header.e_shnum;i++){
 		if(sh_table[i].sh_type==SHT_STRTAB){
 			fseek(fp,sh_table[elf_header.e_shstrndx].sh_offset+sh_table[i].sh_name,SEEK_SET);
-			fgets(name_buf,255,fp);
+			get_ret = fgets(name_buf,255,fp);
+			assert(get_ret!=NULL);
 			if(strcmp(name_buf,".strtab")==0){
 				strndx = i;
 				break;
 			}
 		}
 	}
+	assert(strndx!=-1);
 	for(int i=1;i<elf_header.e_shnum;i++){
 		// 找到符号表
 		if(sh_table[i].sh_type==SHT_SYMTAB){
 			Elf32_Sym* sym_table = (Elf32_Sym*)malloc(sh_table[i].sh_size);
 			fseek(fp,sh_table[i].sh_offset,SEEK_SET);
 			int count = sh_table[i].sh_size/sizeof(Elf32_Sym);
-			fread(sym_table,sizeof(Elf32_Sym),count,fp);
+			ret = fread(sym_table,sizeof(Elf32_Sym),count,fp);
+			assert(ret == 1);
             // 找到符号表里面的函数，并计数
 			for(int j=0;j<count;j++){
 				if((sym_table[j].st_info&0x0f)==STT_FUNC){
@@ -64,7 +70,8 @@ void init_ftracer(const char* target){
 					fn_table[k].size = sym_table[j].st_size;
                     // 需要在strtab中找到对应的名字，用以可视化
 					fseek(fp,sh_table[strndx].sh_offset+sym_table[j].st_name,SEEK_SET);
-					fgets(name_buf,255,fp);
+					get_ret = fgets(name_buf,255,fp);
+					assert(get_ret!=NULL);
 					fn_table[k].name = (char*)malloc(sizeof(char)*strlen(name_buf)+1);
 					strcpy(fn_table[k].name,name_buf);
 					k++;
