@@ -31,15 +31,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
   uint32_t *in = ctl->pixels;
   printf("x:%d y:%d w:%d h:%d\n",ctl->x,ctl->y,ctl->w,ctl->h);
-  int k = 0;
-  for(int j=0;j<hei;j++){
-    for(int i=0;i<wid;i++){
-      if(i>=ctl->x&&j>=ctl->y&&i<=ctl->x+ctl->w&&j<=ctl->y+ctl->h){
-        fb[i+j*wid] = in[k];
-        k++;
-      }
-    }
-  }
+  memcpy(&fb[ctl->y*wid+ctl->x],in,ctl->h*ctl->w);
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }
