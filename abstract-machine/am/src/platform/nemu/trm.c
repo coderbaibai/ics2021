@@ -20,7 +20,6 @@ void halt(int code) {
   // should not reach here
   while (1);
 }
-
 void _trm_init() {
   int ret = main(mainargs);
   halt(ret);
