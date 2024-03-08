@@ -2,12 +2,10 @@
 int strncmp(const char *s1, const char *s2, size_t n);
 static inline void intToString(int val,char* res){
   if(val==0){
-    res = (char*)malloc(2*sizeof(char));
     res[0] = '0';
     res[1] = '\0';
     return;
   }
-  res = (char*)malloc(20*sizeof(char));
   int negtive = 0;
   int i = 0;
   if(val<0){
@@ -35,12 +33,10 @@ static inline void intToString(int val,char* res){
 
 static inline void uintToStringHex(uint32_t val,char* res){
   if(val==0){
-    res = (char*)malloc(2*sizeof(char));
     res[0] = '0';
     res[1] = '\0';
     return;
   }
-  res = (char*)malloc(20*sizeof(char));
   int i = 0;
   while(val!=0){
     char t = val%16;
@@ -62,12 +58,10 @@ static inline void uintToStringHex(uint32_t val,char* res){
 }
 static inline void uintToStringdec(uint32_t val,char* res){
   if(val==0){
-    res = (char*)malloc(2*sizeof(char));
     res[0] = '0';
     res[1] = '\0';
     return;
   }
-  res = (char*)malloc(20*sizeof(char));
   int i = 0;
   while(val!=0){
     res[i] = val%10+'0';
@@ -259,10 +253,11 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
           break;
         }
         case d_sign:{
+          char tStr[20];
+          tempString = tStr;
           tempValue = va_arg(va,int);
           intToString(tempValue,tempString);
           fillOutString(&p,tempString,fmtd);
-          free(tempString);
           tempString = NULL;
           break;
         }
@@ -270,7 +265,6 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
           tempValue = va_arg(va,uint32_t);
           uintToStringdec(tempValue,tempString);
           fillOutString(&p,tempString,fmtd);
-          free(tempString);
           tempString = NULL;
           break;
         }
@@ -278,7 +272,6 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
           tempValue = va_arg(va,uint32_t);
           uintToStringHex(tempValue,tempString);
           fillOutString(&p,tempString,fmtd);
-          free(tempString);
           tempString = NULL;
           break;
         }
