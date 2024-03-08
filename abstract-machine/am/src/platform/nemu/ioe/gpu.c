@@ -22,7 +22,7 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
   uint32_t *in = ctl->pixels;
-  printf("x:%d y:%d w:%d h:%d\n",wid,hei,ctl->w,ctl->h);
+  printf("x:%d y:%d w:%d h:%d\n",ctl->x,ctl->y,ctl->w,ctl->h);
   memcpy(&fb[ctl->y*wid+ctl->x],in,ctl->h*ctl->w);
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
