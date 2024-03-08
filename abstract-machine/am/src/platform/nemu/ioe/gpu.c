@@ -15,15 +15,14 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
     .vmemsz = 0
   };
   uint32_t res = *(uint32_t*)VGACTL_ADDR;
-  wid = cfg->height = res&0xffff;
-  hei = cfg->width = (res>>16)&0xffff;
+  hei = cfg->height = res&0xffff;
+  wid = cfg->width = (res>>16)&0xffff;
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
   uint32_t *in = ctl->pixels;
   printf("\nx:%d y:%d w:%d h:%d\n",ctl->x,ctl->y,ctl->w,ctl->h);
-  printf("%d %d\n",wid,hei);
   for(int j=ctl->y;j<=ctl->y+ctl->h;j++){
     memcpy(&fb[j*wid+ctl->x],in,ctl->w*4);
     in+=ctl->w;
