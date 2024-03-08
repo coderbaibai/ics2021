@@ -33,7 +33,7 @@ word_t mmio_read(paddr_t addr, int len) {
 void mmio_write(paddr_t addr, int len, word_t data) {
   IOMap* target = fetch_mmio_map(addr);
   #ifdef CONFIG_DTRACE
-  printf("read device: %s\nat offset: %d\n",target->name,addr-target->low);
+  printf("write device: %s\nat offset: %d\n",target->name,addr-target->low);
   #endif
   map_write(addr, len, data, target);
 }
