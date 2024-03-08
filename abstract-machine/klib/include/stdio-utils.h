@@ -237,7 +237,7 @@ void fillOutString(char** out,const char* in,Fmt_Detail fmtd){
 int fmt_to_out(char *out, const char *fmt, va_list va){
   char * p = out;
   const char * q = fmt;
-  char * tempString = NULL;
+  char* tempString = NULL;
   uint64_t tempValue = 0;
   while(*q!='\0'){
     if(*q=='%'){
