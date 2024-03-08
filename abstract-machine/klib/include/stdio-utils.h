@@ -262,6 +262,8 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
           break;
         }
         case u_sign:{
+          char tStr[20];
+          tempString = tStr;
           tempValue = va_arg(va,uint32_t);
           uintToStringdec(tempValue,tempString);
           fillOutString(&p,tempString,fmtd);
@@ -269,6 +271,8 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
           break;
         }
         case x_sign:{
+          char tStr[20];
+          tempString = tStr;
           tempValue = va_arg(va,uint32_t);
           uintToStringHex(tempValue,tempString);
           fillOutString(&p,tempString,fmtd);
