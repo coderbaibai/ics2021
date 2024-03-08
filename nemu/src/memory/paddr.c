@@ -40,7 +40,7 @@ word_t paddr_read(paddr_t addr, int len) {
   if (likely(in_pmem(addr))){
     #ifdef CONFIG_MTRACE
     if(addr!=cpu.pc&&nemu_state.state == NEMU_RUNNING)
-      printf("read  memory:<0x%08x> ,range: %d bits\n",addr,len);
+      log_write("read  memory:<0x%08x> ,range: %d bits\n",addr,len);
     #endif
     return pmem_read(addr, len);
   }
@@ -53,7 +53,7 @@ void paddr_write(paddr_t addr, int len, word_t data) {
   if (likely(in_pmem(addr))) {
     #ifdef CONFIG_MTRACE
       if(addr!=cpu.pc&&nemu_state.state == NEMU_RUNNING)
-        printf("write memory:<0x%08x> ,range: %d bits\n",addr,len);
+        log_write("write memory:<0x%08x> ,range: %d bits\n",addr,len);
     #endif
     pmem_write(addr, len, data); 
     return;
