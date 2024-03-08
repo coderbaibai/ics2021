@@ -23,8 +23,8 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
     .vmemsz = 0
   };
   uint32_t res = *(uint32_t*)VGACTL_ADDR;
-  cfg->height = res&0xff;
-  cfg->width = (res>>16)&0xff;
+  cfg->height = res&0xffff;
+  cfg->width = (res>>16)&0xffff;
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
