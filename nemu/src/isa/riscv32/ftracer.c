@@ -115,7 +115,9 @@ void func_stack_display(){
 	for(int i=0;cur!=NULL;i++,cur = cur->next){
 		if(i!=0){
 			printf("|\n");
+			log_write("|\n");
 		}
 		printf("%s\n",cur->name);
+		log_write("%s\n",cur->name);
 	}
 }
