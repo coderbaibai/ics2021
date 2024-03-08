@@ -25,7 +25,7 @@ void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_
 word_t mmio_read(paddr_t addr, int len) {
   IOMap* target = fetch_mmio_map(addr);
   #ifdef CONFIG_DTRACE
-  Log("read device: %s\nat offset: %d\n",target->name,addr-target->low);
+  log_write("read device: %s\nat offset: %d\n",target->name,addr-target->low);
   #endif
   return map_read(addr, len, target);
 }
@@ -33,7 +33,7 @@ word_t mmio_read(paddr_t addr, int len) {
 void mmio_write(paddr_t addr, int len, word_t data) {
   IOMap* target = fetch_mmio_map(addr);
   #ifdef CONFIG_DTRACE
-  Log("write device: %s at offset: %d\n",target->name,addr-target->low);
+  log_write("write device: %s at offset: %d\n",target->name,addr-target->low);
   #endif
   map_write(addr, len, data, target);
 }
