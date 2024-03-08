@@ -101,7 +101,7 @@ void *memmove(void *dst, const void *src, size_t n) {
 void *memcpy(void *out, const void *in, size_t n) {
   char* tDst = out;
   const char* tSrc = in;
-  for(;n>4;n-=4,tSrc+=4,tDst+=4){
+  for(;n>=4;n-=4,tSrc+=4,tDst+=4){
     (*(uint32_t*)tDst) = (*(uint32_t*)tSrc);
   }
   for(;n>0;n--,tSrc++,tDst++){
