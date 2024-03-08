@@ -35,7 +35,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   for(int j=0;j<hei;j++){
     for(int i=0;i<wid;i++){
       if(i>=ctl->x&&j>=ctl->y&&i<=ctl->x+ctl->w&&j<=ctl->y+ctl->h){
-        fb[k] = in[k];
+        fb[i+j*wid] = in[k];
         k++;
       }
     }
