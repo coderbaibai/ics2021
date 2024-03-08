@@ -279,6 +279,13 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
           tempString = NULL;
           break;
         }
+        case c_sign:{
+          char tStr[20];
+          tStr[0] = va_arg(va,int);
+          tStr[1] = '\0';
+          fillOutString(&p,tStr,fmtd);
+          break;
+        }
         default: halt(fmtd.spec);
       }
     }
