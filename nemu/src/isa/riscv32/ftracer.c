@@ -29,7 +29,7 @@ void init_ftracer(const char* target){
 	fseek(fp,elf_header.e_shoff,SEEK_SET);
 	Elf32_Shdr* sh_table = (Elf32_Shdr*)malloc(sizeof(Elf32_Shdr)*elf_header.e_shnum);
 	ret = fread(sh_table,sizeof(Elf32_Shdr),elf_header.e_shnum,fp);
-	assert(ret == 1);
+	assert(ret == elf_header.e_shnum);
 	// 找到strtab节
 	char name_buf[256];
 	int strndx = -1;;
@@ -52,7 +52,7 @@ void init_ftracer(const char* target){
 			fseek(fp,sh_table[i].sh_offset,SEEK_SET);
 			int count = sh_table[i].sh_size/sizeof(Elf32_Sym);
 			ret = fread(sym_table,sizeof(Elf32_Sym),count,fp);
-			assert(ret == 1);
+			assert(ret == count);
             // 找到符号表里面的函数，并计数
 			for(int j=0;j<count;j++){
 				if((sym_table[j].st_info&0x0f)==STT_FUNC){
