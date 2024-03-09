@@ -8,11 +8,12 @@
 
 
 int printf(const char *fmt, ...) {
-  char out[500];
+  char out[4096];
   va_list args;
   va_start(args,fmt);
   int res = fmt_to_out(out,fmt,args);
-  out[499] = '\0';
+  out[4095] = '\0';
+  assert(res<4096);
   va_end(args);
   putstr(out);
   return res;
