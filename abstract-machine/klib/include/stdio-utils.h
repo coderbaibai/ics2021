@@ -220,14 +220,14 @@ static inline Fmt_Detail parse_fmt(const char*target){
 }
 
 void fillOutString(char** out,const char* in,Fmt_Detail fmtd){
-  int space_size = fmtd.width-strlen(in);
-  char padding = ' ';
-  if(fmtd.flag==zero) padding = '0';
-  while(space_size>0){
-    **out = padding;
-    (*out)++;
-    --space_size;
-  }
+  // int space_size = fmtd.width-strlen(in);
+  // char padding = ' ';
+  // if(fmtd.flag==zero) padding = '0';
+  // while(space_size>0){
+  //   **out = padding;
+  //   (*out)++;
+  //   --space_size;
+  // }
   for(const char* t = in;*t!='\0';t++){
     **out = *t;
     (*out)++;
@@ -248,7 +248,7 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
       {
         case s_sign:{
           tempString = va_arg(va,char*);
-          // fillOutString(&p,tempString,fmtd);
+          fillOutString(&p,tempString,fmtd);
           tempString = NULL;
           break;
         }
