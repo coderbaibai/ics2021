@@ -9,7 +9,7 @@
     f(beq) f(bne) f(blt) f(bge) f(bltu) f(bgeu) \
     f(jal) f(jalr) \
     f(mul) f(mulh) f(mulhsu) f(mulhu) f(div) f(divu) f(rem) f(remu) \
-    f(csrrw) f(csrrs) f(csrrc) f(csrrwi) f(csrrsi) f(csrrci) \
+    f(csrrw) f(csrrs) f(csrrc) f(csrrwi) f(csrrsi) f(csrrci) f(ecall) \
     f(inv) f(nemu_trap) \
 
 

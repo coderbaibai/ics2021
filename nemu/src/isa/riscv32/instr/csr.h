@@ -29,3 +29,7 @@ def_EHelper(csrrci){
   rtl_addi(s,ddest,t,0);
   rtl_andi(s,t,t,s->isa.instr.i.rs1);
 }
+
+def_EHelper(ecall){
+  cpu.pc = cpu.mtvec;
+}
