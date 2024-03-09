@@ -8,8 +8,8 @@
 
 
 int printf(const char *fmt, ...) {
-  char out[500];
-  out[499] = '\0';
+  char out[4096];
+  out[4095] = '\0';
   va_list args;
   va_start(args,fmt);
   int res = fmt_to_out(out,fmt,args);
