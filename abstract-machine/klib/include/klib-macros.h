@@ -12,6 +12,14 @@
 #define _CONCAT(x, y)       x ## y
 #define CONCAT(x, y)        _CONCAT(x, y)
 
+#if defined(__ISA_X86__)||defined(__ISA_MIPS32__)||defined(__ISA_RISCV32__)
+# define ADDR_BIT 32
+#elif defined(__ISA_RISCV64__) || defined(__ISA_NATIVE__)
+# define ADDR_BIT 64
+#elif
+# error unsupported ISA __ISA__
+#endif
+
 #define putstr(s) \
   ({ for (const char *p = s; *p; p++) putch(*p); })
 

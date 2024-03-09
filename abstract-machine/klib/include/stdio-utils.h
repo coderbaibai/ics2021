@@ -1,4 +1,5 @@
 #include <klib.h>
+#include <klib-macros.h>
 int strncmp(const char *s1, const char *s2, size_t n);
 static inline void intToString(int val,char* res){
   if(val==0){
@@ -31,7 +32,7 @@ static inline void intToString(int val,char* res){
   }
 }
 
-static inline void uintToStringHex(uint32_t val,char* res){
+static inline void uintToStringHex(uint64_t val,char* res){
   if(val==0){
     res[0] = '0';
     res[1] = '\0';
@@ -286,9 +287,19 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
           fillOutString(&p,tStr,fmtd);
           break;
         }
-        // case p_sign:{
-        //   void* t = va_arg(va,void*);
-        // }
+        case p_sign:{
+          char tStr[40];
+          tempString = tStr;
+          tempValue = va_arg(va,uint64_t);
+          uintToStringHex(tempValue,tempString);
+          fmtd.width = ADDR_BIT/4;
+          char* tp = p+2;
+          fillOutString(&tp,tempString,fmtd);
+          p[0] = '0';
+          p[1] = 'x';
+          tempString = NULL;
+          break;
+        }
         default: halt(fmtd.spec);
       }
     }
