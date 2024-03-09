@@ -248,7 +248,7 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
       {
         case s_sign:{
           tempString = va_arg(va,char*);
-          fillOutString(&p,tempString,fmtd);
+          // fillOutString(&p,tempString,fmtd);
           tempString = NULL;
           break;
         }
