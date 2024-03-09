@@ -13,6 +13,7 @@ int printf(const char *fmt, ...) {
   va_list args;
   va_start(args,fmt);
   int res = fmt_to_out(out,fmt,args);
+  assert(res<500);
   va_end(args);
   putstr(out);
   return res;
