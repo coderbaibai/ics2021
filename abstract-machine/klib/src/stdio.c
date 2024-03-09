@@ -14,7 +14,7 @@ int printf(const char *fmt, ...) {
   int res = fmt_to_out(out,fmt,args);
   out[499] = '\0';
   va_end(args);
-  putstr(out);
+  // putstr(out);
   return res;
 }
 
