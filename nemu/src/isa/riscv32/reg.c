@@ -31,3 +31,19 @@ word_t isa_reg_str2val(const char *s, bool *success) {
   *success = false;
   return 0;
 }
+
+rtlreg_t* getCSR(uint32_t val){
+  switch (val)
+  {
+  case 0x305:
+    return &cpu.mtvec;
+  case 0x341:
+    return &cpu.mepc;
+  case 0x300:
+    return &cpu.mstatus;
+  case 0x342:
+    return &cpu.mcause;
+  default:
+    panic("unknown csr:0x%08x\n",val);
+  }
+}
