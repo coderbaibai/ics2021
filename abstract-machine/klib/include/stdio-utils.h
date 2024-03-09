@@ -286,6 +286,9 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
           fillOutString(&p,tStr,fmtd);
           break;
         }
+        // case p_sign:{
+        //   void* t = va_arg(va,void*);
+        // }
         default: halt(fmtd.spec);
       }
     }
