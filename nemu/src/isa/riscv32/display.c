@@ -22,7 +22,7 @@ void pc_around_instrs_display(uint32_t size){
     uint32_t instr_total = vaddr_ifetch(posBefore,4);
     uint8_t *instr = (uint8_t *)&instr_total;
     for (i = 0; i < ilen; i ++) {
-        p += snprintf(p, 4, " %02x", instr[i]);
+        p += snprintf(p, 4, " %02x", instr[ilen-i-1]);
     }
     memset(p, ' ', 1);
     p += 1;
@@ -40,7 +40,7 @@ void pc_around_instrs_display(uint32_t size){
     uint32_t instr_total = vaddr_ifetch(posAfter,4);
     uint8_t *instr = (uint8_t *)&instr_total;
     for (i = 0; i < ilen; i ++) {
-        p += snprintf(p, 4, " %02x", instr[i]);
+        p += snprintf(p, 4, " %02x", instr[ilen-i-1]);
     }
     memset(p, ' ', 1);
     p += 1;
