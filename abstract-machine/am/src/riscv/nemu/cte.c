@@ -26,6 +26,7 @@ void handle_context_display(Context *c){
 }
 
 Context* __am_irq_handle(Context *c) {
+  handle_context_display(c);
   if (user_handler) {
     Event ev = {0};
     switch (c->mcause) {
