@@ -5,7 +5,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t mepc) {
    * Then return the address of the interrupt/exception vector.
    */
 #ifdef CONFIG_ETRACE
-  Log("exception: %d\n",NO);
+  log_write("exception: %d\n",NO);
 #endif
   cpu.mepc = mepc;
   cpu.mcause = NO;
