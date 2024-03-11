@@ -13,7 +13,8 @@ size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr elf_header;
   ramdisk_read(&elf_header,0,sizeof(Elf_Ehdr));
-  Elf_Phdr* p_pheader = (Elf_Phdr*)malloc(elf_header.e_phnum*sizeof(Elf_Phdr));
+  Elf_Phdr* base = (Elf_Phdr*)malloc(elf_header.e_phnum*sizeof(Elf_Phdr));
+  Elf_Phdr* p_pheader = base;
   ramdisk_read(p_pheader,elf_header.e_phoff,elf_header.e_phnum*sizeof(Elf_Phdr));
   for(int i=0;i<elf_header.e_phnum;i++,p_pheader++){
     if(p_pheader->p_type==PT_LOAD){
@@ -24,7 +25,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       }
     }
   }
-  free(p_pheader);
+  free(base);
   return elf_header.e_entry;
 }
 
