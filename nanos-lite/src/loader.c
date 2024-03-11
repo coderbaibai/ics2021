@@ -25,7 +25,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     }
   }
   free(p_pheader);
-  Log("Jump to entry = %p", elf_header.e_entry);
+  Log("Jump to entry = %x", elf_header.e_entry);
   return elf_header.e_entry;
 }
 
