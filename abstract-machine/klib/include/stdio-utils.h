@@ -288,15 +288,11 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
           break;
         }
         case p_sign:{
-          char tStr[40];
+          char tStr[20];
           tempString = tStr;
-          tempValue = va_arg(va,uint64_t);
+          tempValue = va_arg(va,uint32_t);
           uintToStringHex(tempValue,tempString);
-          fmtd.width = ADDR_BIT/4;
-          char* tp = p+2;
-          fillOutString(&tp,tempString,fmtd);
-          p[0] = '0';
-          p[1] = 'x';
+          fillOutString(&p,tempString,fmtd);
           tempString = NULL;
           break;
         }
