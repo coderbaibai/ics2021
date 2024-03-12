@@ -54,5 +54,10 @@ void isa_difftest_attach();
   // for ref
 void isa_difftest_regcpy(void *dut, bool direction);
 void isa_difftest_raise_intr(word_t NO);
-
+// exception event
+enum {
+  EVENT_NULL = 0,
+  EVENT_YIELD, EVENT_SYSCALL, EVENT_PAGEFAULT, EVENT_ERROR,
+  EVENT_IRQ_TIMER, EVENT_IRQ_IODEV,
+};
 #endif

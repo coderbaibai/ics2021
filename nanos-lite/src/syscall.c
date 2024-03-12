@@ -8,3 +8,10 @@ void do_syscall(Context *c) {
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
+void sys_yield(Context* c){
+  printf("yeild\n");
+  c->GPRx = 0;
+}
+void sys_exit(Context* c){
+  halt(0);
+}
