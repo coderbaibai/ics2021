@@ -33,8 +33,8 @@ def_EHelper(jal){
 }
 
 def_EHelper(jalr){
-    rtl_addi(s,ddest,&s->pc,4);
     s->dnpc = *dsrc1+id_src2->imm;
+    rtl_addi(s,ddest,&s->pc,4);
     #ifdef CONFIG_FTRACE
     bool isCall = true;
     // 可能是尾调用、函数返回、函数内跳转
