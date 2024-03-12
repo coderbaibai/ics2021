@@ -23,5 +23,7 @@ enum {
   SYS_times,
   SYS_gettimeofday
 };
+void sys_yield(Context* c);
+void sys_exit(Context* c);
 
 #endif

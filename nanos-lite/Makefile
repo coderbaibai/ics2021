@@ -8,14 +8,15 @@ include $(AM_HOME)/Makefile
 ifeq ($(ARCH),native)
 ISA = am_native
 else
-INC_PATH += include $(NAVY_HOME)/libs/libc/include
+INC_PATH += include $(NAVY_HOME)/libs/libc/include $(NAVY_HOME)/libs/libos/src $(NEMU_HOME)/include/generated
+
 endif
 
 ./src/resources.S: $(RAMDISK_FILE)
 	@touch $@
 
 ifeq ($(HAS_NAVY),)
-files = $(RAMDISK_FILE) src/files.h src/syscall.h
+files = $(RAMDISK_FILE) src/files.h
 # create an empty file if it does not exist
 $(foreach f,$(files),$(if $(wildcard $f),, $(shell touch $f)))
 else

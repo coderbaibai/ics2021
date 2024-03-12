@@ -1,10 +1,13 @@
 #include <common.h>
 #include <am.h>
 #include "syscall.h"
+#include "autoconf.h"
 static Context* do_event(Event e, Context* c) {
   switch (e.event) {
     case EVENT_SYSCALL:{
-      printf("%d\n",c->GPR1);
+      #ifdef CONFIG_STRACE
+      printf("syscall number:%d\n",c->GPR1);
+      #endif
       switch(c->GPR1){
         case SYS_exit: sys_exit(c); break;
         case SYS_yield: sys_yield(c); break;
