@@ -9,7 +9,6 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
 
-    printf("number:%d\n",c->mcause);
     ev.event = c->mcause;
 
     c = user_handler(ev, c);
