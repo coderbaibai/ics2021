@@ -4,6 +4,7 @@
 static Context* do_event(Event e, Context* c) {
   switch (e.event) {
     case EVENT_SYSCALL:{
+      printf("%d\n",c->GPR1);
       switch(c->GPR1){
         case SYS_exit: sys_exit(c); break;
         case SYS_yield: sys_yield(c); break;
