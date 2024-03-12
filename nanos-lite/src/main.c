@@ -9,7 +9,7 @@ void init_proc(void);
 
 int main() {
   int a = 10;
-  printf("%p\n",a);
+  printf("%p\n",&a);
   halt(0);
 //   extern const char logo[];
 //   printf("%s", logo);
