@@ -5,7 +5,6 @@
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
-  // handle_context_display(c);
   if (user_handler) {
     Event ev = {0};
 
