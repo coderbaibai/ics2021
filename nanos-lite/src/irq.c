@@ -11,6 +11,7 @@ static Context* do_event(Event e, Context* c) {
       switch(c->GPR1){
         case SYS_exit: sys_exit(c); break;
         case SYS_yield: sys_yield(c); break;
+        case SYS_write: sys_write((int)c->GPR2,(const void*)c->GPR3,(size_t)c->GPR4); break;
       }
       break;
     }

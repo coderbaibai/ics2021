@@ -15,3 +15,6 @@ void sys_yield(Context* c){
 void sys_exit(Context* c){
   halt(0);
 }
+int sys_write(int fd, const void* buf,size_t conut){
+  return 0;
+}
