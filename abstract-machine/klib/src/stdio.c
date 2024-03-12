@@ -10,7 +10,7 @@
 #elif defined(__ISA_RISCV64__) || defined(__ISA_NATIVE__)
 # define ADDR_BIT 64
 #elif 1
-123456
+#error unsupported ISA __ISA__
 #endif
 
 #include "stdio-utils.h"
