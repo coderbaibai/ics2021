@@ -2,7 +2,6 @@
 #include <am.h>
 #include "syscall.h"
 static Context* do_event(Event e, Context* c) {
-  printf("number:%d\n",e.event);
   switch (e.event) {
     case EVENT_SYSCALL:{
       switch(c->GPR1){
