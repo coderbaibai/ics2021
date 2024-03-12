@@ -294,7 +294,7 @@ int fmt_to_out(char *out, const char *fmt, va_list va){
           uintToStringHex(tempValue,tempString+2);
           tempString[0] = '0';
           tempString[1] = 'x';
-          fmtd.width = 8;
+          fmtd.width = ADDR_BIT/4;
           fillOutString(&p,tempString,fmtd);
           tempString = NULL;
           break;
