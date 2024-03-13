@@ -62,8 +62,10 @@ int _open(const char *path, int flags, mode_t mode) {
 }
 
 int _write(int fd, void *buf, size_t count) {
-  _syscall_(SYS_write,fd,buf,count);
-  return 0;
+  _syscall_(SYS_write,fd,(int)buf,count);
+  int ret;
+  asm volatile("mv %0,a0":"=r"(ret));
+  return ret;
 }
 
 void *_sbrk(intptr_t increment) {

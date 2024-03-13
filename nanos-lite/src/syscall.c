@@ -8,13 +8,23 @@ void do_syscall(Context *c) {
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
-void sys_yield(Context* c){
+int sys_yield(){
   printf("yeild\n");
-  c->GPRx = 0;
+  return 0;
 }
-void sys_exit(Context* c){
-  halt(0);
+int sys_exit(){
+  return 0;
 }
 int sys_write(int fd, const void* buf,size_t conut){
-  return 0;
+  if(fd!=1&&fd!=2){
+    return 0;
+  }
+  const char* cur = buf;
+  size_t i = 0;
+  while(i<conut){
+    putch(*cur);
+    cur++;
+    i++;
+  }
+  return i;
 }

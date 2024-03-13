@@ -23,7 +23,7 @@ enum {
   SYS_times,
   SYS_gettimeofday
 };
-void sys_yield(Context* c);
-void sys_exit(Context* c);
+int sys_yield();
+int sys_exit();
 int sys_write(int fd, const void* buf,size_t conut);
 #endif

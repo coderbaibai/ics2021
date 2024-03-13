@@ -8,11 +8,14 @@ static Context* do_event(Event e, Context* c) {
       #ifdef CONFIG_STRACE
       printf("syscall number:%d\n",c->GPR1);
       #endif
+      int ret = 0;
       switch(c->GPR1){
-        case SYS_exit: sys_exit(c); break;
-        case SYS_yield: sys_yield(c); break;
-        case SYS_write: sys_write((int)c->GPR2,(const void*)c->GPR3,(size_t)c->GPR4); break;
+        case SYS_exit : ret = sys_exit(c); break;
+        case SYS_yield: ret = sys_yield(c); break;
+        case SYS_write: ret = sys_write((int)c->GPR2,(const void*)c->GPR3,(size_t)c->GPR4); break;
+        default: panic("syscall not impl:%d\n",c->GPR1);
       }
+      c->GPRx = ret;
       break;
     }
     default: printf("event not impl:%d\n",e.event);
