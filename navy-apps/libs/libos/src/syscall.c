@@ -68,7 +68,7 @@ int _write(int fd, void *buf, size_t count) {
 extern intptr_t _end;
 void *_sbrk(intptr_t increment) {
   static intptr_t pb = _end;
-  if(_syscall_(SYS_brk,100,0,0)==0){
+  if(_syscall_(SYS_brk,50,0,0)==0){
     intptr_t old_pb = pb;
     pb+=increment;
     return (void *)old_pb;
