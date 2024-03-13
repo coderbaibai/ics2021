@@ -70,7 +70,7 @@ void *_sbrk(intptr_t increment) {
   static int is_init = 0;
   static intptr_t pb = 0;
   if(!is_init){
-    pb = &_end;
+    pb = (intptr_t)&_end;
     is_init = 1;
   }
   if(_syscall_(SYS_brk,pb+increment,0,0)==0){
