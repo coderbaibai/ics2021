@@ -73,7 +73,7 @@ void *_sbrk(intptr_t increment) {
     pb = (intptr_t)&_end;
     is_init = 1;
   }
-  if(_syscall_(SYS_brk,&increment,0,0)==0){
+  if(_syscall_(SYS_brk,pb+increment,0,0)==0){
     intptr_t old_pb = pb;
     pb+=increment;
     return (void *)old_pb;
