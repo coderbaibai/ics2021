@@ -67,12 +67,7 @@ int _write(int fd, void *buf, size_t count) {
 
 extern intptr_t _end;
 void *_sbrk(intptr_t increment) {
-  static int is_init = 0;
-  static intptr_t pb = 0;
-  if(!is_init){
-    pb = (intptr_t)&_end;
-    is_init = 1;
-  }
+  static intptr_t pb = (intptr_t)&_end;
   if(_syscall_(SYS_brk,pb+increment,0,0)==0){
     intptr_t old_pb = pb;
     pb+=increment;
