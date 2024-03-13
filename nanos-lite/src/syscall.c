@@ -30,6 +30,6 @@ int sys_write(int fd, const void* buf,size_t conut){
 }
 
 int sys_brk(void*addr){
-  printf("addr:%p\n",addr);
+  printf("addr:%p\n",0x830068dc);
   return 0;
 }
