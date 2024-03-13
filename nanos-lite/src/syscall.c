@@ -30,9 +30,6 @@ int sys_write(int fd, const void* buf,size_t conut){
 }
 
 int sys_brk(void*addr){
-  // if((int)addr<0x88000000&&(int)addr>0x80000000){
-    printf("addr:%p\n",addr);
-    return 0;
-  // }
-  // return -1;
+  printf("addr:%p\n",addr);
+  return 0;
 }
