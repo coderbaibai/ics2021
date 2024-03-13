@@ -26,4 +26,5 @@ enum {
 int sys_yield();
 int sys_exit();
 int sys_write(int fd, const void* buf,size_t conut);
+int sys_brk(void*addr);
 #endif

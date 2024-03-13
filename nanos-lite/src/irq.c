@@ -13,6 +13,7 @@ static Context* do_event(Event e, Context* c) {
         case SYS_exit : ret = sys_exit(c); break;
         case SYS_yield: ret = sys_yield(c); break;
         case SYS_write: ret = sys_write((int)c->GPR2,(const void*)c->GPR3,(size_t)c->GPR4); break;
+        case SYS_brk  : ret = sys_brk((void*)c->GPR2); break;
         default: panic("syscall not impl:%d\n",c->GPR1);
       }
       c->GPRx = ret;

@@ -28,3 +28,7 @@ int sys_write(int fd, const void* buf,size_t conut){
   }
   return i;
 }
+
+int sys_brk(void*addr){
+  return 0;
+}
