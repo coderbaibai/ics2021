@@ -77,7 +77,7 @@ void *_sbrk(intptr_t increment) {
     intptr_t old_pb = pb;
     pb+=increment;
     return (void *)old_pb;
-  } 
+  }
   else return (void *)-1;
 }
 
