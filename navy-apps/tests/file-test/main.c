@@ -6,8 +6,8 @@ int main() {
   assert(fp);
 
   fseek(fp, 0, SEEK_END);
-  printf("off:%d\n",fp->_offset);
   long size = ftell(fp);
+  printf("size:%d\n",size);
   assert(size == 5000);
 
   fseek(fp, 500 * 5, SEEK_SET);
