@@ -98,10 +98,10 @@ size_t fs_lseek(int fd, size_t offset, int whence){
   }
   // 如果越界
   if(pos>file_table[fd].size||pos<0){
-    return -1;
+    return file_table[fd].open_offset;
   }
   file_table[fd].open_offset = pos;
-  return 0;
+  return file_table[fd].open_offset;
 }
 
 int fs_close(int fd){
