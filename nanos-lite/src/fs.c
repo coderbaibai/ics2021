@@ -43,6 +43,7 @@ int fs_open(const char *pathname, int flags, int mode){
       // 初始化位置为0
       file_table[i].open_offset = 0;
       // 直接返回文件描述符
+      printf("open :%d\n",i);
       return i;
     }
   }
