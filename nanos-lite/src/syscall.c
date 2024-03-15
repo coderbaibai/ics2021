@@ -57,6 +57,7 @@ int sys_close(int fd){
 };
 int sys_lseek(int fd, size_t offset, int whence){
   // 对于标准输入输出的处理
+  printf("seek fp:%d\n",fd);
   if(fd<3&&fd>=0){
     return -1;
   }

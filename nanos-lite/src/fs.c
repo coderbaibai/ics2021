@@ -77,7 +77,6 @@ size_t fs_write(int fd, const void *buf, size_t len){
 
 size_t fs_lseek(int fd, size_t offset, int whence){
   // 文件描述符不能超过表的范围，否则认为是fault
-  printf("seek fp:%d\n",fd);
   assert(fd<sizeof(file_table)/sizeof(Finfo)&&fd>3);
 
   size_t pos;
