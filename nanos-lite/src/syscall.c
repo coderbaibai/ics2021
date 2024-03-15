@@ -31,6 +31,7 @@ int fs_close(int fd);
 int sys_open(const char *pathname, int flags, int mode){
   return fs_open(pathname,flags,mode);
 }
+
 int sys_read(int fd, void *buf, size_t len){
   // 对于标准输入输出的处理
   if(fd<3&&fd>=0)

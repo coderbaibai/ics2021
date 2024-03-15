@@ -37,6 +37,7 @@ void init_fs() {
 }
 
 int fs_open(const char *pathname, int flags, int mode){
+  printf("%d\n",pathname);
   for(int i=0;i<sizeof(file_table)/sizeof(Finfo);i++){
     if(strcmp(file_table[i].name,pathname)==0){
       // TODO: 实现文件的状态管理
