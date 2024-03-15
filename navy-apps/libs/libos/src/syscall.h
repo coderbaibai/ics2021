@@ -28,4 +28,7 @@ int sys_exit();
 int sys_write(int fd, const void* buf,size_t conut);
 int sys_brk(void*addr);
 int sys_open(const char *pathname, int flags, int mode);
+int sys_read(int fd, void *buf, size_t len);
+int sys_close(int fd);
+int sys_lseek(int fd, size_t offset, int whence);
 #endif
