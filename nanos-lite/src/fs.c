@@ -53,9 +53,10 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t fs_read(int fd, void *buf, size_t len){
   // 文件描述符不能超过表的范围，否则认为是fault
   assert(fd<sizeof(file_table)/sizeof(Finfo)&&fd>2);
-  // 读取长度不能超过文件的范围，否则返回0
+  // 读取长度不能超过文件的范围，否则返回0,结果发现不行，因为原函数是一次性读入多个进入缓冲区，这样做会造成影响。
   // if(file_table[fd].open_offset+len>file_table[fd].size)
   //   return 0;
+  
   // 从ramdisk中读取
   ramdisk_read(buf,file_table[fd].open_offset+file_table[fd].disk_offset,len);
   file_table[fd].open_offset += len;
