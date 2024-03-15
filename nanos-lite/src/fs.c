@@ -102,6 +102,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
     return -1;
   }
   file_table[fd].open_offset = pos;
+  printf("return 0\n");
   return 0;
 }
 
