@@ -96,6 +96,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
     panic("error whence\n");
     break;
   }
+  printf("pos:%d\n",pos);
   // 如果越界
   if(pos>file_table[fd].size||pos<0){
     return -1;
