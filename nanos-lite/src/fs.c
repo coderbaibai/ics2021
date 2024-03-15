@@ -52,7 +52,7 @@ int fs_open(const char *pathname, int flags, int mode){
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t fs_read(int fd, void *buf, size_t len){
   // 文件描述符不能超过表的范围，否则认为是fault
-  assert(fd<sizeof(file_table)/sizeof(Finfo)&&fd>2);
+  assert(fd<sizeof(file_table)/sizeof(file_table[0])&&fd>2);
   // 读取长度不能超过文件的范围，否则返回0
   if(file_table[fd].open_offset+len>file_table[fd].size)
     return 0;
