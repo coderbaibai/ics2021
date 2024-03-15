@@ -35,6 +35,7 @@ int sys_read(int fd, void *buf, size_t len){
   // 对于标准输入输出的处理
   if(fd<3&&fd>=0)
     panic("not impl");
+  printf("fd:%d\n",fd);
   return fs_read(fd,buf,len);
 }
 
