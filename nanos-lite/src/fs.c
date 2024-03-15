@@ -89,7 +89,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
     pos = file_table[fd].open_offset+offset;
     break;
   case SEEK_END:
-    pos = file_table[fd].size-1+offset;
+    pos = file_table[fd].size+offset;
     break;
   // 如果选项不是其中之一
   default:
@@ -97,7 +97,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
     break;
   }
   // 如果越界
-  if(pos>=file_table[fd].size||pos<0){
+  if(pos>file_table[fd].size||pos<0){
     return -1;
   }
   file_table[fd].open_offset = pos;
