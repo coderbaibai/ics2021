@@ -17,7 +17,6 @@ int fs_close(int fd);
 int fs_open(const char *pathname, int flags, int mode);
 static uintptr_t loader(PCB *pcb, const char *filename) {
   int fd = fs_open(filename,0,0);
-  printf("fd%d\n",fd);
   Elf_Ehdr elf_header;
   fs_read(fd,&elf_header,sizeof(Elf_Ehdr));
   Elf_Phdr* base = (Elf_Phdr*)malloc(elf_header.e_phnum*sizeof(Elf_Phdr));
