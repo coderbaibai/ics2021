@@ -48,11 +48,9 @@ static Context* do_event(Event e, Context* c) {
       }
       #ifdef CONFIG_STRACE
       if(frec.fd!=-1){
-        if(frec.filename!=NULL) frec.filename = getFilenameById(frec.fd);
+        if(frec.filename==NULL) frec.filename = getFilenameById(frec.fd);
         printf("%s %s\n",frec.opname,frec.filename);
-        frec.fd = -1;
-        frec.filename = NULL;
-        frec.opname = NULL;
+        setFRec(&frec,-1,NULL,NULL);
       }
       else printf("syscall number:%d\n",c->GPR1);
       #endif
