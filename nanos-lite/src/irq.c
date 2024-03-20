@@ -5,6 +5,9 @@
 static Context* do_event(Event e, Context* c) {
   switch (e.event) {
     case EVENT_SYSCALL:{
+      #ifdef CONFIG_STRACE
+      printf("syscall number:%d\n",c->GPR1);
+      #endif
       int ret = 0;
       switch(c->GPR1){
         case SYS_exit : ret = sys_exit(c); break;
@@ -17,9 +20,6 @@ static Context* do_event(Event e, Context* c) {
         case SYS_brk  : ret = sys_brk((void*)c->GPR2); break;
         default: panic("syscall not impl:%d\n",c->GPR1);
       }
-      #ifdef CONFIG_STRACE
-      printf("syscall number:%d %s\n",c->GPR1);
-      #endif
       c->GPRx = ret;
       break;
     }
