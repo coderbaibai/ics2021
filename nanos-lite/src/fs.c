@@ -108,3 +108,9 @@ size_t fs_lseek(int fd, size_t offset, int whence){
 int fs_close(int fd){
   return 0;
 }
+char* getFilenameById(int i){
+  if(i<sizeof(file_table)/sizeof(Finfo)){
+      return file_table[i].name;
+  }
+  return "unknown";
+}
