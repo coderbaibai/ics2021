@@ -1,6 +1,7 @@
 #ifndef __SYSCALL_H__
 #define __SYSCALL_H__
 
+#include <sys/time.h>
 enum {
   SYS_exit,
   SYS_yield,
@@ -31,4 +32,5 @@ int sys_open(const char *pathname, int flags, int mode);
 int sys_read(int fd, void *buf, size_t len);
 int sys_close(int fd);
 int sys_lseek(int fd, size_t offset, int whence);
+int sys_gettimeofday(struct timeval *tv, struct timezone *tz);
 #endif

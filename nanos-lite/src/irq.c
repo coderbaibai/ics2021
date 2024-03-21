@@ -1,5 +1,6 @@
 #include <common.h>
 #include <am.h>
+#include<sys/time.h>
 #include "syscall.h"
 #include "autoconf.h"
 typedef struct FRec
@@ -44,6 +45,7 @@ static Context* do_event(Event e, Context* c) {
           setFRec(&frec,(int)c->GPR2,NULL,"lseek");
           break;
         case SYS_brk  : ret = sys_brk((void*)c->GPR2); break;
+        case SYS_gettimeofday: ret = sys_gettimeofday((struct timeval*)c->GPR1,(struct timezone*)c->GPR2); break;
         default: panic("syscall not impl:%d\n",c->GPR1);
       }
       #ifdef CONFIG_STRACE

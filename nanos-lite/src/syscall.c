@@ -1,5 +1,6 @@
 #include <common.h>
 #include "syscall.h"
+#include <sys/time.h>
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -43,9 +44,14 @@ int sys_close(int fd){
   return fs_close(fd);
 };
 int sys_lseek(int fd, size_t offset, int whence){
-  // 对于标准输入输出的处理
-  if(fd<3&&fd>=0){
-    return -1;
-  }
   return fs_lseek(fd,offset,whence);
+}
+
+int sys_gettimeofday(struct timeval *tv, struct timezone *tz){
+  if(!tv){
+    long time = io_read(AM_TIMER_UPTIME).us;
+    tv->tv_sec = time/1000000;
+    tv->tv_usec = time;
+  }
+  return 0;
 }
