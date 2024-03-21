@@ -53,27 +53,42 @@ size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t fs_read(int fd, void *buf, size_t len){
   // 文件描述符不能超过表的范围，否则认为是fault
   assert(fd<sizeof(file_table)/sizeof(Finfo)&&fd>2);
-  // 读取长度不能超过文件的范围，否则返回0,结果发现不行，因为原函数是一次性读入多个进入缓冲区，这样做会造成影响。
-  // if(file_table[fd].open_offset+len>file_table[fd].size)
-  //   return 0;
   
-  // 从ramdisk中读取
-  ramdisk_read(buf,file_table[fd].open_offset+file_table[fd].disk_offset,len);
-  file_table[fd].open_offset += len;
-  return len;
+  size_t ret;
+  // 如果读写非普通文件
+  if(file_table[fd].read!=NULL){
+    ret = file_table[fd].read(buf,file_table[fd].open_offset,len);
+  }
+  // 如果读写普通文件
+  else{
+    /* 读取长度不能超过文件的范围，否则返回0,结果发现不行，因为原函数是一次性读入多个进入缓冲区，这样做会造成影响。
+    if(file_table[fd].open_offset+len>file_table[fd].size) return 0;
+    */
+    // 从ramdisk中读取
+    ret = ramdisk_read(buf,file_table[fd].open_offset+file_table[fd].disk_offset,len);
+  }
+  file_table[fd].open_offset += ret;
+  return ret;
 }
 
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
 size_t fs_write(int fd, const void *buf, size_t len){
   // 文件描述符不能超过表的范围,且是文件，否则认为是fault
   assert(fd<sizeof(file_table)/sizeof(Finfo)&&fd>2);
+  size_t ret;
+  // 如果读写非普通文件
+  if(file_table[fd].write!=NULL){
+    ret = file_table[fd].write(buf,file_table[fd].open_offset,len);
+  }
+  // 如果读写普通文件
+  else{
   // 写入长度不能超过文件的范围，否则返回0
-  if(file_table[fd].open_offset+len>file_table[fd].size)
-    return 0;
-  // 从ramdisk中读取
-  ramdisk_write(buf,file_table[fd].open_offset+file_table[fd].disk_offset,len);
-  file_table[fd].open_offset += len;
-  return len;
+    if(file_table[fd].open_offset+len>file_table[fd].size) return 0;
+    // 从ramdisk中读取
+    ret = ramdisk_write(buf,file_table[fd].open_offset+file_table[fd].disk_offset,len);
+  }
+  file_table[fd].open_offset += ret;
+  return ret;
 }
 
 size_t fs_lseek(int fd, size_t offset, int whence){

@@ -33,24 +33,10 @@ int sys_open(const char *pathname, int flags, int mode){
 }
 
 int sys_read(int fd, void *buf, size_t len){
-  // 对于标准输入输出的处理
-  if(fd<3&&fd>=0)
-    panic("not impl");
   return fs_read(fd,buf,len);
 }
 
 int sys_write(int fd, const void* buf,size_t conut){
-  // 对于标准输入输出的处理
-  if(fd<3&&fd>=0){
-    const char* cur = buf;
-    size_t i = 0;
-    while(i<conut){
-      putch(*cur);
-      cur++;
-      i++;
-    }
-    return i;
-  }
   return fs_write(fd,buf,conut);
 }
 int sys_close(int fd){

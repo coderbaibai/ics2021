@@ -15,6 +15,18 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 size_t serial_write(const void *buf, size_t offset, size_t len) {
+  const char* cur = buf;
+  size_t i = 0;
+  while(i<len){
+    putch(*cur);
+    cur++;
+    i++;
+  }
+  return 0;
+}
+
+size_t serial_read(const void *buf, size_t offset, size_t len){
+  panic("serial_read has no implement");
   return 0;
 }
 
