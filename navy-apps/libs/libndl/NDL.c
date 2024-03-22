@@ -22,7 +22,7 @@ int NDL_PollEvent(char *buf, int len) {
 
 void NDL_OpenCanvas(int *w, int *h) {
   FILE* fd = fopen("/proc/dispinfo","r+");
-  char dispinfo[50];
+  char dispinfo[50]={'\0'};
   fread(dispinfo,1,50,fd);
   printf("%s\n",dispinfo);
   int sw,sh;
