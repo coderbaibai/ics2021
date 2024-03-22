@@ -51,7 +51,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   char info[50];
   sprintf(info,"WIDTH:%d\n HEIGHT:%d\n",gpu_config.width,gpu_config.height);
   memcpy(buf,info,len);
-  return 0;
+  return len;
 }
 
 size_t dispinfo_write(const void *buf, size_t offset, size_t len){
