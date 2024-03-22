@@ -50,9 +50,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   AM_GPU_CONFIG_T gpu_config = io_read(AM_GPU_CONFIG);
   char info[50];
   sprintf(info,"WIDTH:%d\n HEIGHT:%d\n",gpu_config.width,gpu_config.height);
-  printf("info:%s",(char*)info);
   memcpy(buf,info,len);
-  printf("buf:%s",(char*)buf);
   return 0;
 }
 
