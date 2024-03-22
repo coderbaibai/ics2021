@@ -28,6 +28,7 @@ void NDL_OpenCanvas(int *w, int *h) {
   sscanf(dispinfo,"WIDTH:%d\nHEIGHT:%d",&sw,&sh);
   printf("%d %d\n",sw,sh);
   if (getenv("NWM_APP")) {
+    printf("11\n");
     int fbctl = 4;
     fbdev = 5;
     screen_w = *w; screen_h = *h;
