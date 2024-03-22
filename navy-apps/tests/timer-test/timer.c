@@ -1,13 +1,11 @@
 #include<sys/time.h>
 #include<stdio.h>
+#include<NDL.h>
 
 int main(){
-    struct timeval cur_time;
-    gettimeofday(&cur_time,NULL);
-    long uptime = cur_time.tv_usec/1000;
+    long uptime = NDL_GetTicks();
     while(1){
-        gettimeofday(&cur_time,NULL);
-        if(cur_time.tv_usec/1000<uptime) continue;
+        if(NDL_GetTicks()<uptime) continue;
         printf("0.5 second pass\n");
         uptime+=500;
     }
