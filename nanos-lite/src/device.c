@@ -37,6 +37,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   strcat(str,keyname[ev.keycode]);
   strcat(str,"\n");
   strncpy((char*)buf,str,len);
+  if(ev.keycode==AM_KEY_NONE) return 0;
   return len<strlen((char*)buf)?len:strlen((char*)buf);
 }
 
