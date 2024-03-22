@@ -52,6 +52,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   sprintf(info,"WIDTH:%d\n HEIGHT:%d\n",gpu_config.width,gpu_config.height);
   printf("info:%s",(char*)info);
   memcpy(buf,info,len);
+  printf("buf:%s",(char*)buf);
   return 0;
 }
 
