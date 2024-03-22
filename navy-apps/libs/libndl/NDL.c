@@ -16,7 +16,8 @@ uint32_t NDL_GetTicks() {
 }
 
 int NDL_PollEvent(char *buf, int len) {
-  return 0;
+  FILE* file = fopen("/dev/event","r+");
+  return fread(buf,1,len,file);
 }
 
 void NDL_OpenCanvas(int *w, int *h) {

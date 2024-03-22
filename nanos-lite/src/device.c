@@ -31,6 +31,17 @@ size_t serial_read(void *buf, size_t offset, size_t len){
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {
+  char str[20] = {'\0'};
+  AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
+  strcat(str,ev.keydown?"kd ":"ku ");
+  strcat(str,keyname[ev.keycode]);
+  strcat(str,"\n");
+  strncpy((char*)buf,str,len);
+  return len<strlen((char*)buf)?len:strlen((char*)buf);
+}
+
+size_t events_write(const void *buf, size_t offset, size_t len){
+  panic("event_write has no implement");
   return 0;
 }
 
