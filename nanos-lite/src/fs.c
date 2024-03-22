@@ -12,7 +12,7 @@ typedef struct {
   size_t open_offset;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR,FD_EVENT, FD_FB};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR,FD_EVENT,FD_DISPINFO, FD_FB};
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -27,12 +27,15 @@ size_t serial_read(void *buf, size_t offset, size_t len);
 size_t serial_write(const void *buf, size_t offset, size_t len);
 size_t events_read(void *buf, size_t offset, size_t len);
 size_t events_write(const void *buf, size_t offset, size_t len);
+size_t dispinfo_read(void *buf, size_t offset, size_t len);
+size_t dispinfo_write(const void *buf, size_t offset, size_t len);
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
-  [FD_STDIN]  = {"stdin", 0, 0, serial_read, serial_write},
-  [FD_STDOUT] = {"stdout", 0, 0, serial_read, serial_write},
-  [FD_STDERR] = {"stderr", 0, 0, serial_read, serial_write},
-  [FD_EVENT]  = {"/dev/event", 0, 0, events_read, events_write},
+  [FD_STDIN]    = {"stdin", 0, 0, serial_read, serial_write},
+  [FD_STDOUT]   = {"stdout", 0, 0, serial_read, serial_write},
+  [FD_STDERR]   = {"stderr", 0, 0, serial_read, serial_write},
+  [FD_EVENT]    = {"/dev/event", 0, 0, events_read, events_write},
+  [FD_DISPINFO] = {"/proc/dispinfo",0,0,dispinfo_read,dispinfo_write},
 #include "files.h"
 };
 
