@@ -53,13 +53,17 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   memcpy(buf,info,len);
   return len;
 }
-
 size_t dispinfo_write(const void *buf, size_t offset, size_t len){
   panic("dispinfo_write has no implement");
   return 0;
 }
 
+extern int screen_w,screen_h;
 size_t fb_write(const void *buf, size_t offset, size_t len) {
+  if(len!=0)
+    io_write(AM_GPU_FBDRAW,offset%screen_w,offset/screen_w,(void*)buf,len,1,false);
+  else
+    io_write(AM_GPU_FBDRAW,0,0,NULL,0,0,true);
   return 0;
 }
 

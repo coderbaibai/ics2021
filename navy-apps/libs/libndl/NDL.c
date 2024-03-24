@@ -4,10 +4,12 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/time.h>
+#include <assert.h>
 
 static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
+static int canvas_w = 0, canvas_h = 0;
 
 uint32_t NDL_GetTicks() {
   struct timeval time;
@@ -26,9 +28,15 @@ void NDL_OpenCanvas(int *w, int *h) {
   fread(dispinfo,1,50,fd);
   int sw,sh;
   sscanf(dispinfo,"WIDTH:%d\nHEIGHT:%d",&sw,&sh);
-  printf("%d %d\n",sw,sh);
+  if(*w==*h==0){
+    *w = sw;
+    *h = sh;
+  }
+  screen_w = sw;
+  screen_h = sh;
+  canvas_w = *w;
+  canvas_h = *h;
   if (getenv("NWM_APP")) {
-    printf("11\n");
     int fbctl = 4;
     fbdev = 5;
     screen_w = *w; screen_h = *h;
@@ -48,6 +56,17 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+  if(screen_h==0||screen_w==0||canvas_h==0||canvas_w==0){
+    printf("NDL screen error\n");
+    assert(0);
+  }
+  FILE* fd = fopen("/dev/fb","r+");
+  for(int i=y;i<h+y;i++){
+    int off = i*screen_w+x;
+    fseek(fd,off,SEEK_SET);
+    fwrite(pixels+(i-y)*w,w,1,fd);
+  }
+  write(fd,NULL,0);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
