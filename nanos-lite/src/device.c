@@ -65,7 +65,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
     io_write(AM_GPU_FBDRAW,offset%screen_w,offset/screen_w,(void*)buf,len,1,false);
   else
     io_write(AM_GPU_FBDRAW,0,0,NULL,0,0,true);
-  return 0;
+  return len;
 }
 size_t fb_read(void *buf, size_t offset, size_t len){
   panic("fb_read has no implement");
