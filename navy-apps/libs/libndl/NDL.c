@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <assert.h>
+#include<fcntl.h>
 
 static int evtdev = -1;
 static int fbdev = -1;
@@ -54,19 +55,19 @@ void NDL_OpenCanvas(int *w, int *h) {
     close(fbctl);
   }
 }
-
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   if(screen_h==0||screen_w==0||canvas_h==0||canvas_w==0){
     printf("NDL screen error\n");
     assert(0);
   }
   FILE* fd = fopen("/dev/fb","r+");
+  int fdi = open("/dev/fb",0);
   for(int i=y;i<h+y;i++){
     int off = i*screen_w+x;
     fseek(fd,off,SEEK_SET);
     fwrite(pixels+(i-y)*w,1,4*w,fd);
   }
-  fwrite(pixels,1,0,fd);
+  write(fdi,pixels,0);
   fclose(fd);
 }
 
