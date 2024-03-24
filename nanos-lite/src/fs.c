@@ -32,6 +32,8 @@ size_t events_read(void *buf, size_t offset, size_t len);
 size_t events_write(const void *buf, size_t offset, size_t len);
 size_t dispinfo_read(void *buf, size_t offset, size_t len);
 size_t dispinfo_write(const void *buf, size_t offset, size_t len);
+size_t fb_read(void *buf, size_t offset, size_t len);
+size_t fb_write(const void *buf, size_t offset, size_t len);
 /* This is the information about all files in disk. */
 static Finfo file_table[] __attribute__((used)) = {
   [FD_STDIN]    = {"stdin", 0, 0, serial_read, serial_write},
@@ -39,7 +41,7 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDERR]   = {"stderr", 0, 0, serial_read, serial_write},
   [FD_EVENT]    = {"/dev/event", 0, 0, events_read, events_write},
   [FD_DISPINFO] = {"/proc/dispinfo",0,0,dispinfo_read,dispinfo_write},
-  [FD_FB]       = {"/dev/fb",0,0,NULL,NULL},
+  [FD_FB]       = {"/dev/fb",0,0,fb_read,fb_write},
 #include "files.h"
 };
 
