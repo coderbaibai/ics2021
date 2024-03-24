@@ -11,7 +11,7 @@ static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 static int canvas_w = 0, canvas_h = 0;
-
+static int canvas_position = 0;
 uint32_t NDL_GetTicks() {
   struct timeval time;
   gettimeofday(&time,NULL);
@@ -37,6 +37,7 @@ void NDL_OpenCanvas(int *w, int *h) {
   screen_h = sh;
   canvas_w = *w;
   canvas_h = *h;
+  canvas_position = (screen_w-canvas_w)/2 + screen_w*(screen_h-canvas_h)/2;
   if (getenv("NWM_APP")) {
     int fbctl = 4;
     fbdev = 5;
@@ -63,7 +64,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   FILE* fd = fopen("/dev/fb","r+");
   int fdi = open("/dev/fb",0);
   for(int i=y;i<h+y;i++){
-    int off = i*screen_w+x;
+    int off = canvas_position+i*screen_w+x;
     fseek(fd,off,SEEK_SET);
     fwrite(pixels+(i-y)*w,1,4*w,fd);
   }
