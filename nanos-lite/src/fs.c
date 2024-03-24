@@ -47,8 +47,6 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   AM_GPU_CONFIG_T gpu_config = io_read(AM_GPU_CONFIG);
-  file_table[FD_FB].disk_offset = file_table[LENGTH(file_table)-1].disk_offset;
-  file_table[FD_FB].size = gpu_config.width*gpu_config.height*4;
   screen_h = gpu_config.height;
   screen_w = gpu_config.width;
 }
