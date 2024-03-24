@@ -49,6 +49,7 @@ void init_fs() {
   AM_GPU_CONFIG_T gpu_config = io_read(AM_GPU_CONFIG);
   screen_h = gpu_config.height;
   screen_w = gpu_config.width;
+  file_table[FD_FB].size = screen_h*screen_w*4;
 }
 
 int fs_open(const char *pathname, int flags, int mode){
