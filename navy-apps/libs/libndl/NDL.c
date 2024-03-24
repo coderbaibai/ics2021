@@ -67,8 +67,9 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     fseek(fd,off,SEEK_SET);
     fwrite(pixels+(i-y)*w,1,4*w,fd);
   }
-  write(fdi,pixels,0);
   fclose(fd);
+  write(fdi,pixels,0);
+  close(fdi);
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
