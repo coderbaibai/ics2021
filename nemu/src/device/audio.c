@@ -18,6 +18,7 @@ static SDL_AudioSpec s ={};
 static int cur = 0;
 
 void audio_cb(void* udata, Uint8* stream, int len){
+  printf("cb:%d\n",len);
   SDL_memset(stream,0,len);
   // 如果剩余长度为0，则直接返回
   if(cur>=audio_base[reg_count]) return;
