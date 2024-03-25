@@ -43,4 +43,5 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
     count = *(int*)AUDIO_COUNT_ADDR;
   } while (size+count>buf_size);
   memcpy((uint8_t*)AUDIO_SBUF_ADDR+count,ctl->buf.start,size);
+  printf("memcpy size:%d to %p",size,(uint8_t*)AUDIO_SBUF_ADDR+count);
 }
