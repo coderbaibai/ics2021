@@ -11,10 +11,10 @@ static IOMap* fetch_mmio_map(paddr_t addr) {
 }
 
 /* device interface */
-void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_callback_t callback) {
+void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_callback_t callback,pthread_mutex_t* mutex) {
   assert(nr_map < NR_MAP);
   maps[nr_map] = (IOMap){ .name = name, .low = addr, .high = addr + len - 1,
-    .space = space, .callback = callback };
+    .space = space, .callback = callback,.mutex = mutex };
   Log("Add mmio map '%s' at [" FMT_PADDR ", " FMT_PADDR "]",
       maps[nr_map].name, maps[nr_map].low, maps[nr_map].high);
 

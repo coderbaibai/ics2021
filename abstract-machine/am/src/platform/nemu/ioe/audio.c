@@ -8,6 +8,7 @@
 #define AUDIO_SBUF_SIZE_ADDR (AUDIO_ADDR + 0x0c)
 #define AUDIO_INIT_ADDR      (AUDIO_ADDR + 0x10)
 #define AUDIO_COUNT_ADDR     (AUDIO_ADDR + 0x14)
+#define AUDIO_USED_ADDR      (AUDIO_ADDR + 0x18)
 
 void __am_audio_init() {
 }
@@ -25,7 +26,9 @@ void __am_audio_ctrl(AM_AUDIO_CTRL_T *ctrl) {
 }
 
 void __am_audio_status(AM_AUDIO_STATUS_T *stat) {
-  stat->count = *(int*)AUDIO_COUNT_ADDR;
+  stat->count = *(int*)AUDIO_USED_ADDR;
+  // stat->count = 0;
+  // printf("free:%d\n",buf_size-stat->count);
 }
 
 void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
@@ -43,5 +46,6 @@ void __am_audio_play(AM_AUDIO_PLAY_T *ctl) {
     count = *(int*)AUDIO_COUNT_ADDR;
   } while (size+count>buf_size);
   memcpy((uint8_t*)AUDIO_SBUF_ADDR+count,ctl->buf.start,size);
-  printf("memcpy size:%d to %p\n",size,(uint8_t*)AUDIO_SBUF_ADDR+count);
+  // *(int*)AUDIO_COUNT_ADDR += size;
+  // printf("memcpy size:%d to %p\n",size,(uint8_t*)AUDIO_SBUF_ADDR+count);
 }
