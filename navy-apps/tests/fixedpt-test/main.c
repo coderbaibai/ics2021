@@ -15,4 +15,7 @@ int main(){
     b = fixedpt_abs(b);
     printf("|b| floor:%d\n",fixedpt_toint(fixedpt_floor(b)));
     printf("|b| ceil :%d\n",fixedpt_toint(fixedpt_ceil(b)));
+    fixedpt c = fixedpt_rconst(1);
+    printf("e^c:%d\n",fixedpt_toint(fixedpt_exp(c)));
+    printf("e^c:%d\n",fixedpt_toint(fixedpt_ln(c)));
 }
