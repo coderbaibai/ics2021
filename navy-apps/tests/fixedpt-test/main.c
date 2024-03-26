@@ -9,7 +9,7 @@ int main(){
     printf("|a| floor:%d\n",fixedpt_toint(fixedpt_floor(a)));
     printf("|a| ceil :%d\n",fixedpt_toint(fixedpt_ceil(a)));
 
-    fixedpt b = fixedpt_rconst(2.7);
+    fixedpt b = fixedpt_rconst(3);
     printf("b floor:%d\n",fixedpt_toint(fixedpt_floor(b)));
     printf("b ceil :%d\n",fixedpt_toint(fixedpt_ceil(b)));
     b = fixedpt_abs(b);
