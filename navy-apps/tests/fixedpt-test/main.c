@@ -3,6 +3,8 @@
 
 int main(){
     fixedpt a = fixedpt_rconst(-1.2);
+    printf("%d\n",a&0xff);
+    printf("%d\n",(-a)&0xff);
     printf("a floor:%d\n",fixedpt_toint(fixedpt_floor(a)));
     printf("a ceil :%d\n",fixedpt_toint(fixedpt_ceil(a)));
     a = fixedpt_abs(a);
