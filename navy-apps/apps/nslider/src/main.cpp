@@ -18,12 +18,11 @@ const char *path = "/share/slides/slides-%d.bmp";
 
 static SDL_Surface *slide = NULL;
 static int cur = 0;
-
+static int t = 0;
 void render() {
   if (slide) {
     SDL_FreeSurface(slide);
   }
-  printf("222\n");
   char fname[256];
   sprintf(fname, path, cur);
   printf("%s\n",fname);
@@ -48,6 +47,8 @@ void next(int rep) {
 
 int main() {
   printf("slide:%p\n",slide);
+  printf("cur  :%d\n",cur);
+  printf("t    :%d\n",t);
   SDL_Init(0);
   SDL_Surface *screen = SDL_SetVideoMode(W, H, 32, SDL_HWSURFACE);
 
