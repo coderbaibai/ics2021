@@ -17,14 +17,15 @@ const int N = 59;
 const char *path = "/share/slides/slides-%d.bmp";
 
 static SDL_Surface *slide = NULL;
+static int cur = 0;
 static int t = 0;
-// static int t = 0;
 void render() {
   if (slide) {
     SDL_FreeSurface(slide);
   }
+  t = 10;
   char fname[256];
-  sprintf(fname, path, t);
+  sprintf(fname, path, cur);
   printf("%s\n",fname);
   slide = SDL_LoadBMP(fname);
   assert(slide);
@@ -33,28 +34,28 @@ void render() {
 
 void prev(int rep) {
   if (rep == 0) rep = 1;
-  t -= rep;
-  if (t < 0) t = 0;
+  cur -= rep;
+  if (cur < 0) cur = 0;
   render();
 }
 
 void next(int rep) {
   if (rep == 0) rep = 1;
-  t += rep;
-  if (t >= N) t = N - 1;
+  cur += rep;
+  if (cur >= N) cur = N - 1;
   render();
 }
 
 int main() {
   printf("slide:%p\n",slide);
-  printf("t  :%d\n",t);
+  printf("cur  :%d\n",cur);
   printf("t    :%d\n",t);
   SDL_Init(0);
   SDL_Surface *screen = SDL_SetVideoMode(W, H, 32, SDL_HWSURFACE);
 
   int rep = 0, g = 0;
   slide = NULL;
-  t = 0;
+  cur = 0;
   render();
 
   while (1) {
