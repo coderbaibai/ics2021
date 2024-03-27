@@ -52,6 +52,7 @@ int main() {
 
   int rep = 0, g = 0;
   slide = NULL;
+  cur = 0;
   render();
 
   while (1) {
