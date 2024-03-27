@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <assert.h>
-#include<fcntl.h>
+#include <fcntl.h>
 
 static int evtdev = -1;
 static int fbdev = -1;
@@ -65,6 +65,10 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   if(screen_h==0||screen_w==0||canvas_h==0||canvas_w==0){
     printf("NDL screen error\n");
     assert(0);
+  }
+  if((x|y|w|h)==0){
+    w = canvas_w;
+    h = canvas_h;
   }
   printf("draw:%d %d %d %d\n",x,y,w,h);
   printf("size:%d %d %d %d\n",screen_h,screen_w,canvas_h,canvas_w);
