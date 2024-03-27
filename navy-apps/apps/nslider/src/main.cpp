@@ -20,7 +20,6 @@ static SDL_Surface *slide = NULL;
 static int cur = 0;
 
 void render() {
-  printf("%p\n",slide);
   if (slide) {
     SDL_FreeSurface(slide);
   }
@@ -52,7 +51,7 @@ int main() {
   SDL_Surface *screen = SDL_SetVideoMode(W, H, 32, SDL_HWSURFACE);
 
   int rep = 0, g = 0;
-
+  slide = NULL;
   render();
 
   while (1) {
