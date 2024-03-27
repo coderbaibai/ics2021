@@ -25,7 +25,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   fs_read(fd,p_pheader,elf_header.e_phnum*sizeof(Elf_Phdr));
   for(int i=0;i<elf_header.e_phnum;i++,p_pheader++){
     if(p_pheader->p_type==PT_LOAD){
-      // 将目标载入到可执行文件中指定的虚拟地址
+      // 将目标载入到可执行文件 中指定的虚拟地址
       fs_lseek(fd,p_pheader->p_offset,SEEK_SET);
       fs_read(fd,(void*)p_pheader->p_vaddr,p_pheader->p_memsz);
       for(char* t= (char*)(p_pheader->p_vaddr+p_pheader->p_filesz);t<(char*)(p_pheader->p_vaddr+p_pheader->p_memsz);t++){
