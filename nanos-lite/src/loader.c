@@ -29,10 +29,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       // 将目标载入到可执行文件 中指定的虚拟地址
       fs_lseek(fd,p_pheader->p_offset,SEEK_SET);
       fs_read(fd,(void*)p_pheader->p_vaddr,p_pheader->p_memsz);
-      for(char* t= (char*)(p_pheader->p_vaddr+p_pheader->p_filesz);t<(char*)(p_pheader->p_vaddr+p_pheader->p_memsz);t++){
-        printf("t:%p\n",t);
-        *t=0;
-      }
+      for(char* t= (char*)(p_pheader->p_vaddr+p_pheader->p_filesz);t<(char*)(p_pheader->p_vaddr+p_pheader->p_memsz);t++) *t=0;
     }
   }
   fs_close(fd);
