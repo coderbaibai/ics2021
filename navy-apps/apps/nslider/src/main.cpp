@@ -18,6 +18,7 @@ const char *path = "/share/slides/slides-%d.bmp";
 
 static SDL_Surface *slide = NULL;
 static int cur = 100;
+int t = 0;
 void render() {
   if (slide) {
     SDL_FreeSurface(slide);
