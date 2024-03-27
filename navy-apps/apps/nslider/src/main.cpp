@@ -53,6 +53,7 @@ int main() {
 
   int rep = 0, g = 0;
 
+  printf("%p\n",slide);
   render();
 
   while (1) {
