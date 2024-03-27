@@ -17,21 +17,20 @@ const int N = 59;
 const char *path = "/share/slides/slides-%d.bmp";
 
 static SDL_Surface *slide = NULL;
-static SDL_Surface *myslide = NULL;
 static int cur = 0;
 
 void render() {
-  if (myslide) {
-    printf("%p\n",myslide);
-    SDL_FreeSurface(myslide);
+  printf("%p\n",slide);
+  if (slide) {
+    SDL_FreeSurface(slide);
   }
   printf("222\n");
   char fname[256];
   sprintf(fname, path, cur);
   printf("%s\n",fname);
-  myslide = SDL_LoadBMP(fname);
-  assert(myslide);
-  SDL_UpdateRect(myslide, 0, 0, 0, 0);
+  slide = SDL_LoadBMP(fname);
+  assert(slide);
+  SDL_UpdateRect(slide, 0, 0, 0, 0);
 }
 
 void prev(int rep) {
