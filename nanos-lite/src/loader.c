@@ -15,6 +15,7 @@ size_t fs_read(int fd, void *buf, size_t len);
 size_t fs_lseek(int fd, size_t offset, int whence);
 int fs_close(int fd);
 int fs_open(const char *pathname, int flags, int mode);
+
 static uintptr_t loader(PCB *pcb, const char *filename) {
   int fd = fs_open(filename,0,0);
   Elf_Ehdr elf_header;
@@ -29,6 +30,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       fs_lseek(fd,p_pheader->p_offset,SEEK_SET);
       fs_read(fd,(void*)p_pheader->p_vaddr,p_pheader->p_memsz);
       for(char* t= (char*)(p_pheader->p_vaddr+p_pheader->p_filesz);t<(char*)(p_pheader->p_vaddr+p_pheader->p_memsz);t++){
+        printf("t:%p\n",t);
         *t=0;
         t++;
       }

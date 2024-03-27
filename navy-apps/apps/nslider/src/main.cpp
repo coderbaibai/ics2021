@@ -56,7 +56,6 @@ int main() {
   slide = NULL;
   cur = 0;
   render();
-  printf("111\n");
   while (1) {
     SDL_Event e;
     SDL_WaitEvent(&e);
