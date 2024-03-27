@@ -23,7 +23,6 @@ void render() {
   if (slide) {
     SDL_FreeSurface(slide);
   }
-  t = 10;
   char fname[256];
   sprintf(fname, path, cur);
   printf("%s\n",fname);
@@ -37,6 +36,7 @@ void prev(int rep) {
   cur -= rep;
   if (cur < 0) cur = 0;
   render();
+  t = 10;
 }
 
 void next(int rep) {
