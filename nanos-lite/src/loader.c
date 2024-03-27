@@ -32,7 +32,6 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       for(char* t= (char*)(p_pheader->p_vaddr+p_pheader->p_filesz);t<(char*)(p_pheader->p_vaddr+p_pheader->p_memsz);t++){
         printf("t:%p\n",t);
         *t=0;
-        t++;
       }
     }
   }
