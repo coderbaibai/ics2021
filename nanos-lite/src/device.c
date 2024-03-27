@@ -36,9 +36,11 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   strcat(str,ev.keydown?"kd ":"ku ");
   strcat(str,keyname[ev.keycode]);
   strcat(str,"\n");
-  strncpy((char*)buf,str,1+len);
+  str[strlen(str)+1] = '\0';
+  str[strlen(str)] = '\n';
+  strncpy((char*)buf,str,len);
   if(ev.keycode==AM_KEY_NONE) return 0;
-  return 1+ (len<strlen((char*)buf)?len:strlen((char*)buf));
+  return len<strlen((char*)buf)?len:strlen((char*)buf);
 }
 
 size_t events_write(const void *buf, size_t offset, size_t len){
