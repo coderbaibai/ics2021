@@ -20,6 +20,7 @@ static SDL_Surface *slide = NULL;
 static int cur = 0;
 static int t = 0;
 void render() {
+  printf("before\n");
   if (slide) {
     SDL_FreeSurface(slide);
   }
@@ -36,7 +37,6 @@ void prev(int rep) {
   cur -= rep;
   if (cur < 0) cur = 0;
   render();
-  t = 10;
 }
 
 void next(int rep) {
