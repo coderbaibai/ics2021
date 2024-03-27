@@ -47,7 +47,7 @@ ARCHIVE  = $(WORK_DIR)/build/$(NAME)-$(ISA).a
 
 ### Add default libraries for ISA != native
 ifneq ($(ISA), native)
-LIBS += libc libos libndl libfixedptc
+LIBS += libc libos
 CFLAGS += -U_FORTIFY_SOURCE  # fix compile error in Newlib on ubuntu
 else
 WL = -Wl,
@@ -57,7 +57,7 @@ endif
 ifneq ($(findstring $(ISA), x86|mips32|riscv32|loongarch32r),)
 LIBS += compiler-rt
 endif
-
+LIBS += libndl libfixedptc
 ### All libraries to add to the include path
 LIBS_INC := $(sort $(LIBS) $(LIB_DEP))
 

@@ -24,9 +24,11 @@ int NDL_PollEvent(char *buf, int len) {
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
-  FILE* fd = fopen("/proc/dispinfo","r+");
+  int fd = open("/proc/dispinfo",O_RDWR);
+  assert(fd!=-1);
   char dispinfo[50]={'\0'};
-  fread(dispinfo,1,50,fd);
+  read(fd,dispinfo,50);
+  close(fd);
   int sw,sh;
   sscanf(dispinfo,"WIDTH:%d\nHEIGHT:%d",&sw,&sh);
   if(*w==*h==0){
@@ -61,14 +63,15 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     printf("NDL screen error\n");
     assert(0);
   }
-  FILE* fd = fopen("/dev/fb","r+");
-  int fdi = open("/dev/fb",0);
+  printf("draw:%d %d %d %d\n",x,y,w,h);
+  printf("size:%d %d %d %d\n",screen_h,screen_w,canvas_h,canvas_w);
+  int fdi = open("/dev/fb",O_RDWR);
+  assert(fdi!=-1);
   for(int i=y;i<h+y;i++){
     int off = canvas_position+i*screen_w+x;
-    fseek(fd,off,SEEK_SET);
-    fwrite(pixels+(i-y)*w,1,4*w,fd);
+    lseek(fdi,off,SEEK_SET);
+    write(fdi,pixels+(i-y)*w,4*w);
   }
-  fclose(fd);
   write(fdi,pixels,0);
   close(fdi);
 }
