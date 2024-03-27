@@ -46,6 +46,9 @@ void next(int rep) {
 
 
 int main() {
+  printf("slide:%p\n",slide);
+  printf("cur  :%d\n",cur);
+  printf("t    :%d\n",t);
   SDL_Init(0);
   SDL_Surface *screen = SDL_SetVideoMode(W, H, 32, SDL_HWSURFACE);
 
