@@ -21,7 +21,7 @@ static int cur = 0;
 
 void render() {
   if (slide) {
-    printf("111\n");
+    printf("%p\n",slide);
     SDL_FreeSurface(slide);
   }
   printf("222\n");
