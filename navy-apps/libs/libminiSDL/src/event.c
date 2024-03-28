@@ -34,7 +34,7 @@ int SDL_PollEvent(SDL_Event *event) {
       return 1;
     }
   }
-  printf("no match buf:%s\n",buf);
+  // printf("no match buf:%s\n",buf);
   return 0;
 }
 
