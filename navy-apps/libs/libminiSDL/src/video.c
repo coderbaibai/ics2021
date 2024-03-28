@@ -7,9 +7,31 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+  int src_w,src_h,src_x,src_y,dst_x,dst_y;
+  // 确定源区域
+  src_x = srcrect?srcrect->x:0;
+  src_y = srcrect?srcrect->y:0;
+  src_w = srcrect?srcrect->w:src->w;
+  src_h = srcrect?srcrect->h:src->h;
+  // 确定目标起点
+  dst_x = dstrect?dstrect->x:0;
+  dst_y = dstrect?dstrect->y:0;
+  // 如果源区域是整个src
+  if(!srcrect){
+    NDL_DrawRect((uint32_t*)src->pixels,dst_x,dst_y,src_w,src_h);
+  }
+  // 如果源区域是部分src，需要循环输入
+  else{
+    int off = src_y*src->w+src_x;
+    for(int i=0;i<src_h;i++){
+      NDL_DrawRect((uint32_t*)(src->pixels+off*4),dst_x,dst_y,src_w,1);
+      off += src->w;
+    }
+  }
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+  NDL_FillRect(color,dstrect->x,dstrect->y,dstrect->w,dstrect->h);
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
