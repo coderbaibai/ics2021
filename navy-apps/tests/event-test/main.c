@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <NDL.h>
-#include<string.h>
+#include <string.h>
 
 int main() {
   NDL_Init(0);
