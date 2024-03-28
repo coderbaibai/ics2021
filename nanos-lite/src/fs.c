@@ -1,5 +1,4 @@
 #include <fs.h>
-
 typedef size_t (*ReadFn) (void *buf, size_t offset, size_t len);
 typedef size_t (*WriteFn) (const void *buf, size_t offset, size_t len);
 
@@ -84,6 +83,10 @@ size_t fs_read(int fd, void *buf, size_t len){
     */
     // 从ramdisk中读取
     ret = ramdisk_read(buf,file_table[fd].open_offset+file_table[fd].disk_offset,len);
+    if(ret+file_table[fd].open_offset>=file_table[fd].size){
+      ret = file_table[fd].size - file_table[fd].open_offset;
+      ((char*)buf)[ret] = 26;
+    }
     file_table[fd].open_offset += ret;
   }
   return ret;
