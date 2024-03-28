@@ -5,11 +5,10 @@
 int main(){
     long uptime = NDL_GetTicks();
     while(1){
-        NDL_GetTicks();
         // printf("%d\n",NDL_GetTicks());
-        // if(NDL_GetTicks()<uptime) continue;
-        // printf("0.5 second pass\n");
-        // uptime+=500;
+        if(NDL_GetTicks()<uptime) continue;
+        printf("0.5 second pass\n");
+        uptime+=500;
     }
     return 0;
 }
