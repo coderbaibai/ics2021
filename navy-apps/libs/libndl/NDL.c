@@ -70,7 +70,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     w = canvas_w;
     h = canvas_h;
   }
-  // printf("draw:%d %d %d %d\n",x,y,w,h);
+  printf("draw:%d %d %d %d\n",x,y,w,h);
   // printf("size:%d %d %d %d\n",screen_h,screen_w,canvas_h,canvas_w);
   int fdi = open("/dev/fb",O_RDWR);
   assert(fdi!=-1);
