@@ -85,7 +85,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
 
 void NDL_FillRect(uint32_t color,int x,int y,int w,int h){
   uint32_t pixels[500];
-  memset(pixels,color,500);
+  memset(pixels,color,2000);
   for(int i=0;i<h;i++)
     NDL_DrawRect(pixels,x,y+i,w,1);
 }
