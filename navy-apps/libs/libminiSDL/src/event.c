@@ -17,6 +17,8 @@ int SDL_PollEvent(SDL_Event *ev) {
 }
 
 int SDL_WaitEvent(SDL_Event *event) {
+  printf("11\n");
+  // NDL_PollEvent();
   return 1;
 }
 
