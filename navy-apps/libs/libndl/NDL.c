@@ -62,7 +62,7 @@ void NDL_OpenCanvas(int *w, int *h) {
   }
 }
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
-  if(screen_h==0||screen_w==0||canvas_h==0||canvas_w==0){
+  if(screen_h==0||screen_w==0){
     printf("NDL screen error\n");
     assert(0);
   }
