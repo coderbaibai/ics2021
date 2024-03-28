@@ -12,7 +12,22 @@ SDL_Surface* IMG_Load_RW(SDL_RWops *src, int freesrc) {
 }
 
 SDL_Surface* IMG_Load(const char *filename) {
-  return NULL;
+  // 1、用libc的文件操作打开文件，并获得size
+  FILE* file = fopen(filename,"r+");
+  assert(file);
+  fseek(file,0,SEEK_END);
+  int size = ftell(file);
+  // 2、申请一段大小为size的内存空间buf
+  char* buf = (char*)malloc(size);
+  // 3、将整个文件读入buf中
+  fseek(file,0,SEEK_SET);
+  fread(buf,size,1,file);
+  // 4、调用stb库，解析图片
+  SDL_Surface* res = STBIMG_LoadFromMemory(buf,size);
+  // 关闭文件，释放内存
+  fclose(file);
+  free(buf);
+  return res;
 }
 
 int IMG_isPNG(SDL_RWops *src) {
