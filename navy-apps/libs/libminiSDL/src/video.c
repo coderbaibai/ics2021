@@ -18,8 +18,8 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   dst_x = dstrect?dstrect->x:0;
   dst_y = dstrect?dstrect->y:0;
   // 将src的内容拷贝到dst
-  printf("ad(pixels):%p\n",src->pixels);
-  printf(" x:%d y:%d w:%d h:%d\n",dst_x,dst_y,src_w,src_h);
+  // printf("ad(pixels):%p\n",src->pixels);
+  // printf(" x:%d y:%d w:%d h:%d\n",dst_x,dst_y,src_w,src_h);
   int src_off = src_y*src->w+src_x;
   int dst_off = dst_y*dst->w+dst_x;
   for(int i=0;i<src_h;i++){
