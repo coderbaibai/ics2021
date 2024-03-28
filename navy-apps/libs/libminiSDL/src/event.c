@@ -29,7 +29,7 @@ int SDL_PollEvent(SDL_Event *event) {
     return 0;
   }
   for(int i=1;i<sizeof(keyname)/sizeof(char);i++){
-    printf("cmp:%s with %s\n",&buf[3],keyname[i]);
+    printf("i:%d cmp:%s with %s\n",i,&buf[3],keyname[i]);
     if(strcmp(&buf[3],keyname[i])==0){
       event->key.keysym.sym = i;
       printf("i:%d %s\n",i,keyname[i]);
