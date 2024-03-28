@@ -21,7 +21,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   if(!srcrect){
     // printf("ad(pixels):%p\n",src->pixels);
     // printf(" x:%d y:%d w:%d h:%d\n",dst_x,dst_y,src_w,src_h);
-    NDL_DrawRect((uint32_t*)src->pixels,dst_x,dst_y,src_w/4,src_h);
+    NDL_DrawRect((uint32_t*)src->pixels,dst_x,dst_y,src_w*4,src_h);
   }
   // 如果源区域是部分src，需要循环输入
   else{
