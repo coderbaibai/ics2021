@@ -24,13 +24,13 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     NDL_DrawRect((uint32_t*)src->pixels,dst_x,dst_y,src_w,src_h);
   }
   // 如果源区域是部分src，需要循环输入
-  else{
-    int off = src_y*src->w+src_x;
-    for(int i=0;i<src_h;i++){
-      NDL_DrawRect((uint32_t*)(src->pixels+off*4),dst_x,dst_y,src_w,1);
-      off += src->w;
-    }
-  }
+  // else{
+  //   int off = src_y*src->w+src_x;
+  //   for(int i=0;i<src_h;i++){
+  //     NDL_DrawRect((uint32_t*)(src->pixels+off*4),dst_x,dst_y,src_w,1);
+  //     off += src->w;
+  //   }
+  // }
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
