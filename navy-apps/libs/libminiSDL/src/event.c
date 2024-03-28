@@ -30,6 +30,7 @@ int SDL_PollEvent(SDL_Event *event) {
   for(int i=0;i<sizeof(keyname);i++){
     if(strncmp(&buf[3],keyname[i],strlen(keyname[i]))==0){
       event->key.keysym.sym = i;
+      printf("%s\n",keyname[i]);
       return 1;
     }
   }
