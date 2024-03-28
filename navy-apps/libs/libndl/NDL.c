@@ -15,7 +15,14 @@ static int canvas_position = 0;
 uint32_t NDL_GetTicks() {
   struct timeval time;
   gettimeofday(&time,NULL);
-  return time.tv_usec/1000;
+
+  static uint32_t init_time = 0;
+  static int is_init = 0;
+  if(!is_init){
+    init_time = time.tv_sec*1000+time.tv_usec/1000;
+    is_init = 1;
+  }
+  return time.tv_sec*1000+time.tv_usec/1000-init_time;
 }
 
 int NDL_PollEvent(char *buf, int len) {
