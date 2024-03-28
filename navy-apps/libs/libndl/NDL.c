@@ -73,9 +73,10 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     printf("NDL screen error\n");
     assert(0);
   }
-  // printf("draw:%d %d %d %d\n",x,y,w,h);
-  // printf("size:%d %d %d %d\n",screen_h,screen_w,canvas_h,canvas_w);
-  int fdi = open("/dev/fb",O_RDWR);
+  int fdi = open("/dev/fb",O_WRONLY);
+  printf("draw:%d %d %d %d\n",x,y,w,h);
+  printf("size:%d %d %d %d\n",screen_h,screen_w,canvas_h,canvas_w);
+  uint32_t temp[500];
   assert(fdi!=-1);
   for(int i=y;i<h+y;i++){
     int off = canvas_position+i*screen_w+x;
