@@ -34,7 +34,7 @@ void NDL_OpenCanvas(int *w, int *h) {
   close(fd);
   int sw,sh;
   sscanf(dispinfo,"WIDTH:%d\nHEIGHT:%d",&sw,&sh);
-  if(*w==*h==0){
+  if(*w==0&&*h==0){
     *w = sw;
     *h = sh;
   }
