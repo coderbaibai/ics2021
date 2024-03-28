@@ -34,11 +34,13 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
+  printf("fill\n");
   if(dstrect) NDL_FillRect(color,dstrect->x,dstrect->y,dstrect->w,dstrect->h);
   NDL_FillRect(color,0,0,dst->w,dst->h);
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
+  printf("update\n");
   NDL_DrawRect((uint32_t*)s->pixels,x,y,w,h);
 }
 
