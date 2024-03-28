@@ -13,14 +13,10 @@ int SDL_PushEvent(SDL_Event *ev) {
   return 0;
 }
 
-int SDL_PollEvent(SDL_Event *ev) {
-  return 0;
-}
-
-int SDL_WaitEvent(SDL_Event *event) {
+int SDL_PollEvent(SDL_Event *event) {
   char buf[20];
   NDL_PollEvent(buf,sizeof(buf));
-  if(strlen(buf)<2) return 1;
+  if(strlen(buf)<2) return 0;
   if(strncmp(buf,"kd",2)==0){
     event->type = SDL_KEYDOWN;
   }
@@ -29,7 +25,7 @@ int SDL_WaitEvent(SDL_Event *event) {
   }
   else{
     printf("error buf:%s\n",buf);
-    return 1;
+    return 0;
   }
   for(int i=0;i<sizeof(keyname);i++){
     if(strncmp(&buf[3],keyname[i],strlen(keyname[i]))==0){
@@ -38,6 +34,11 @@ int SDL_WaitEvent(SDL_Event *event) {
     }
   }
   printf("no match buf:%s\n",buf);
+  return 0;
+}
+
+int SDL_WaitEvent(SDL_Event *event) {
+  while(!SDL_PollEvent(event));
   return 1;
 }
 
