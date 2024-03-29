@@ -8,7 +8,7 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
-  int bytes = dst->format->BitsPerPixel;
+  int bytes = dst->format->BytesPerPixel;
   int src_w,src_h,src_x,src_y,dst_x,dst_y;
   // 确定源区域
   src_x = srcrect?srcrect->x:0;
@@ -33,7 +33,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   printf("fill\n");
   // 初始化坐标
-  int bytes = dst->format->BitsPerPixel;
+  int bytes = dst->format->BytesPerPixel;
   assert(bytes==4);
   int x = 0,y = 0,w = dst->w,h = dst->h;
   if(dstrect){ x = dstrect->x;y = dstrect->y;w = dstrect->w;h = dstrect->h;}
@@ -52,9 +52,9 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     w = s->w;
     h = s->h;
   }
-  if(s->format->BitsPerPixel==4)
+  if(s->format->BytesPerPixel==4)
     NDL_DrawRect((uint32_t*)s->pixels,x,y,w,h);
-  else if(s->format->BitsPerPixel==1){
+  else if(s->format->BytesPerPixel==1){
     uint32_t* cur_pixels = (uint32_t*)malloc(4*w*h);
     for(int i=0;i<w*h;i++){
       *(cur_pixels+i) = s->format->palette->colors[*(s->pixels+i)].val;
@@ -62,7 +62,10 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     NDL_DrawRect(cur_pixels,x,y,w,h);
     free(cur_pixels);
   }
-  else assert(0);
+  else {
+    printf("%d\n",s->format->BytesPerPixel);
+    assert(0);
+  }
 }
 
 // APIs below are already implemented.
@@ -169,6 +172,7 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     SDL_BlitSurface(src, &rect, dst, dstrect);
   }
   else {
+    printf("w:%d h:%d dstw:%d dsth:%d\n",w,h,dstrect->w,dstrect->h);
     assert(0);
   }
 }
