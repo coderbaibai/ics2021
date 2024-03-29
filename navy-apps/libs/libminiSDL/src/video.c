@@ -8,6 +8,7 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+  int bytes = dst->format->BitsPerPixel;
   int src_w,src_h,src_x,src_y,dst_x,dst_y;
   // 确定源区域
   src_x = srcrect?srcrect->x:0;
@@ -23,7 +24,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   int src_off = src_y*src->w+src_x;
   int dst_off = dst_y*dst->w+dst_x;
   for(int i=0;i<src_h;i++){
-    memcpy(((uint32_t*)dst->pixels)+dst_off,((uint32_t*)src->pixels)+src_off,4*src_w);
+    memcpy(dst->pixels+dst_off*bytes,src->pixels+src_off*bytes,bytes*src_w);
     src_off += src->w;
     dst_off += dst->w;
   }
@@ -32,12 +33,14 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   // printf("fill\n");
   // 初始化坐标
+  int bytes = dst->format->BitsPerPixel;
+  assert(bytes==4);
   int x = 0,y = 0,w = dst->w,h = dst->h;
   if(dstrect){ x = dstrect->x;y = dstrect->y;w = dstrect->w;h = dstrect->h;}
   int off = y*dst->w+x;
   for(int i=0;i<h;i++){
     for(int j=0;j<w;j++){
-      *(((uint32_t*)dst->pixels)+off+j) = color;
+      *(dst->pixels+(off+j)*bytes) = color;
     }
     off += dst->w;
   }
@@ -49,7 +52,17 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     w = s->w;
     h = s->h;
   }
-  NDL_DrawRect((uint32_t*)s->pixels,x,y,w,h);
+  if(s->format->BitsPerPixel==4)
+    NDL_DrawRect((uint32_t*)s->pixels,x,y,w,h);
+  else if(s->format->BitsPerPixel==1){
+    uint32_t* cur_pixels = (uint32_t*)malloc(4*w*h);
+    for(int i=0;i<w*h;i++){
+      *(cur_pixels+i) = s->format->palette->colors[*(s->pixels+i)].val;
+    }
+    NDL_DrawRect(cur_pixels,x,y,w,h);
+    free(cur_pixels);
+  }
+  else assert(0);
 }
 
 // APIs below are already implemented.
