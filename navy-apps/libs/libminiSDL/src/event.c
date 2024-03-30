@@ -16,9 +16,13 @@ int SDL_PushEvent(SDL_Event *ev) {
 }
 
 int SDL_PollEvent(SDL_Event *event) {
+  static bool isInit = false;
+  if(!isInit){
+    memset(cur_state,0,sizeof(cur_state)/sizeof(uint8_t));
+    isInit = true;
+  }
   char buf[20];
   NDL_PollEvent(buf,sizeof(buf));
-  printf("%s\n",buf);
   if(strlen(buf)<2) return 0;
   if(strncmp(buf,"kd",2)==0){
     event->type = SDL_KEYDOWN;
@@ -33,8 +37,8 @@ int SDL_PollEvent(SDL_Event *event) {
   for(int i=1;i<sizeof(keyname)/sizeof(char*);i++){
     if(strcmp(&buf[3],keyname[i])==0){
       event->key.keysym.sym = i;
-      memset(cur_state,0,sizeof(cur_state)/sizeof(uint8_t));
-      cur_state[i] = 1;
+      if(event->type == SDL_KEYDOWN) cur_state[i] = 1;
+      else cur_state[i] = 0;
       return 1;
     }
   }
