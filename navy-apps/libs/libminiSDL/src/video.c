@@ -50,7 +50,9 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 static uint32_t trans_color(SDL_Color* s){
   return (s->a<<24)|(s->r<<16)|(s->g<<8)|(s->b);
 }
-
+// 更新指定屏幕的指定区域
+// 我们这里只会更新唯一的那个屏幕
+// 这个区域同时指的是指定屏幕和我们唯一屏幕的那块区域
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if((x|y|w|h)==0){
     w = s->w;
