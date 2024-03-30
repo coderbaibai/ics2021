@@ -18,6 +18,7 @@ int SDL_PushEvent(SDL_Event *ev) {
 int SDL_PollEvent(SDL_Event *event) {
   char buf[20];
   NDL_PollEvent(buf,sizeof(buf));
+  printf("%s\n",buf);
   if(strlen(buf)<2) return 0;
   if(strncmp(buf,"kd",2)==0){
     event->type = SDL_KEYDOWN;
