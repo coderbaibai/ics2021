@@ -57,6 +57,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     uint32_t* cur_pixels = (uint32_t*)malloc(4*w*h);
     for(int i=0;i<w*h;i++){
       *(cur_pixels+i) = ((uint32_t)0x11111111<<24)|(s->format->palette->colors[*(s->pixels+i)].r<<16)|(s->format->palette->colors[*(s->pixels+i)].g<<8)|(s->format->palette->colors[*(s->pixels+i)].b);
+      if(*(cur_pixels+i)==0) *(cur_pixels+i) = 1;
       // printf("rgb:%08x\n",*(cur_pixels+i));
       // *(cur_pixels+i) = s->format->palette->colors[*(s->pixels+i)].val;
     }
