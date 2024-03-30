@@ -8,6 +8,7 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+  printf("blit\n");
   int bytes = dst->format->BytesPerPixel;
   int src_w,src_h,src_x,src_y,dst_x,dst_y;
   // 确定源区域
@@ -31,7 +32,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-  // printf("fill\n");
+  printf("fill\n");
   // 初始化坐标
   int bytes = dst->format->BytesPerPixel;
   // printf("bytes:%d\n",bytes);
