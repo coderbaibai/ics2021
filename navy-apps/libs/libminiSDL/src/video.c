@@ -47,6 +47,10 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   }
 }
 
+uint32_t trans_color(SDL_Color* s){
+  return s->a<<24|s->r<<16|s->g<<8|s->b;
+}
+
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if((x|y|w|h)==0){
     w = s->w;
@@ -57,11 +61,13 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   }
   else if(s->format->BytesPerPixel==1){
     uint32_t* cur_pixels = (uint32_t*)malloc(4*w*h);
+    SDL_Color* cur_color;
     int position = y*s->w+x;
-    for(int i=0;i<w*h;i++){
-      *(cur_pixels+i) = (s->format->palette->colors[*(s->pixels+position+i)].a<<24)|(s->format->palette->colors[*(s->pixels+position+i)].r<<16)|(s->format->palette->colors[*(s->pixels+position+i)].g<<8)|(s->format->palette->colors[*(s->pixels+position+i)].b);
-      // printf("rgb:%08x\n",*(cur_pixels+i));
-      // *(cur_pixels+i) = s->format->palette->colors[*(s->pixels+i)].val;
+    for(int i=0;i<h;i++){
+      for(int j=0;j<w;j++){
+        cur_color = &s->format->palette->colors[position+i*s->w+j];
+        *(cur_pixels+i*w+j) = trans_color(cur_color);
+      }
     }
     NDL_DrawRect(cur_pixels,x,y,w,h);
     free(cur_pixels);
