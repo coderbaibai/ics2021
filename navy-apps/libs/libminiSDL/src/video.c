@@ -31,20 +31,45 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-  // printf("fill\n");
-  // 初始化坐标
-  int bytes = dst->format->BytesPerPixel;
-  // printf("bytes:%d\n",bytes);
-  // assert(bytes==4);
-  int x = 0,y = 0,w = dst->w,h = dst->h;
-  if(dstrect){ x = dstrect->x;y = dstrect->y;w = dstrect->w;h = dstrect->h;}
-  int off = y*dst->w+x;
-  for(int i=0;i<h;i++){
-    for(int j=0;j<w;j++){
-      *(dst->pixels+(off+j)*bytes) = color;
-    }
-    off += dst->w;
+//   // printf("fill\n");
+//   // 初始化坐标
+//   int bytes = dst->format->BytesPerPixel;
+//   // printf("bytes:%d\n",bytes);
+//   // assert(bytes==4);
+//   int x = 0,y = 0,w = dst->w,h = dst->h;
+//   if(dstrect){ x = dstrect->x;y = dstrect->y;w = dstrect->w;h = dstrect->h;}
+//   int off = y*dst->w+x;
+//   for(int i=0;i<h;i++){
+//     for(int j=0;j<w;j++){
+//       *(dst->pixels+(off+j)*bytes) = color;
+//     }
+//     off += dst->w;
+//   }
+int32_t start_pos = 0;
+  uint32_t sf_row_num = dst->h;
+  uint32_t sf_col_num = dst->w;
+  uint32_t rec_row_num = dst->h;
+  uint32_t rec_col_num = dst->w;
+  if (dstrect != NULL)
+  {
+    start_pos = dstrect->x + dstrect->y * dst->w;
+    rec_row_num = dstrect->h;
+    rec_col_num = dstrect->w;
   }
+
+  if (dst->format->BitsPerPixel == 32)
+  {
+    for (int row = 0; row < rec_row_num; ++row)
+      memset((uint32_t *)dst->pixels + start_pos + row * sf_col_num, color, rec_col_num * sizeof(uint32_t));
+  }
+  else if (dst->format->BitsPerPixel == 8)
+  {
+    for (int row = 0; row < rec_row_num; ++row)
+      memset((uint8_t *)dst->pixels + start_pos + row * sf_col_num, color, rec_col_num * sizeof(uint8_t));
+  }
+  else
+    panic("unsupported pixel bites %d!\n", dst->format->BitsPerPixel);
+  return;
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
