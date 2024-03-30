@@ -65,7 +65,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     int position = y*s->w+x;
     for(int i=0;i<h;i++){
       for(int j=0;j<w;j++){
-        cur_color = &s->format->palette->colors[position+i*s->w+j];
+        cur_color = &s->format->palette->colors[*(s->pixels+i*w+j)];
         *(cur_pixels+i*w+j) = trans_color(cur_color);
       }
     }
