@@ -32,7 +32,6 @@ int SDL_PollEvent(SDL_Event *event) {
   for(int i=1;i<sizeof(keyname)/sizeof(char*);i++){
     if(strcmp(&buf[3],keyname[i])==0){
       event->key.keysym.sym = i;
-      printf("i:%d %s\n",i,keyname[i]);
       memset(cur_state,0,sizeof(cur_state)/sizeof(uint8_t));
       cur_state[i] = 1;
       return 1;
