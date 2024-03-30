@@ -3,94 +3,77 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
-
-  if (src->format->BitsPerPixel == 32){
-    uint32_t* src_pixels = (uint32_t*)src->pixels;
-    uint32_t* dst_pixels = (uint32_t*)dst->pixels;
-
-    int rect_w, rect_h, src_x, src_y, dst_x, dst_y;
-    if (srcrect){
-      rect_w = srcrect->w; rect_h = srcrect->h;
-      src_x = srcrect->x; src_y = srcrect->y; 
-    }else {
-      rect_w = src->w; rect_h = src->h;
-      src_x = 0; src_y = 0;
-    }
-    if (dstrect){
-      dst_x = dstrect->x, dst_y = dstrect->y;
-    }else {
-      dst_x = 0; dst_y = 0;
-    }
-    
-    for (int i = 0; i < rect_h; ++i){
-      for (int j = 0; j < rect_w; ++j){
-        dst_pixels[(dst_y + i) * dst->w + dst_x + j] = src_pixels[(src_y + i) * src->w + src_x + j];
-      }
-    }
-  }else if (src->format->BitsPerPixel == 8){
-    uint8_t* src_pixels = (uint8_t*)src->pixels;
-    uint8_t* dst_pixels = (uint8_t*)dst->pixels;
-
-    int rect_w, rect_h, src_x, src_y, dst_x, dst_y;
-    if (srcrect){
-      rect_w = srcrect->w; rect_h = srcrect->h;
-      src_x = srcrect->x; src_y = srcrect->y; 
-    }else {
-      rect_w = src->w; rect_h = src->h;
-      src_x = 0; src_y = 0;
-    }
-    if (dstrect){
-      dst_x = dstrect->x, dst_y = dstrect->y;
-    }else {
-      dst_x = 0; dst_y = 0;
-    }
-    
-    for (int i = 0; i < rect_h; ++i){
-      for (int j = 0; j < rect_w; ++j){
-        dst_pixels[(dst_y + i) * dst->w + dst_x + j] = src_pixels[(src_y + i) * src->w + src_x + j];
-      }
-    }
-  }else {
-    assert(0);
+  int bytes = dst->format->BytesPerPixel;
+  int src_w,src_h,src_x,src_y,dst_x,dst_y;
+  // 确定源区域
+  src_x = srcrect?srcrect->x:0;
+  src_y = srcrect?srcrect->y:0;
+  src_w = srcrect?srcrect->w:src->w;
+  src_h = srcrect?srcrect->h:src->h;
+  // 确定目标起点
+  dst_x = dstrect?dstrect->x:0;
+  dst_y = dstrect?dstrect->y:0;
+  // 将src的内容拷贝到dst
+  // printf("ad(pixels):%p\n",src->pixels);
+  // printf(" x:%d y:%d w:%d h:%d\n",dst_x,dst_y,src_w,src_h);
+  int src_off = src_y*src->w+src_x;
+  int dst_off = dst_y*dst->w+dst_x;
+  for(int i=0;i<src_h;i++){
+    memcpy(dst->pixels+dst_off*bytes,src->pixels+src_off*bytes,bytes*src_w);
+    src_off += src->w;
+    dst_off += dst->w;
   }
-  
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-  uint32_t *pixels = (uint32_t *)dst->pixels;
-  int dst_w = dst->w;
-  int rect_h, rect_w, rect_x, rect_y;
-
-  if (dstrect == NULL){
-    rect_w = dst->w;
-    rect_h = dst->h;
-    rect_x = 0;
-    rect_y = 0;
-  }else {
-    rect_w = dstrect->w;
-    rect_h = dstrect->h;
-    rect_x = dstrect->x;
-    rect_y = dstrect->y;
-  }
-
-  for (int i = 0; i < rect_h; ++i){
-    for (int j = 0; j < rect_w; ++j){
-      pixels[(rect_y + i) * dst_w + rect_x + j] = color;
+  // printf("fill\n");
+  // 初始化坐标
+  int bytes = dst->format->BytesPerPixel;
+  // printf("bytes:%d\n",bytes);
+  // assert(bytes==4);
+  int x = 0,y = 0,w = dst->w,h = dst->h;
+  if(dstrect){ x = dstrect->x;y = dstrect->y;w = dstrect->w;h = dstrect->h;}
+  int off = y*dst->w+x;
+  for(int i=0;i<h;i++){
+    for(int j=0;j<w;j++){
+      *(dst->pixels+(off+j)*bytes) = color;
     }
+    off += dst->w;
   }
-
 }
 
+// void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
+//   if((x|y|w|h)==0){
+//     w = s->w;
+//     h = s->h;
+//   }
+//   if(s->format->BytesPerPixel==4){
+//     NDL_DrawRect((uint32_t*)s->pixels,x,y,w,h);
+//   }
+//   else if(s->format->BytesPerPixel==1){
+//     uint32_t* cur_pixels = (uint32_t*)malloc(4*w*h);
+//     for(int i=0;i<w*h;i++){
+//       *(cur_pixels+i) = (s->format->palette->colors[*(s->pixels+i)].a<<24)|(s->format->palette->colors[*(s->pixels+i)].r<<16)|(s->format->palette->colors[*(s->pixels+i)].g<<8)|(s->format->palette->colors[*(s->pixels+i)].b);
+//       // printf("rgb:%08x\n",*(cur_pixels+i));
+//       // *(cur_pixels+i) = s->format->palette->colors[*(s->pixels+i)].val;
+//     }
+//     NDL_DrawRect(cur_pixels,x,y,w,h);
+//     free(cur_pixels);
+//   }
+//   else {
+//     printf("%d\n",s->format->BytesPerPixel);
+//     assert(0);
+//   }
+
+// }
 static inline uint32_t translate_color(SDL_Color *color){
   return (color->a << 24) | (color->r << 16) | (color->g << 8) | color->b;
 }
-
-//static uint32_t piexls_buffer[SDL_FULLSCREEN];
-
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   if (s->format->BitsPerPixel == 32){
     if (w == 0 && h == 0 && x ==0 && y == 0){
@@ -131,7 +114,6 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     assert(0);
   }
 }
-
 // APIs below are already implemented.
 
 static inline int maskToShift(uint32_t mask) {
@@ -236,6 +218,7 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     SDL_BlitSurface(src, &rect, dst, dstrect);
   }
   else {
+    printf("w:%d h:%d dstw:%d dsth:%d\n",w,h,dstrect->w,dstrect->h);
     assert(0);
   }
 }
