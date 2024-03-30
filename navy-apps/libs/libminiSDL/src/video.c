@@ -56,7 +56,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   else if(s->format->BytesPerPixel==1){
     uint32_t* cur_pixels = (uint32_t*)malloc(4*w*h);
     for(int i=0;i<w*h;i++){
-      *(cur_pixels+i) = (11<<24)|(s->format->palette->colors[*(s->pixels+i)].r<<16)|(s->format->palette->colors[*(s->pixels+i)].g<<8)|(s->format->palette->colors[*(s->pixels+i)].b);
+      *(cur_pixels+i) = (11111111<<24)|(s->format->palette->colors[*(s->pixels+i)].r<<16)|(s->format->palette->colors[*(s->pixels+i)].g<<8)|(s->format->palette->colors[*(s->pixels+i)].b);
       // *(cur_pixels+i) = s->format->palette->colors[*(s->pixels+i)].val;
     }
     NDL_DrawRect(cur_pixels,x,y,w,h);
