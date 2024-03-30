@@ -47,8 +47,8 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   }
 }
 
-uint32_t trans_color(SDL_Color* s){
-  return s->a<<24|s->r<<16|s->g<<8|s->b;
+static uint32_t trans_color(SDL_Color* s){
+  return (s->a<<24)|(s->r<<16)|(s->g<<8)|(s->b);
 }
 
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
