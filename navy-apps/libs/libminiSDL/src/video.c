@@ -67,8 +67,8 @@ int32_t start_pos = 0;
     for (int row = 0; row < rec_row_num; ++row)
       memset((uint8_t *)dst->pixels + start_pos + row * sf_col_num, color, rec_col_num * sizeof(uint8_t));
   }
-  else
-    panic("unsupported pixel bites %d!\n", dst->format->BitsPerPixel);
+  // else
+    // panic("unsupported pixel bites %d!\n", dst->format->BitsPerPixel);
   return;
 }
 
