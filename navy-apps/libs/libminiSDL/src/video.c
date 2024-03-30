@@ -33,7 +33,6 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   // printf("fill\n");
   // 初始化坐标
-  return;
   int bytes = dst->format->BytesPerPixel;
   // printf("bytes:%d\n",bytes);
   // assert(bytes==4);
@@ -55,7 +54,6 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   }
   if(s->format->BytesPerPixel==4){
     NDL_DrawRect((uint32_t*)s->pixels,x,y,w,h);
-    printf("draw\n");
   }
   else if(s->format->BytesPerPixel==1){
     uint32_t* cur_pixels = (uint32_t*)malloc(4*w*h);
