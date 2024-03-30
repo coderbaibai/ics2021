@@ -33,6 +33,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   // printf("fill\n");
   // 初始化坐标
+  return;
   int bytes = dst->format->BytesPerPixel;
   // printf("bytes:%d\n",bytes);
   // assert(bytes==4);
