@@ -51,8 +51,10 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     w = s->w;
     h = s->h;
   }
-  if(s->format->BytesPerPixel==4)
+  if(s->format->BytesPerPixel==4){
     NDL_DrawRect((uint32_t*)s->pixels,x,y,w,h);
+    printf("draw\n");
+  }
   else if(s->format->BytesPerPixel==1){
     uint32_t* cur_pixels = (uint32_t*)malloc(4*w*h);
     for(int i=0;i<w*h;i++){
