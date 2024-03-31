@@ -24,10 +24,17 @@ int SDL_PollEvent(SDL_Event *event) {
   char buf[20];
   int ret = NDL_PollEvent(buf,sizeof(buf));
   if(strlen(buf)<2||ret<2) return 0;
+  for(int i=0;i<strlen(buf);i++)
+    if(buf[i]=='\n'){
+      buf[i] = '\0';
+      break;
+    }
   if(strncmp(buf,"kd",2)==0){
+  printf("%s\n",buf);
     event->type = SDL_KEYDOWN;
   }
   else if(strncmp(buf,"ku",2)==0){
+  printf("%s\n",buf);
     event->type = SDL_KEYUP;
   }
   else{
