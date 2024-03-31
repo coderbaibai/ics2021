@@ -61,7 +61,7 @@ size_t dispinfo_write(const void *buf, size_t offset, size_t len){
 extern int screen_w,screen_h;
 size_t fb_write(const void *buf, size_t offset, size_t len) {
   if(len!=0)
-    io_write(AM_GPU_FBDRAW,offset%screen_w,offset/screen_w,(void*)buf,len/4,1,false);
+    io_write(AM_GPU_FBDRAW,offset%(4*screen_w),offset/(4*screen_w),(void*)buf,len/4,1,false);
   else
     io_write(AM_GPU_FBDRAW,0,0,NULL,0,0,true);
   return len;
