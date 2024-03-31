@@ -26,10 +26,10 @@ uint32_t NDL_GetTicks() {
 }
 
 int NDL_PollEvent(char *buf, int len) {
-  int fd = open("/dev/events",O_RDWR);
+  int fd = open("/dev/events",O_RDONLY);
   assert(fd!=-1);
   int res = read(fd,buf,len);
-  close(fd);
+  // close(fd);
   return res;
 }
 
@@ -74,8 +74,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     assert(0);
   }
   int fdi = open("/dev/fb",O_RDWR);
-  // printf("draw:%d %d %d %d\n",x,y,w,h);
-  // printf("size:%d %d %d %d\n",screen_h,screen_w,canvas_h,canvas_w);
+  // printf("draw:%d %d %d %d\n",x,y,w,h);                                               
   assert(fdi!=-1);
   for(int i=y;i<h+y;i++){
     int off = canvas_position+i*screen_w+x;
