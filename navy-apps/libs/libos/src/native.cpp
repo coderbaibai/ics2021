@@ -193,6 +193,8 @@ ssize_t read(int fd, void *buf, size_t count) {
   if (fd == dispinfo_fd) {
     return snprintf((char *)buf, count, "WIDTH: %d\nHEIGHT: %d\n", disp_w, disp_h);
   } else if (fd == evt_fd) {
+    static int num = 0;
+    printf("read:%d\n",num++);
     int has_key = 0;
     SDL_Event ev = {};
     SDL_LockMutex(key_queue_lock);
@@ -211,7 +213,6 @@ ssize_t read(int fd, void *buf, size_t count) {
       const char *name = NULL;
       _KEYS(COND);
       if (name) return snprintf((char *)buf, count, "k%c %s\n", keydown ? 'd' : 'u', name);
-      printf("buf:%s\n",buf);
     }
     return 0;
   } else if (fd == sbctl_fd) {
