@@ -12,6 +12,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_thread.h>
 #include <sys/mman.h>
 #include <sys/ioctl.h>
 
@@ -33,8 +34,6 @@ static ssize_t (*glibc_write)(int fd, const void *buf, size_t count) = NULL;
 static int (*glibc_execve)(const char *filename, char *const argv[], char *const envp[]) = NULL;
 
 static SDL_Window *window = NULL;
-static SDL_Renderer *renderer = NULL;
-static SDL_Texture *texture = NULL;
 static int dummy_fd = -1;
 static int dispinfo_fd = -1;
 static int fb_memfd = -1;
@@ -60,11 +59,11 @@ static inline void get_fsimg_path(char *newpath, const char *path) {
 #define COND(k) \
   if (scancode == SDL_SCANCODE_##k) name = #k;
 
-static void update_screen() {
+static void update_screen(SDL_Window* twindow,SDL_Renderer* trenderer,SDL_Texture* texture) {
   SDL_UpdateTexture(texture, NULL, fb, disp_w * sizeof(Uint32));
-  SDL_RenderClear(renderer);
-  SDL_RenderCopy(renderer, texture, NULL, NULL);
-  SDL_RenderPresent(renderer);
+  SDL_RenderClear(trenderer);
+  SDL_RenderCopy(trenderer, texture, NULL, NULL);
+  SDL_RenderPresent(trenderer);
 }
 
 #define KEY_QUEUE_LEN 64
@@ -73,13 +72,18 @@ static int key_f = 0, key_r = 0;
 static SDL_mutex *key_queue_lock = NULL;
 
 static int event_thread(void *args) {
+  SDL_Window* twindow = (SDL_Window*)args;
+  SDL_Renderer* trenderer = SDL_CreateRenderer(twindow, -1, SDL_RENDERER_ACCELERATED);
+  SDL_Texture* texture = SDL_CreateTexture(trenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, disp_w, disp_h);
+  assert(twindow);
+  assert(trenderer);
+  assert(texture);
   SDL_Event event;
   while (1) {
     SDL_WaitEvent(&event);
-
     switch (event.type) {
       case SDL_QUIT: exit(0); break;
-      case SDL_USEREVENT: update_screen(); break;
+      case SDL_USEREVENT: update_screen(twindow,trenderer,texture); break;
       case SDL_KEYDOWN:
       case SDL_KEYUP:
         SDL_LockMutex(key_queue_lock);
@@ -90,6 +94,7 @@ static int event_thread(void *args) {
         break;
     }
   }
+  SDL_DestroyRenderer(trenderer);
   return 0;
 }
 
@@ -109,14 +114,17 @@ static void audio_fill(void *userdata, uint8_t *stream, int len) {
 static void open_display() {
   SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 #ifdef MODE_800x600
-  SDL_CreateWindowAndRenderer(disp_w, disp_h, 0, &window, &renderer);
+  // SDL_CreateWindowAndRenderer(disp_w, disp_h, 0, &window, &renderer);
 #else
-  SDL_CreateWindowAndRenderer(disp_w * 2, disp_h * 2, 0, &window, &renderer);
+  // SDL_CreateWindowAndRenderer(disp_w * 2, disp_h * 2, 0, &window, &renderer);
+  window = SDL_CreateWindow("Simulated Nanos Application",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,disp_w * 2, disp_h * 2,SDL_WINDOW_SHOWN);
+  // renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 #endif
-  SDL_SetWindowTitle(window, "Simulated Nanos Application");
-  SDL_CreateThread(event_thread, "event thread", nullptr);
+  // SDL_SetWindowTitle(window, "Simulated Nanos Application");
+  
+  SDL_CreateThread(event_thread, "event thread", window);
   SDL_AddTimer(1000 / FPS, timer_handler, NULL);
-  texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, disp_w, disp_h);
+  // texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, disp_w, disp_h);
 
   fb_memfd = memfd_create("fb", 0);
   assert(fb_memfd != -1);
@@ -265,7 +273,7 @@ struct Init {
     get_fsimg_path(newpath, "/bin");
     setenv("PATH", newpath, 1); // overwrite the current PATH
 
-    SDL_Init(0);
+    SDL_Init(SDL_INIT_EVERYTHING);
     if (!getenv("NWM_APP")) {
       open_display();
       open_event();
