@@ -30,11 +30,9 @@ int SDL_PollEvent(SDL_Event *event) {
       break;
     }
   if(strncmp(buf,"kd",2)==0){
-  printf("%s\n",buf);
     event->type = SDL_KEYDOWN;
   }
   else if(strncmp(buf,"ku",2)==0){
-  printf("%s\n",buf);
     event->type = SDL_KEYUP;
   }
   else{
@@ -44,6 +42,7 @@ int SDL_PollEvent(SDL_Event *event) {
   for(int i=1;i<sizeof(keyname)/sizeof(char*);i++){
     if(strcmp(&buf[3],keyname[i])==0){
       event->key.keysym.sym = i;
+      printf("%s\n",buf);
       if(event->type == SDL_KEYDOWN) cur_state[i] = 1;
       else cur_state[i] = 0;
       return 1;
