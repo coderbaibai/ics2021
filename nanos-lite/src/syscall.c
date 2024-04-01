@@ -65,7 +65,7 @@ int sys_execve(const char *fname, char * const argv[], char *const envp[]){
     return 0;
   }
   else{
-    printf("file not exit\n");
+    printf("file not exit:%s\n",fname);
     return -1;
   }
 }
