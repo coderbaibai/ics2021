@@ -150,3 +150,12 @@ char* getFilenameById(int i){
   }
   return "unknown";
 }
+
+int isFileExist(const char* filename){
+  for(int i=0;i<sizeof(file_table)/sizeof(Finfo);i++){
+    if(strcmp(file_table[i].name,filename)==0){
+      return 0;
+    }
+  }
+  return -1;
+}

@@ -22,7 +22,7 @@ static Context* do_event(Event e, Context* c) {
       int ret = 0;
       FRec frec={-1,NULL,NULL};
       switch(c->GPR1){
-        case SYS_exit : ret = sys_exit(c); break;
+        case SYS_exit : ret = sys_execve("/bin/menu",NULL,NULL); break;
         case SYS_yield: ret = sys_yield(c); break;
         case SYS_open : 
           ret = sys_open((const char*)c->GPR2,(int)c->GPR3,(int)c->GPR4);
@@ -45,6 +45,7 @@ static Context* do_event(Event e, Context* c) {
           setFRec(&frec,(int)c->GPR2,NULL,"lseek");
           break;
         case SYS_brk  : ret = sys_brk((void*)c->GPR2); break;
+        case SYS_execve: 
         case SYS_gettimeofday: ret = sys_gettimeofday((struct timeval*)c->GPR2,(struct timezone*)c->GPR3); break;
         default: panic("syscall not impl:%d\n",c->GPR1);
       }

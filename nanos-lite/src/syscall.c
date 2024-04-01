@@ -55,3 +55,16 @@ int sys_gettimeofday(struct timeval *tv, struct timezone *tz){
   }
   return 0;
 }
+#include <proc.h>
+void naive_uload(PCB *pcb, const char *filename);
+int isFileExist(const char* filename);
+int sys_execve(const char *fname, char * const argv[], char *const envp[]){
+  if(isFileExist(fname)==0){
+    naive_uload(NULL,fname);
+    return 0;
+  }
+  else{
+    printf("file not exit\n");
+    return -1;
+  }
+}
