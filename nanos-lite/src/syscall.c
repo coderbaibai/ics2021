@@ -59,12 +59,21 @@ int sys_gettimeofday(struct timeval *tv, struct timezone *tz){
 void naive_uload(PCB *pcb, const char *filename);
 int isFileExist(const char* filename);
 int sys_execve(const char *fname, char * const argv[], char *const envp[]){
-  if(isFileExist(fname)==0){
-    naive_uload(NULL,fname);
+  char* input = (char*)malloc(strlen(fname)*sizeof(char));
+  strcpy(input,fname);
+  for(int i=0;i<sizeof(input);i++){
+    if(input[i]=='\n'){
+      input[i] = '\0';
+      break;
+    }
+  }
+  if(isFileExist(input)==0){
+    naive_uload(NULL,input);
     return 0;
   }
   else{
-    // printf("file not exit:%s\n",fname);
+    printf("file not exit:%s\n",input);
     return -1;
   }
+  free(input);
 }
