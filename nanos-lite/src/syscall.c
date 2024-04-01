@@ -73,7 +73,6 @@ int sys_execve(const char *fname, char * const argv[], char *const envp[]){
   }
   else{
     printf("file not exit:%s\n",input);
-    printf("size:%d\n",strlen(input));
     return -1;
   }
   free(input);
