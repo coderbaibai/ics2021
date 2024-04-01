@@ -24,7 +24,7 @@ static void sh_prompt() {
 
 static void sh_handle_cmd(const char *cmd) {
   if(execve(cmd,NULL,NULL)){
-    sh_printf("exective file not be found\n\n");
+    sh_printf("exective file not be found\n");
   }
 }
 
