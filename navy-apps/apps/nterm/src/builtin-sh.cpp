@@ -31,6 +31,7 @@ static void sh_handle_cmd(const char *cmd) {
       break;
     }
   }
+  printf("%s\n",input);
   if(execve(input,NULL,NULL)){
     sh_printf("exective file not be found\n");
   }
