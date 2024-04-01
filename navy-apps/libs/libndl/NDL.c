@@ -32,8 +32,9 @@ int NDL_PollEvent(char *buf, int len) {
   // close(fd);
   return res;
 }
-
+void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h);
 void NDL_OpenCanvas(int *w, int *h) {
+  printf("open canvas\n");
   int fd = open("/proc/dispinfo",O_RDWR);
   assert(fd!=-1);
   char dispinfo[50]={'\0'};
@@ -49,6 +50,9 @@ void NDL_OpenCanvas(int *w, int *h) {
   screen_h = sh;
   canvas_w = *w;
   canvas_h = *h;
+  uint32_t* pixels = (uint32_t*)malloc(sizeof(uint32_t)*sw*sh);
+  memset(pixels,0,sizeof(uint32_t)*sw*sh);
+  NDL_DrawRect(pixels,0,0,sw,sh);
   canvas_position = (screen_w-canvas_w)/2 + screen_w*(screen_h-canvas_h)/2;
   if (getenv("NWM_APP")) {
     int fbctl = 4;
