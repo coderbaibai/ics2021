@@ -60,9 +60,8 @@ void naive_uload(PCB *pcb, const char *filename);
 int isFileExist(const char* filename);
 int sys_execve(const char *fname, char * const argv[], char *const envp[]){
   char* input = (char*)malloc(strlen(fname)*sizeof(char));
-  printf("len:%d\n",strlen("/pal"));
   strcpy(input,fname);
-  for(int i=0;i<sizeof(input);i++){
+  for(int i=0;i<strlen(input);i++){
     if(input[i]=='\n'){
       input[i] = '\0';
       break;
