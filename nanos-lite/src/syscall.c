@@ -10,9 +10,9 @@ void do_syscall(Context *c) {
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 }
-int sys_yield(){
-  printf("yeild\n");
-  return 0;
+Context* schedule(Context *prev);
+Context* sys_yield(Context *c){
+  return schedule(c);
 }
 int sys_exit(){
   return 0;

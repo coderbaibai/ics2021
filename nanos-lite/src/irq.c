@@ -23,7 +23,7 @@ static Context* do_event(Event e, Context* c) {
       FRec frec={-1,NULL,NULL};
       switch(c->GPR1){
         case SYS_exit : ret = sys_execve("/bin/nterm",NULL,NULL); break;
-        case SYS_yield: ret = sys_yield(c); break;
+        case SYS_yield: c = sys_yield(c); break;
         case SYS_open : 
           ret = sys_open((const char*)c->GPR2,(int)c->GPR3,(int)c->GPR4);
           setFRec(&frec,ret,(const char*)c->GPR2,"open"); 

@@ -29,12 +29,13 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
   return true;
 }
 
+// 内核线程的首次初始化，初始化在栈顶
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   Context* res = (Context*)(kstack.end-sizeof(Context));
   memset(res,0,sizeof(Context));
   res->mstatus = 0x1800;
-  res->mepc = entry;
-  res->SP = res;
+  res->mepc = (uintptr_t)entry;
+  res->SP = (uintptr_t)res;
   return res;
 }
 

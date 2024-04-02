@@ -18,15 +18,29 @@ void hello_fun(void *arg) {
     yield();
   }
 }
+// 用于初始化一个内核线程,
+void context_kload(PCB*target,void(fn)(void*),void*args){
+// 将PCB分配给内核线程
+// 也就是给分配栈，并且将线程上下文存入PCB中的cp寄存器
+// 在这种设计下，内核线程的栈在PCB之中
+// 因此一个PCB可以完全代表一个内核线程，这个栈我们称之为内核栈
+  Area kstack;
+  kstack.start = target->stack;
+  kstack.end = target->stack+sizeof(target->stack);
+  target->cp = kcontext(kstack,fn,args);
+}
 
 void init_proc() {
+  context_kload(&pcb[0],hello_fun,NULL);
   switch_boot_pcb();
 
-  Log("Initializing processes...");
-  naive_uload(NULL,"/bin/nterm");
+  // Log("Initializing processes...");
+  // naive_uload(NULL,"/bin/nterm");
   // load program here
 }
 
 Context* schedule(Context *prev) {
-  return NULL;
+  current->cp = prev;
+  current = &pcb[0];
+  return current->cp;
 }

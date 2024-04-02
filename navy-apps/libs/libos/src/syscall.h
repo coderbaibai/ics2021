@@ -24,7 +24,7 @@ enum {
   SYS_times,
   SYS_gettimeofday
 };
-int sys_yield();
+Context* sys_yield(Context*c);
 int sys_exit();
 int sys_write(int fd, const void* buf,size_t conut);
 int sys_brk(void*addr);
