@@ -71,7 +71,6 @@ static Context* do_event(Event e, Context* c) {
       break;
     default: printf("event not impl:%d\n",e.event);
   }
-  printf("%d\n",c->GPR2);
   return c;
 }
 
