@@ -7,6 +7,7 @@ struct Context {
   void *pdir;
 };
 
+#define SP   gpr[1]
 #define GPR1 gpr[16] // a7
 #define GPR2 gpr[9]  // a0
 #define GPR3 gpr[10] // a1

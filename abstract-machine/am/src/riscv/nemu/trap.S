@@ -48,7 +48,12 @@ __am_asm_trap:
   csrw mstatus, t1
 
   mv a0, sp
+  # 将sp也保存在context中，因为sp前后不一定一致了
+  STORE sp,OFFSET_SP(sp)
+
   jal __am_irq_handle
+  # 重新获取sp
+  LOAD sp,OFFSET_SP(sp)
 
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)

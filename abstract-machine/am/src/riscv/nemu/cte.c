@@ -30,11 +30,16 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 }
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  return NULL;
+  Context* res = (Context*)(kstack.end-sizeof(Context));
+  memset(res,0,sizeof(Context));
+  res->mstatus = 0x1800;
+  res->mepc = entry;
+  res->SP = res;
+  return res;
 }
 
 void yield() {
-  asm volatile("li a7, 2; ecall");
+  asm volatile("li a7, 1; ecall");
 }
 
 bool ienabled() {
