@@ -61,9 +61,14 @@ static Context* do_event(Event e, Context* c) {
       }
       else printf("syscall number:%d\n",call_number);
       #endif
+      // 重要：如果不是yield那么a0寄存器才是返回值
+      // 如果是yield，那么a0寄存器可能是参数值，不能算ret
       c->GPRx = ret;
       break;
     }
+    case EVENT_YIELD:
+      c = sys_yield(c); 
+      break;
     default: printf("event not impl:%d\n",e.event);
   }
   return c;

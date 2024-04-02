@@ -31,7 +31,7 @@ def_EHelper(csrrci){
 }
 
 def_EHelper(ecall){
-  s->dnpc = isa_raise_intr(EVENT_SYSCALL, cpu.pc);
+  s->dnpc = isa_raise_intr((cpu.gpr[17]._32==1)?EVENT_YIELD:EVENT_SYSCALL, cpu.pc);
 }
 
 def_EHelper(mret){
