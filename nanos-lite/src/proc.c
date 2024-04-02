@@ -31,7 +31,8 @@ void context_kload(PCB*target,void(fn)(void*),void*args){
 }
 
 void init_proc() {
-  context_kload(&pcb[0],hello_fun,NULL);
+  context_kload(&pcb[0],hello_fun,(void*)0x0);
+  context_kload(&pcb[1],hello_fun,(void*)0x1);
   switch_boot_pcb();
 
   // Log("Initializing processes...");
@@ -40,7 +41,15 @@ void init_proc() {
 }
 
 Context* schedule(Context *prev) {
+  static int cur = -1;
   current->cp = prev;
-  current = &pcb[0];
+  if(cur!=0){
+    current = &pcb[0];
+    cur = 0;
+  }
+  else{
+    cur = 1;
+    current = &pcb[1];
+  }
   return current->cp;
 }
