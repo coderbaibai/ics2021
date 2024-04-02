@@ -20,4 +20,12 @@ The following subprojects/components are included. Some of them are not fully im
 
 #### 备注
 ```
-目前已完成PA2
+目前已完成PA3,
+实现多道批处理系统。
+支持运行仙剑、nslider、nterm等应用程序
+```
+#### TODO
+```
+PA3的一些很有价值的选做：系统声卡、am环境迁移、多道程序ftracer
+```
+
