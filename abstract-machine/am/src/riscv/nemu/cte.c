@@ -15,6 +15,7 @@ Context* __am_irq_handle(Context *c) {
   }
   printf("ret addr:%08x\n",c->SP);
   printf("c   addr:%08x\n",c);
+  printf("c   addr:%08x\n",&c->SP);
   return c;
 }
 
