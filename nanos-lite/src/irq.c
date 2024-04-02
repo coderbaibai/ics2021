@@ -65,13 +65,13 @@ static Context* do_event(Event e, Context* c) {
       // 如果是yield，那么a0寄存器可能是参数值，不能算ret
       c->GPRx = ret;
       break;
-    }
+    } break;
     case EVENT_YIELD:
-    printf("eve\n");
       c = sys_yield(c); 
       break;
     default: printf("event not impl:%d\n",e.event);
   }
+  printf("%d\n",c->GPR2);
   return c;
 }
 
