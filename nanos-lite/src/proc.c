@@ -43,6 +43,7 @@ void init_proc() {
 Context* schedule(Context *prev) {
   static int cur = -1;
   current->cp = prev;
+  printf("cur:%d\n",cur);
   if(cur!=0){
     current = &pcb[0];
     cur = 0;
