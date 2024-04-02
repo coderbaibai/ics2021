@@ -51,6 +51,5 @@ Context* schedule(Context *prev) {
     cur = 1;
     current = &pcb[1];
   }
-  printf("%p\n",current->cp); 
   return current->cp;
 }
