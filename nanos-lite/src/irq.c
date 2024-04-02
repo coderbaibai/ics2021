@@ -67,6 +67,7 @@ static Context* do_event(Event e, Context* c) {
       break;
     }
     case EVENT_YIELD:
+    printf("eve\n");
       c = sys_yield(c); 
       break;
     default: printf("event not impl:%d\n",e.event);
