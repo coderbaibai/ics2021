@@ -64,7 +64,6 @@ static Context* do_event(Event e, Context* c) {
     }
     default: printf("event not impl:%d\n",e.event);
   }
-  printf("mepc:%08x\n",c->mepc);
   return c;
 }
 

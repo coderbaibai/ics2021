@@ -7,13 +7,13 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
-    
+
     ev.event = c->mcause;
 
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-
+  printf("mepc:%08x\n",c->mepc);
   return c;
 }
 
