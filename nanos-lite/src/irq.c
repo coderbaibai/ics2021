@@ -21,6 +21,7 @@ static Context* do_event(Event e, Context* c) {
   switch (e.event) {
     case EVENT_SYSCALL:{
       int ret = 0;
+      int call_number = c->GPR1;
       FRec frec={-1,NULL,NULL};
       switch(c->GPR1){
         case SYS_exit : ret = sys_execve("/bin/nterm",NULL,NULL); break;
@@ -56,14 +57,14 @@ static Context* do_event(Event e, Context* c) {
         printf("%5s %s\n",frec.opname,frec.filename);
         setFRec(&frec,-1,NULL,NULL);
       }
-      else printf("syscall number:%d\n",c->GPR1);
+      else printf("syscall number:%d\n",call_number);
       #endif
       c->GPRx = ret;
       break;
     }
     default: printf("event not impl:%d\n",e.event);
   }
-  
+  printf("mepc:%d\n",c->mepc);
   return c;
 }
 
