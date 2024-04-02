@@ -34,8 +34,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   Context* res = (Context*)(kstack.end-sizeof(Context));
   memset(res,0,sizeof(Context));
   res->mstatus = 0x1800;
-  uintptr_t ent = (uintptr_t)entry;
-  res->mepc = --ent;
+  res->mepc = ((uintptr_t)entry)-sizeof(uintptr_t);
   res->SP = (uintptr_t)res;
   res->GPR2 = (uintptr_t)arg;
   return res;
