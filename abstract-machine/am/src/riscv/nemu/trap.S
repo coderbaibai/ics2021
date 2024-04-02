@@ -53,7 +53,7 @@ __am_asm_trap:
 
   jal __am_irq_handle
   # 重新获取sp
-  LOAD sp,OFFSET_SP(sp)
+#   LOAD sp,OFFSET_SP(sp)
 
   LOAD t1, OFFSET_STATUS(sp)
   LOAD t2, OFFSET_EPC(sp)
