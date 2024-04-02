@@ -21,7 +21,9 @@ static Context* do_event(Event e, Context* c) {
   switch (e.event) {
     case EVENT_SYSCALL:{
       int ret = 0;
+      #ifdef CONFIG_STRACE
       int call_number = c->GPR1;
+      #endif
       FRec frec={-1,NULL,NULL};
       switch(c->GPR1){
         case SYS_exit : ret = sys_execve("/bin/nterm",NULL,NULL); break;

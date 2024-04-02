@@ -13,9 +13,6 @@ Context* __am_irq_handle(Context *c) {
     c = user_handler(ev, c);
     assert(c != NULL);
   }
-  printf("ret addr:%08x\n",c->SP);
-  printf("c   addr:%08x\n",c);
-  printf("c   addr:%08x\n",&c->SP);
   return c;
 }
 
@@ -38,7 +35,6 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   res->mstatus = 0x1800;
   res->mepc = (uintptr_t)entry;
   res->SP = (uintptr_t)res;
-  printf("addr:%08x\n",res);
   return res;
 }
 
