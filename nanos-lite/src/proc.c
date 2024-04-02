@@ -12,13 +12,13 @@ void switch_boot_pcb() {
 
 void hello_fun(void *arg) {
   int j = 1;
-  // while (1) {
+  while (1) {
     Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
     j ++;
     yield();
     while (1);
     
-  // }
+  }
 }
 // 用于初始化一个内核线程,
 void context_kload(PCB*target,void(fn)(void*),void*args){
