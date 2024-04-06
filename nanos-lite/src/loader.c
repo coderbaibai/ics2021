@@ -43,3 +43,8 @@ void naive_uload(PCB *pcb, const char *filename) {
   ((void(*)())entry) ();
 }
 
+void* uload(PCB *pcb,const char *filename){
+  uintptr_t entry = loader(pcb, filename);
+  return (void*)entry;
+}
+
