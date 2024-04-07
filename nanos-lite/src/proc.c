@@ -40,6 +40,7 @@ void context_uload(PCB*target,const char* fn_name){
   kstack.end = target->stack+sizeof(target->stack);
   target->cp = ucontext(NULL,kstack,fn);
   target->cp->GPRx = (uintptr_t)heap.end;
+  printf("heap end:%p\n",heap.end);
 }
 
 void init_proc() {
