@@ -33,20 +33,21 @@ void context_kload(PCB*target,void(fn)(void*),void*args){
 
 void* uload(PCB *pcb,const char *filename);
 
-void context_uload(PCB*target,const char* fn_name){
+void context_uload(PCB*target,const char* fn_name,char *const argv[], char *const envp[]){
   void* fn = uload(target,fn_name);
   Area kstack;
   kstack.start = target->stack;
   kstack.end = target->stack+sizeof(target->stack);
   target->cp = ucontext(NULL,kstack,fn);
   target->cp->GPRx = (uintptr_t)heap.end;
-  printf("heap end:%p\n",heap.end);
+  printf("size:%d\n",sizeof(&argv)/sizeof(char*));
 }
 
 void init_proc() {
   context_kload(&pcb[0],hello_fun,(void*)0x0);
   // context_kload(&pcb[1],hello_fun,(void*)0x1);
-  context_uload(&pcb[1], "/bin/pal");
+  char* argv[]={"--skip","111","222"};
+  context_uload(&pcb[1], "/bin/pal",argv,NULL);
   switch_boot_pcb();
 
   // Log("Initializing processes...");
