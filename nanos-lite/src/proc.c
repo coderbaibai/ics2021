@@ -30,7 +30,8 @@ void context_kload(PCB*target,void(fn)(void*),void*args){
   target->cp = kcontext(kstack,fn,args);
 }
 
-int app_argc = 0;
+static int app_argc = 0;
+static int app_envpc = 0;
 void* uload(PCB *pcb,const char *filename);
 
 void context_uload(PCB*target,const char* fn_name,char *const argv[], char *const envp[]){
@@ -40,6 +41,36 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   kstack.end = target->stack+sizeof(target->stack);
   target->cp = ucontext(NULL,kstack,fn);
   target->cp->GPRx = (uintptr_t)heap.end;
+  // 初始化块字节数
+  int init_size = 0,str_area_size = 0;
+  init_size+=1+app_argc+1+app_envpc+1;
+  for(int i=0;i<app_argc;i++){
+    str_area_size += 1+strlen(argv[i]);
+  }
+  for(int i=0;i<app_envpc;i++){
+    str_area_size = 1+strlen(envp[i]);
+  }
+  init_size+=str_area_size;
+  int** cur = (int**)((int)heap.end-init_size);
+  char* s_cur = (char*)((int)heap.end-str_area_size);
+
+  *((int*)cur) = app_argc;
+  cur++;
+  for(int i=0;i<app_argc;i++,cur++){
+    *cur = (int*)argv[i];
+    strcpy(s_cur,argv[i]);
+    s_cur+=strlen(argv[i])+1;
+  }
+  *cur = NULL;
+  cur++;
+  for(int i=0;i<app_envpc;i++,cur++){
+    *cur = (int*)envp[i];
+    strcpy(s_cur,envp[i]);
+    s_cur+=strlen(envp[i])+1;
+  }
+  *cur = NULL;
+  printf("s_cur:%08x",s_cur);
+  printf("first:%s",*(char*)((int)heap.end-str_area_size));
   printf("size:%d\n",app_argc);
 }
 
