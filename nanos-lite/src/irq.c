@@ -16,7 +16,7 @@ static void setFRec(FRec* frec,int fd,const char* filename,const char* opname){
   frec->opname = opname;
 }
 char* getFilenameById(int i);
-
+Context* sys_yield(Context*c);
 static Context* do_event(Event e, Context* c) {
   switch (e.event) {
     case EVENT_SYSCALL:{
