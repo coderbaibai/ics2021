@@ -69,8 +69,8 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
     s_cur+=strlen(envp[i])+1;
   }
   *cur = NULL;
-  printf("s_cur:%08x",s_cur);
-  printf("first:%s",*(char*)((int)heap.end-str_area_size));
+  printf("s_cur:%08x\n",s_cur);
+  printf("first:%s\n",(char*)((int)heap.end-str_area_size));
   printf("size:%d\n",app_argc);
 }
 
