@@ -32,7 +32,7 @@ size_t serial_read(void *buf, size_t offset, size_t len){
 }
 
 size_t events_read(void *buf, size_t offset, size_t len) {
-  yield();
+  // yield();
   char str[20] = {'\0'};
   AM_INPUT_KEYBRD_T ev = io_read(AM_INPUT_KEYBRD);
   strcat(str,ev.keydown?"kd ":"ku ");
@@ -62,7 +62,7 @@ size_t dispinfo_write(const void *buf, size_t offset, size_t len){
 
 extern int screen_w,screen_h;
 size_t fb_write(const void *buf, size_t offset, size_t len) {
-  yield();
+  // yield();
   offset = offset/4;
   if(len!=0)
     io_write(AM_GPU_FBDRAW,offset%screen_w,offset/screen_w,(void*)buf,len/4,1,false);
