@@ -53,7 +53,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   init_size+=str_area_size;
   int** cur = (int**)((int)heap.end-init_size);
   char* s_cur = (char*)((int)heap.end-str_area_size);
-
+  char*first = s_cur;
   *((int*)cur) = app_argc;
   cur++;
   for(int i=0;i<app_argc;i++,cur++){
@@ -70,7 +70,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   }
   *cur = NULL;
   printf("s_cur:%08x\n",s_cur);
-  printf("first:%s\n",(char*)((int)heap.end-str_area_size));
+  printf("first:%s\n",first);
   printf("size:%d\n",app_argc);
 }
 
