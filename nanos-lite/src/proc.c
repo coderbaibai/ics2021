@@ -52,6 +52,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   init_size+=str_area_size;
   int** cur = (int**)((int)heap.end-init_size);
   char* s_cur = (char*)((int)heap.end-str_area_size);
+  printf("s_cur:%08x",s_cur);
   int** begin = cur;
   *((int*)cur) = app_argc;
   cur++;
