@@ -14,6 +14,7 @@ char *strcpy(char *dst, const char *src) {
   char* tDst = dst;
   const char* tSrc = src;
   while(*tSrc!='\0'){
+    printf("write:%08x\n",dst);
     *tDst = *tSrc;
     tSrc++;
     tDst++;
