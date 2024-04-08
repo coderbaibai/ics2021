@@ -42,7 +42,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   target->cp = ucontext(NULL,kstack,fn);
   // 初始化传入参数
   int init_size = 0,str_area_size = 0;
-  init_size+=1+app_argc+1+app_envpc+1;
+  init_size+=4*(1+app_argc+1+app_envpc+1);
   for(int i=0;i<app_argc;i++){
     str_area_size += 1+strlen(argv[i]);
   }
@@ -52,18 +52,16 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   init_size+=str_area_size;
   int** cur = (int**)((int)heap.end-init_size);
   char* s_cur = (char*)((int)heap.end-str_area_size);
+  printf("%d %d",init_size,str_area_size);
   int** begin = cur;
   *((int*)cur) = app_argc;
   cur++;
   for(int i=0;i<app_argc;i++,cur++){
     *cur = (int*)s_cur;
-  printf("s_cur:%08x ",s_cur);
-    printf("cur:%08x %08x\n",cur,*cur);
+  //   printf("s_cur:%08x ",s_cur);
+  //   printf("cur:%08x %08x\n",cur,*cur);
     strcpy(s_cur,argv[i]);
-    printf("cur:%08x %08x\n",cur,*cur);
     s_cur+=strlen(argv[i])+1;
-    printf("cur:%08x %08x\n",cur,*cur);
-    printf("cur:%08x %08x\n",cur,*cur);
   }
   *cur = NULL;
   cur++;
