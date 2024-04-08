@@ -34,7 +34,7 @@ int NDL_PollEvent(char *buf, int len) {
 }
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h);
 void NDL_OpenCanvas(int *w, int *h) {
-  printf("open canvas\n");
+  // printf("open canvas\n");
   int fd = open("/proc/dispinfo",O_RDWR);
   assert(fd!=-1);
   char dispinfo[50]={'\0'};
