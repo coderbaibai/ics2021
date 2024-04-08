@@ -52,6 +52,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   init_size+=str_area_size;
   int** cur = (int**)((int)heap.end-init_size);
   char* s_cur = (char*)((int)heap.end-str_area_size);
+  int** begin = cur;
   *((int*)cur) = app_argc;
   cur++;
   for(int i=0;i<app_argc;i++,cur++){
@@ -67,6 +68,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
     s_cur+=strlen(envp[i])+1;
   }
   *cur = NULL;
+  printf("%08x\n",*(int*)((int)begin+sizeof(int)));
   // 初始化栈顶指针
   target->cp->GPRx = (uintptr_t)((int)heap.end-init_size-1);
 }
