@@ -67,10 +67,8 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
     s_cur+=strlen(envp[i])+1;
   }
   *cur = NULL;
-  printf("%d\n",init_size);
   // 初始化栈顶指针
-  target->cp->GPRx = (uintptr_t)((int)heap.end-init_size);
-  // 初始化argc地址
+  target->cp->GPRx = (uintptr_t)((int)heap.end-init_size-1);
 }
 
 void init_proc() {

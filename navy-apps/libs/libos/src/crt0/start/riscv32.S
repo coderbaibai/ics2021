@@ -3,5 +3,6 @@ _start:
   move s0, zero
   beqz a0,_start_init
   mv sp,a0
+  addi a0,a0,1
 _start_init:
   jal call_main
