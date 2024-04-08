@@ -59,9 +59,9 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
     *cur = (int*)s_cur;
   printf("s_cur:%08x ",s_cur);
     printf("cur:%08x %08x\n",cur,*cur);
-    // strcpy(s_cur,argv[i]);
+    strcpy(s_cur,argv[i]);
     printf("cur:%08x %08x\n",cur,*cur);
-    // s_cur+=strlen(argv[i])+1;
+    s_cur+=strlen(argv[i])+1;
     printf("cur:%08x %08x\n",cur,*cur);
     printf("cur:%08x %08x\n",cur,*cur);
   }
