@@ -40,8 +40,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   kstack.start = target->stack;
   kstack.end = target->stack+sizeof(target->stack);
   target->cp = ucontext(NULL,kstack,fn);
-  target->cp->GPRx = (uintptr_t)heap.end;
-  // 初始化块字节数
+  // 初始化传入参数
   int init_size = 0,str_area_size = 0;
   init_size+=1+app_argc+1+app_envpc+1;
   for(int i=0;i<app_argc;i++){
@@ -58,7 +57,6 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   for(int i=0;i<app_argc;i++,cur++){
     *cur = (int*)argv[i];
     strcpy(s_cur,argv[i]);
-    printf("s_cur:%08x: %s\n",s_cur,s_cur);
     s_cur+=strlen(argv[i])+1;
   }
   *cur = NULL;
@@ -69,8 +67,10 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
     s_cur+=strlen(envp[i])+1;
   }
   *cur = NULL;
-  printf("s_cur:%08x\n",s_cur);
-  printf("size:%d\n",app_argc);
+  printf("%d\n",init_size);
+  // 初始化栈顶指针
+  target->cp->GPRx = (uintptr_t)((int)heap.end-init_size);
+  // 初始化argc地址
 }
 
 void init_proc() {
