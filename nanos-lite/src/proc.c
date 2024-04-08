@@ -56,14 +56,14 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   *((int*)cur) = app_argc;
   cur++;
   for(int i=0;i<app_argc;i++,cur++){
-    *cur = (int*)argv[i];
+    *cur = (int*)s_cur;
     strcpy(s_cur,argv[i]);
     s_cur+=strlen(argv[i])+1;
   }
   *cur = NULL;
   cur++;
   for(int i=0;i<app_envpc;i++,cur++){
-    *cur = (int*)envp[i];
+    *cur = (int*)s_cur;
     strcpy(s_cur,envp[i]);
     s_cur+=strlen(envp[i])+1;
   }
