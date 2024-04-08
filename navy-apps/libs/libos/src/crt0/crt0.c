@@ -6,9 +6,11 @@
 int main(int argc, char *argv[], char *envp[]);
 extern char **environ;
 void call_main(uintptr_t *args) {
-  printf("argc:%d\n",*(int*)args);
+  int argc = *(int*)args;
+  char **argv = (char**)((int)args+sizeof(int));
+  char **envp = (char**)((int)args+(argc+2)*sizeof(int));
   char *empty[] =  {NULL };
   environ = empty;
-  exit(main(0, empty, empty));
+  exit(main(argc, argv, envp));
   assert(0);
 }
