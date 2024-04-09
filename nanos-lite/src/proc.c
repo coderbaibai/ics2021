@@ -50,6 +50,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   // 初始化传入参数,这是操作系统在创建进程的准备工作之一
   int app_argc = getSize(argv);
   int app_envpc = getSize(envp);
+  printf("load:%s %d %d\n",fn_name,app_argc,app_envpc);
   int init_size = 0,str_area_size = 0;
   init_size+=4*(1+app_argc+1+app_envpc+1);
   for(int i=0;i<app_argc;i++){
@@ -83,10 +84,9 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
 void init_proc() {
   context_kload(&pcb[0],hello_fun,(void*)0x0);
   // context_kload(&pcb[1],hello_fun,(void*)0x1);
-  // char* argv[]={"/bin/exec-test",NULL};
-  char* argv[]={"/bin/pal","--skip",NULL};
+  char* argv[]={"/bin/exec-test",NULL};
   char* envp[]={NULL};
-  context_uload(&pcb[1], "/bin/pal",argv,envp);
+  context_uload(&pcb[1], "/bin/exec-test",argv,envp);
   switch_boot_pcb();
 
   // Log("Initializing processes...");
