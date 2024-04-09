@@ -60,8 +60,9 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
     str_area_size = 1+strlen(envp[i]);
   }
   init_size+=str_area_size;
-  int** cur = (int**)((int)new_page(8)-init_size);
-  char* s_cur = (char*)((int)new_page(8)-str_area_size);
+  void* page_addr = new_page(8);
+  int** cur = (int**)((int)page_addr-init_size);
+  char* s_cur = (char*)((int)page_addr-str_area_size);
   *((int*)cur) = app_argc;
   cur++;
   for(int i=0;i<app_argc;i++,cur++){
