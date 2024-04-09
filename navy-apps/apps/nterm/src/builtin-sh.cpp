@@ -51,8 +51,8 @@ static void sh_handle_cmd(const char *cmd) {
       }
     }
   }
-  char* temp[] = {"ls","ls","2",NULL};
-  execvp("ls",temp);
+  char* temp[] = {"echo","echo","2",NULL};
+  execvp("echo",temp);
   // if(argv[0]&&execvp(argv[0],argv)){
   //   sh_printf("exective file not be found\n");
   // }
