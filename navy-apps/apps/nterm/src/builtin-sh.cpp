@@ -44,9 +44,9 @@ static void sh_handle_cmd(const char *cmd) {
   //   printf("%s\n",argv[i]);
   // }
   for(int i=0;i<cnt;i++){
-    for(int j=0;j<strlen(argv[cnt]);j++){
-      if(argv[cnt][i]=='\n'||argv[cnt][i]==' '){
-        argv[cnt][i] = '\0';
+    for(int j=0;j<strlen(argv[i]);j++){
+      if(argv[i][j]=='\n'||argv[i][j]==' '){
+        argv[i][j] = '\0';
         break;
       }
     }
