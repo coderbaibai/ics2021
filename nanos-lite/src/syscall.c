@@ -81,6 +81,15 @@ int sys_execve(const char *fname, char * const argv[], char *const envp[]){
         printf("%s\n",envp[i]);
       }
     }
+    for(int i =0;i<10;i++){
+      if(!(argv[i])){
+        printf("%d\n",i);
+        break;
+      }
+      else{
+        printf("%s\n",argv[i]);
+      }
+    }
     // naive_uload(NULL,input);
     context_uload(current,input,argv,envp);
     switch_boot_pcb();
