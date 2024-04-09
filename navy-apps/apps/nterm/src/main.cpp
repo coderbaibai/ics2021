@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
   term = new Terminal(W, H);
   
   // 初始化环境变量
-  setenv("PATH","/bin",0);
+  setenv("PATH","/bin:/usr/bin",0);
 
   if (argc < 2) { builtin_sh_run(); }
   else { extern_app_run(argv[1]); }
