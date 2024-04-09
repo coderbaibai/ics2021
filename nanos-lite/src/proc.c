@@ -37,9 +37,6 @@ static inline int getSize(char *const target[]){
   for (size_t i = 0; i < INT32_MAX; i++)
   {
     if(target[i]==NULL) return i;
-    else{
-      printf("%s\n",target[i]);
-    }
   }
   panic("error arr");
 }
