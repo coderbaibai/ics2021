@@ -58,6 +58,10 @@ int sys_gettimeofday(struct timeval *tv, struct timezone *tz){
 #include <proc.h>
 void naive_uload(PCB *pcb, const char *filename);
 int isFileExist(const char* filename);
+extern PCB *current;
+void context_uload(PCB*target,const char* fn_name,char *const argv[], char *const envp[]);
+void switch_boot_pcb();
+
 int sys_execve(const char *fname, char * const argv[], char *const envp[]){
   char* input = (char*)malloc(strlen(fname)*sizeof(char));
   strcpy(input,fname);
@@ -68,7 +72,10 @@ int sys_execve(const char *fname, char * const argv[], char *const envp[]){
     }
   }
   if(isFileExist(input)==0){
-    naive_uload(NULL,input);
+    // naive_uload(NULL,input);
+    context_uload(current, input,argv,envp);
+    switch_boot_pcb();
+    yield();
     return 0;
   }
   else{

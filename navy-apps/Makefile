@@ -167,7 +167,7 @@ $(CLEAN_ALL):
 
 ### Build fsimg and ramdisk for Nanos-lite
 APPS = bird pal menu nterm
-TESTS = bmp-test timer-test event-test
+TESTS = bmp-test timer-test event-test exec-test
 
 fsimg: $(addprefix apps/, $(APPS)) $(addprefix tests/, $(TESTS))
 	-for t in $^; do $(MAKE) -s -C $(NAVY_HOME)/$$t install; done

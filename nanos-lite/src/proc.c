@@ -30,17 +30,26 @@ void context_kload(PCB*target,void(fn)(void*),void*args){
   target->cp = kcontext(kstack,fn,args);
 }
 
-static int app_argc = 0;
-static int app_envpc = 0;
 void* uload(PCB *pcb,const char *filename);
 
+static inline int getSize(char *const target[]){
+  for (size_t i = 0; i < INT32_MAX; i++)
+  {
+    if(target[i]==NULL) return i;
+  }
+  panic("error arr");
+}
+
 void context_uload(PCB*target,const char* fn_name,char *const argv[], char *const envp[]){
+  // 在内核栈中创建上下文
   void* fn = uload(target,fn_name);
   Area kstack;
   kstack.start = target->stack;
   kstack.end = target->stack+sizeof(target->stack);
   target->cp = ucontext(NULL,kstack,fn);
-  // 初始化传入参数
+  // 初始化传入参数,这是操作系统在创建进程的准备工作之一
+  int app_argc = getSize(argv);
+  int app_envpc = getSize(envp);
   int init_size = 0,str_area_size = 0;
   init_size+=4*(1+app_argc+1+app_envpc+1);
   for(int i=0;i<app_argc;i++){
@@ -50,8 +59,8 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
     str_area_size = 1+strlen(envp[i]);
   }
   init_size+=str_area_size;
-  int** cur = (int**)((int)heap.end-init_size);
-  char* s_cur = (char*)((int)heap.end-str_area_size);
+  int** cur = (int**)((int)new_page(8)-init_size);
+  char* s_cur = (char*)((int)new_page(8)-str_area_size);
   *((int*)cur) = app_argc;
   cur++;
   for(int i=0;i<app_argc;i++,cur++){
@@ -74,9 +83,9 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
 void init_proc() {
   context_kload(&pcb[0],hello_fun,(void*)0x0);
   // context_kload(&pcb[1],hello_fun,(void*)0x1);
-  char* argv[]={"--skip","111","222"};
-  app_argc = sizeof(argv)/sizeof(char*);
-  context_uload(&pcb[1], "/bin/pal",argv,NULL);
+  char* argv[]={"/bin/exec-test",NULL};
+  char* envp[]={NULL};
+  context_uload(&pcb[1], "/bin/exec-test",argv,envp);
   switch_boot_pcb();
 
   // Log("Initializing processes...");

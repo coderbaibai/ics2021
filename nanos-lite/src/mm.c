@@ -1,9 +1,14 @@
 #include <memory.h>
-
+#include <proc.h>
 static void *pf = NULL;
+static int cnt = 0;
+extern Area heap;
+
 
 void* new_page(size_t nr_page) {
-  return NULL;
+  pf = (void*)((size_t)heap.end-(cnt*nr_page<<12));
+  cnt++;
+  return pf;
 }
 
 #ifdef HAS_VME
