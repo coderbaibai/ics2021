@@ -8,6 +8,7 @@ extern Area heap;
 void* new_page(size_t nr_page) {
   pf = (void*)((size_t)heap.end-(cnt*nr_page<<12));
   cnt++;
+  printf("page:%08x\n",pf);
   return pf;
 }
 
