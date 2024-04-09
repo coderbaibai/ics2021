@@ -63,6 +63,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
 void switch_boot_pcb();
 
 int sys_execve(const char *fname, char * const argv[], char *const envp[]){
+  printf("11\n");
   char* input = (char*)malloc(strlen(fname)*sizeof(char));
   strcpy(input,fname);
   for(int i=0;i<strlen(input);i++){
@@ -72,6 +73,7 @@ int sys_execve(const char *fname, char * const argv[], char *const envp[]){
     }
   }
   if(isFileExist(input)==0){
+    printf("22\n");
     // naive_uload(NULL,input);
     context_uload(current,input,argv,envp);
     switch_boot_pcb();
