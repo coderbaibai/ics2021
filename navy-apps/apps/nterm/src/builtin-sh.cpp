@@ -46,7 +46,7 @@ static void sh_handle_cmd(const char *cmd) {
   for(int i=0;i<10;i++){
     if(argv[i]) free(argv[i]);
   }
-  if(execvp(cmd,&argv[1])){
+  if(execvp(argv[0],&argv[1])){
     sh_printf("exective file not be found\n");
   }
 }
