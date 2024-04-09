@@ -27,7 +27,7 @@ static Context* do_event(Event e, Context* c) {
       FRec frec={-1,NULL,NULL};
       switch(c->GPR1){
         case SYS_exit :
-          char*  argv[]={"/bin/nterm",NULL};
+          char* argv[]={"/bin/nterm",NULL};
           char* envp[]={NULL};
           ret = sys_execve(argv[0],argv,envp); break;
         case SYS_yield: c = sys_yield(c); break;

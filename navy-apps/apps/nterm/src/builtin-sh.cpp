@@ -23,9 +23,29 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
-  if(execvp(cmd,NULL)){
-    sh_printf("exective file not be found\n");
+  char* argv[10];
+  for(int i=0;i<10;i++){
+    argv[i] = NULL;
   }
+  int cnt = 0;
+  int last = 0;
+  for(int i=0;i<=strlen(cmd);i++){
+    if(cmd[i]==' '||cmd[i]=='\0'){
+      argv[cnt] = (char*)malloc(sizeof(char)*(i-last)+1);
+      strncpy(argv[cnt],&cmd[last],i-last);
+      last = i+1;
+      cnt++;
+    }
+  }
+  for(int i=0;i<10;i++){
+    printf("%s\n",argv[i]);
+  }
+  for(int i=0;i<10;i++){
+    if(argv[i]) free(argv[i]);
+  }
+  // if(execvp(cmd,&argv[1])){
+  //   sh_printf("exective file not be found\n");
+  // }
 }
 
 void builtin_sh_run() {
