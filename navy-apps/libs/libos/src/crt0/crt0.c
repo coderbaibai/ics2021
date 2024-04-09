@@ -12,6 +12,7 @@ void call_main(uintptr_t *args) {
   char **envp = (char**)((int)args+(argc+2)*sizeof(int));
   char *empty[] =  {NULL};
   environ = empty;
+  printf("call main2\n");
   exit(main(argc, argv, envp));
   assert(0);
 }
