@@ -39,15 +39,16 @@ static void sh_handle_cmd(const char *cmd) {
       cnt++;
     }
   }
-  for(int i=0;i<10;i++){
-    printf("%s\n",argv[i]);
-  }
+  // debug
+  // for(int i=0;i<10;i++){
+  //   printf("%s\n",argv[i]);
+  // }
   for(int i=0;i<10;i++){
     if(argv[i]) free(argv[i]);
   }
-  // if(execvp(cmd,&argv[1])){
-  //   sh_printf("exective file not be found\n");
-  // }
+  if(execvp(cmd,&argv[1])){
+    sh_printf("exective file not be found\n");
+  }
 }
 
 void builtin_sh_run() {
