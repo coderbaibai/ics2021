@@ -92,6 +92,7 @@ int sys_execve(const char *fname, char * const argv[], char *const envp[]){
     }
     printf("%s\n",input);
     // naive_uload(NULL,input);
+    printf("%08x\n",envp);
     context_uload(current,input,argv,envp);
     switch_boot_pcb();
     yield();
