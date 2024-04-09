@@ -4,9 +4,11 @@
 #include <unistd.h>
 
 int main(int argc, char *argv[]) {
-  printf("into\n");
+  printf("into %d\n",argc);
   int n = (argc >= 2 ? atoi(argv[1]) : 1);
+  printf("into2\n");
   printf("%s: argv[1] = %d\n", argv[0], n);
+  printf("into3\n");
 
   char buf[16];
   sprintf(buf, "%d", n + 1);
