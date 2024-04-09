@@ -13,7 +13,7 @@ void switch_boot_pcb() {
 void hello_fun(void *arg) {
   int j = 1;
   while (1) {
-    // Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
+    Log("Hello World from Nanos-lite with arg '%p' for the %dth time!", (uintptr_t)arg, j);
     j ++;
     yield();
   }
@@ -78,7 +78,6 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   *cur = NULL;
   // 初始化栈顶指针
   target->cp->GPRx = (uintptr_t)((int)heap.end-init_size-1);
-  printf("load finish\n");
 }
 
 void init_proc() {

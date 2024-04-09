@@ -74,7 +74,6 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   memset(res,0,sizeof(Context));
   res->mstatus = 0x1800;
   res->mepc = ((uintptr_t)entry)-sizeof(uintptr_t);
-  printf("mepc:%08x\n",res->mepc);
   res->SP = (uintptr_t)res;
   
   return res;
