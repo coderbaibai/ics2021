@@ -66,7 +66,7 @@ int sys_execve(const char *fname, char * const argv[], char *const envp[]){
   char* input = (char*)malloc(strlen(fname)*sizeof(char));
   strcpy(input,fname);
   for(int i=0;i<strlen(input);i++){
-    if(input[i]=='\n'){
+    if(input[i]=='\n'||input[i]==' '){
       input[i] = '\0';
       break;
     }
