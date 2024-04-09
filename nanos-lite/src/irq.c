@@ -26,7 +26,10 @@ static Context* do_event(Event e, Context* c) {
       #endif
       FRec frec={-1,NULL,NULL};
       switch(c->GPR1){
-        case SYS_exit : ret = sys_execve("/bin/nterm",NULL,NULL); break;
+        case SYS_exit :
+          char*  argv[]={"/bin/nterm",NULL};
+          char* envp[]={NULL};
+          ret = sys_execve(argv[0],argv,envp); break;
         case SYS_yield: c = sys_yield(c); break;
         case SYS_open : 
           ret = sys_open((const char*)c->GPR2,(int)c->GPR3,(int)c->GPR4);

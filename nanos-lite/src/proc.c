@@ -33,6 +33,7 @@ void context_kload(PCB*target,void(fn)(void*),void*args){
 void* uload(PCB *pcb,const char *filename);
 
 static inline int getSize(char *const target[]){
+  if(!target) return 0;
   for (size_t i = 0; i < INT32_MAX; i++)
   {
     if(target[i]==NULL) return i;
@@ -84,9 +85,9 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
 void init_proc() {
   context_kload(&pcb[0],hello_fun,(void*)0x0);
   // context_kload(&pcb[1],hello_fun,(void*)0x1);
-  char* argv[]={"/bin/exec-test",NULL};
+  char* argv[]={"/bin/menu",NULL};
   char* envp[]={NULL};
-  context_uload(&pcb[1], "/bin/exec-test",argv,envp);
+  context_uload(&pcb[1],argv[0],argv,envp);
   switch_boot_pcb();
 
   // Log("Initializing processes...");
