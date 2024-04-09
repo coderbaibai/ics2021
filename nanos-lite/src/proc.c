@@ -41,15 +41,6 @@ static inline int getSize(char *const target[]){
   panic("error arr");
 }
 void context_uload(PCB*target,const char* fn_name,char *const argv[], char *const envp[]){
-
-  // 在内核栈中创建上下文
-  void* fn = uload(target,fn_name);
-  Area kstack;
-  kstack.start = target->stack;
-  kstack.end = target->stack+sizeof(target->stack);
-  target->cp = ucontext(NULL,kstack,fn);
-  // 暂时不考虑envp，因为有些程序envp设置在了堆区，上述操作会覆盖envp
-  envp = NULL;
   // 初始化传入参数,这是操作系统在创建进程的准备工作之一
   int app_argc = getSize(argv);
   int app_envpc = getSize(envp);
@@ -81,6 +72,12 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
     s_cur+=strlen(envp[i])+1;
   }
   *cur = NULL;
+  // 在内核栈中创建上下文
+  void* fn = uload(target,fn_name);
+  Area kstack;
+  kstack.start = target->stack;
+  kstack.end = target->stack+sizeof(target->stack);
+  target->cp = ucontext(NULL,kstack,fn);
   // 初始化栈顶指针
   target->cp->GPRx = (uintptr_t)((int)page_addr-init_size-1);
 }
