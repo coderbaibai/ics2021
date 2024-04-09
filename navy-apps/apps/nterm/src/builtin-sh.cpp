@@ -29,6 +29,7 @@ static void sh_handle_cmd(const char *cmd) {
   }
   int cnt = 0;
   int last = 0;
+  printf("%d\n",cmd[0]);
   for(int i=0;i<=strlen(cmd);i++){
     if(cmd[i]==' '||cmd[i]=='\0'){
       if(i==last||cmd[last]==' '||cmd[last]=='\0') {last++;continue;}
