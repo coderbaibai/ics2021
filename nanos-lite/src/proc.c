@@ -79,7 +79,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   }
   *cur = NULL;
   // 初始化栈顶指针
-  target->cp->GPRx = (uintptr_t)((int)heap.end-init_size-1);
+  target->cp->GPRx = (uintptr_t)((int)page_addr-init_size-1);
 }
 
 void init_proc() {
