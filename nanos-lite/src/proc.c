@@ -42,6 +42,8 @@ static inline int getSize(char *const target[]){
 }
 // TODO strlen越界
 void context_uload(PCB*target,const char* fn_name,char *const argv[], char *const envp[]){
+  int app_argc = getSize(argv);
+  int app_envpc = getSize(envp);
   // 在内核栈中创建上下文
   void* fn = uload(target,fn_name);
   Area kstack;
@@ -49,9 +51,6 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   kstack.end = target->stack+sizeof(target->stack);
   target->cp = ucontext(NULL,kstack,fn);
   // 初始化传入参数,这是操作系统在创建进程的准备工作之一
-  int app_argc = getSize(argv);
-  printf("%08x\n",envp);
-  int app_envpc = getSize(envp);
   printf("%d %d\n",app_argc,app_envpc);
   int init_size = 0,str_area_size = 0;
   init_size+=4*(1+app_argc+1+app_envpc+1);
