@@ -30,7 +30,7 @@ static Context* do_event(Event e, Context* c) {
           char* argv[]={"/bin/nterm",NULL};
           char* envp[]={NULL};
           ret = sys_execve(argv[0],argv,envp); break;
-        case SYS_yield:printf("yeild1\n"); c = sys_yield(c); break;
+        case SYS_yield: c = sys_yield(c); break;
         case SYS_open : 
           ret = sys_open((const char*)c->GPR2,(int)c->GPR3,(int)c->GPR4);
           setFRec(&frec,ret,(const char*)c->GPR2,"open"); 
@@ -70,7 +70,6 @@ static Context* do_event(Event e, Context* c) {
       break;
     } break;
     case EVENT_YIELD:
-      printf("yeild1\n"); 
       c = sys_yield(c); 
       break;
     default: printf("event not impl:%d\n",e.event);
