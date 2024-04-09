@@ -83,9 +83,10 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
 void init_proc() {
   context_kload(&pcb[0],hello_fun,(void*)0x0);
   // context_kload(&pcb[1],hello_fun,(void*)0x1);
-  char* argv[]={"/bin/exec-test",NULL};
+  // char* argv[]={"/bin/exec-test",NULL};
+  char* argv[]={"/bin/pal","--skip",NULL};
   char* envp[]={NULL};
-  context_uload(&pcb[1], "/bin/exec-test",argv,envp);
+  context_uload(&pcb[1], "/bin/pal",argv,envp);
   switch_boot_pcb();
 
   // Log("Initializing processes...");
