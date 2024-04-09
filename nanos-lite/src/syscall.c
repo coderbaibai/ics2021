@@ -65,12 +65,6 @@ void switch_boot_pcb();
 int sys_execve(const char *fname, char * const argv[], char *const envp[]){
   char* input = (char*)malloc((strlen(fname)+1)*sizeof(char));
   strcpy(input,fname);
-  // for(int i=0;i<=strlen(input);i++){
-  //   if(input[i]=='\n'||input[i]==' '){
-  //     input[i] = '\0';
-  //     break;
-  //   }
-  // }
   if(isFileExist(input)==0){
     // naive_uload(NULL,input);
     context_uload(current,input,argv,envp);
