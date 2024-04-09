@@ -43,7 +43,7 @@ static void sh_handle_cmd(const char *cmd) {
   // for(int i=0;i<10;i++){
   //   printf("%s\n",argv[i]);
   // }
-  if(execvp(argv[0],argv)){
+  if(argv[0]&&execvp(argv[0],argv)){
     sh_printf("exective file not be found\n");
   }
   for(int i=0;i<10;i++){
