@@ -72,28 +72,7 @@ int sys_execve(const char *fname, char * const argv[], char *const envp[]){
     }
   }
   if(isFileExist(input)==0){
-    for(int i =0;i<10;i++){
-      if(!(envp[i])){
-        printf("%d\n",i);
-        break;
-      }
-      else{
-        printf("%s\n",envp[i]);
-      }
-    }
-    for(int i =0;i<10;i++){
-      if(!(argv[i])){
-        printf("%d\n",i);
-        break;
-      }
-      else{
-        printf("%s\n",argv[i]);
-      }
-    }
-    printf("%s\n",input);
     // naive_uload(NULL,input);
-    printf("%08x\n",envp);
-    printf("%s\n",envp[0]);
     context_uload(current,input,argv,envp);
     switch_boot_pcb();
     yield();
