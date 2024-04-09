@@ -7,6 +7,7 @@ int main(int argc, char *argv[]) {
   if(argc>=2){
     printf("argv[1]:%s argc:%d\n",argv[1],argc);
   }
+  printf("into\n");
   int n = (argc >= 2 ? atoi(argv[1]) : 1);
   printf("%s: argv[1] = %d\n", argv[0], n);
 
