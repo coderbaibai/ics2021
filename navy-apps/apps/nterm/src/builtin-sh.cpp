@@ -51,14 +51,12 @@ static void sh_handle_cmd(const char *cmd) {
       }
     }
   }
-  char* temp[] = {"echo","echo","2",NULL};
-  execvp("echo",temp);
-  // if(argv[0]&&execvp(argv[0],argv)){
-  //   sh_printf("exective file not be found\n");
-  // }
-  // for(int i=0;i<10;i++){
-  //   if(argv[i]) free(argv[i]);
-  // }
+  if(argv[0]&&execvp(argv[0],argv)){
+    sh_printf("exective file not be found\n");
+  }
+  for(int i=0;i<10;i++){
+    if(argv[i]) free(argv[i]);
+  }
 }
 
 void builtin_sh_run() {
