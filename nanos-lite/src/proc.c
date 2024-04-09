@@ -50,6 +50,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   target->cp = ucontext(NULL,kstack,fn);
   // 初始化传入参数,这是操作系统在创建进程的准备工作之一
   int app_argc = getSize(argv);
+  printf("%s",envp[0]);
   int app_envpc = getSize(envp);
   printf("%d %d",app_argc,app_envpc);
   int init_size = 0,str_area_size = 0;
