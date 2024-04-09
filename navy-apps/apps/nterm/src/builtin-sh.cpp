@@ -31,6 +31,7 @@ static void sh_handle_cmd(const char *cmd) {
   int last = 0;
   for(int i=0;i<=strlen(cmd);i++){
     if(cmd[i]==' '||cmd[i]=='\0'){
+      if(i==last) {last++;continue;}
       argv[cnt] = (char*)malloc(sizeof(char)*(i-last)+1);
       strncpy(argv[cnt],&cmd[last],i-last);
       argv[cnt][i-last] = '\0';
