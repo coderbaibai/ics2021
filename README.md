@@ -27,5 +27,6 @@ The following subprojects/components are included. Some of them are not fully im
 #### TODO
 ```
 PA3的一些很有价值的选做：系统声卡、am环境迁移、多道程序ftracer
+busybox有BUG，会循环执行命令
 ```
 
