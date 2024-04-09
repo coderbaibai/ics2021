@@ -77,6 +77,9 @@ int sys_execve(const char *fname, char * const argv[], char *const envp[]){
         printf("%d\n",i);
         break;
       }
+      else{
+        printf("%s\n",envp[i]);
+      }
     }
     // naive_uload(NULL,input);
     context_uload(current,input,argv,envp);
