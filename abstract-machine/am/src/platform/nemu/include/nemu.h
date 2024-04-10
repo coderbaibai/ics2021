@@ -41,7 +41,23 @@ extern char _pmem_start;
   RANGE(FB_ADDR, FB_ADDR + 0x200000), \
   RANGE(MMIO_BASE, MMIO_BASE + 0x1000) /* serial, rtc, screen, keyboard */
 
-typedef uintptr_t PTE;
+typedef union
+{
+  struct{
+    uint32_t PPN_1 :12;
+    uint32_t PPN_0 :10;
+    uint32_t RSW   : 2;
+    uint32_t D     : 1;
+    uint32_t A     : 1;
+    uint32_t G     : 1;
+    uint32_t U     : 1;
+    uint32_t X     : 1;
+    uint32_t W     : 1;
+    uint32_t R     : 1;
+    uint32_t V     : 1;
+  };
+  uintptr_t pte;
+}PTE;
 
 #define PGSIZE    4096
 

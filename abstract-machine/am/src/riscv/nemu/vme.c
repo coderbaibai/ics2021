@@ -67,6 +67,16 @@ void __am_switch(Context *c) {
 }
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
+  // 找到页目录项PTE所在地址，as的ptr默认已经初始化
+  PTE* pte_outer = (PTE*)((uint32_t)as->ptr+4*(((uint32_t)va)>>22));
+  // 找到PTE
+  // 如果页目录项为空，需要分配一个页来作为页表
+  if(pte_outer->pte==0){
+    PTE* new_page_table = (PTE*)(pgalloc_usr(PGSIZE));
+    // 这片空间以4K为单位，高4K为基地址
+    pte_outer->PPN_0 = ((uint32_t)new_page_table>>12)&&0x3ff;
+    pte_outer->PPN_1 = ((uint32_t)new_page_table>>22)&&0x3ff;
+  }
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
