@@ -7,6 +7,7 @@ extern Area heap;
 
 void* new_page(size_t nr_page) {
   pf = (void*)((size_t)heap.end-(cnt*nr_page<<12));
+  // pf += cnt*nr_page<<12;
   cnt++;
   return pf;
 }
@@ -28,6 +29,7 @@ int mm_brk(uintptr_t brk) {
 
 void init_mm() {
   pf = (void *)ROUNDUP(heap.start, PGSIZE);
+  Log("malloc start from:%p",malloc(sizeof(char)));
   Log("free physical pages starting from %p", pf);
 
 #ifdef HAS_VME
