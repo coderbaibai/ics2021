@@ -52,6 +52,8 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   for(int i=0;i<app_envpc;i++){
     str_area_size = 1+strlen(envp[i]);
   }
+  // 保证四字节对齐
+  str_area_size = 4*(str_area_size/4)+4;
   init_size+=str_area_size;
   void* page_addr = new_page(8);
   int** cur = (int**)((int)page_addr-init_size);
@@ -78,7 +80,8 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
   kstack.end = target->stack+sizeof(target->stack);
   target->cp = ucontext(NULL,kstack,fn);
   // 初始化栈顶指针
-  target->cp->GPRx = (uintptr_t)((int)page_addr-init_size-1);
+  target->cp->GPRx = (uintptr_t)((int)page_addr-init_size-4);
+  printf("%08x %08x %08x\n",init_size,str_area_size,target->cp->GPRx);
 }
 
 void init_proc() {
