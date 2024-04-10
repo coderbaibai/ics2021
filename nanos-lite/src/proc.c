@@ -53,7 +53,7 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
     str_area_size = 1+strlen(envp[i]);
   }
   // 保证四字节对齐
-  // str_area_size = 4*(str_area_size/4)+4;
+  str_area_size = 4*(str_area_size/4)+4;
   init_size+=str_area_size;
   void* page_addr = new_page(8);
   int** cur = (int**)((int)page_addr-init_size);
