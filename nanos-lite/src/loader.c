@@ -41,7 +41,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         // 将.bss节清零
         if(cur_size>p_pheader->p_filesz){
           printf("t from %08x to %08x\n",(char*)ps+p_pheader->p_filesz-cur_size+PGSIZE,(char*)ps+PGSIZE);
-          for(char* t = (char*)ps+p_pheader->p_filesz-cur_size+PGSIZE;t<(char*)t+PGSIZE;t++){
+          for(char* t = (char*)ps+p_pheader->p_filesz-cur_size+PGSIZE;t<(char*)ps+PGSIZE;t++){
             *t = 0;
           }
         }
