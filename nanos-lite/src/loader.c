@@ -26,22 +26,24 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   fs_read(fd,p_pheader,elf_header.e_phnum*sizeof(Elf_Phdr));
   for(int i=0;i<elf_header.e_phnum;i++,p_pheader++){
     if(p_pheader->p_type==PT_LOAD){
+      // 程序段起点的块内偏移量
+      size_t off = p_pheader->p_vaddr&0xfff;
       // 将目标载入到可执行文件中指定的虚拟地址
-      fs_lseek(fd,p_pheader->p_offset,SEEK_SET);
+      fs_lseek(fd,p_pheader->p_offset-off,SEEK_SET);
 
       #ifdef HAS_VME
       int cur_size = 0;
       void* ps;
-      while(cur_size<p_pheader->p_memsz){
+      while(cur_size<p_pheader->p_memsz+off){
         ps = new_page(1);
         fs_read(fd,ps,PGSIZE);
         map(&pcb->as,(char*)p_pheader->p_vaddr+cur_size,ps,0);
         printf("load: map %08x to %08x\n",(char*)p_pheader->p_vaddr+cur_size,ps);
         cur_size+=PGSIZE;
         // 将.bss节清零
-        if(cur_size>p_pheader->p_filesz){
-          printf("t from %08x to %08x\n",(char*)ps+p_pheader->p_filesz-cur_size+PGSIZE,(char*)ps+PGSIZE);
-          for(char* t = (char*)ps+p_pheader->p_filesz-cur_size+PGSIZE;t<(char*)ps+PGSIZE;t++){
+        if(cur_size-off>p_pheader->p_filesz){
+          printf("t from %08x to %08x\n",(char*)ps+p_pheader->p_filesz-cur_size+off+PGSIZE,(char*)ps+PGSIZE);
+          for(char* t = (char*)ps+p_pheader->p_filesz-cur_size+off+PGSIZE;t<(char*)ps+PGSIZE;t++){
             *t = 0;
           }
         }
