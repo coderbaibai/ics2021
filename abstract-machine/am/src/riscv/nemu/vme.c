@@ -79,7 +79,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     pte_outer->PPN_0 = (uint32_t)pte_inner>>12&0x3ff;
     pte_outer->PPN_1 = (uint32_t)pte_inner>>22&0x3ff;
     pte_outer->V = 1;
-    printf("outer:%08x\n",pte_outer->pte);
+    // printf("outer:%08x\n",pte_outer->pte);
   }
   // 如果页目录项不为空，直接找到页表
   else pte_inner = (PTE*)(pte_outer->PPN_1<<22|pte_outer->PPN_0<<12|0);
@@ -90,7 +90,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   pte_inner->PPN_0 = (uint32_t)pa>>12&0x3ff;
   // 默认设置为有效
   pte_inner->V = 1;
-  printf("inner:%08x\n",pte_outer->pte);
+  // printf("inner:%08x\n",pte_outer->pte);
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
