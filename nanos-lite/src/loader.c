@@ -44,6 +44,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         if(cur_size-off>p_pheader->p_filesz){
           size_t t_off = p_pheader->p_filesz-cur_size+off+PGSIZE>0?p_pheader->p_filesz-cur_size+off+PGSIZE:0;
           printf("t from %08x to %08x\n",(char*)ps+t_off,(char*)ps+PGSIZE);
+          printf("t_off:%d\n",t_off);
           for(char* t = (char*)ps+t_off;t<(char*)ps+PGSIZE;t++){
             *t = 0;
           }
