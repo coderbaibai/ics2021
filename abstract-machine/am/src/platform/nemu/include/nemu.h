@@ -56,7 +56,7 @@ typedef union
     uint32_t R     : 1;
     uint32_t V     : 1;
   };
-  uintptr_t pte;
+  uint32_t pte;
 }PTE;
 
 #define PGSIZE    4096

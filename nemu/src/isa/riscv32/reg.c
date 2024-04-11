@@ -20,6 +20,7 @@ void isa_reg_display() {
   printf("%7s = 0x%08x\n","mepc   ",cpu.mepc);
   printf("%7s = 0x%08x  ","mstatus",cpu.mstatus);
   printf("%7s = 0x%08x\n","mcause ",cpu.mcause);
+  printf("%7s = 0x%08x  ","satp   ",cpu.satp);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
@@ -47,6 +48,8 @@ rtlreg_t* getCSR(uint32_t val){
     return &cpu.mstatus;
   case 0x342:
     return &cpu.mcause;
+  case 0x180:
+    return &cpu.satp;
   default:
     panic("unknown csr:0x%08x\n",val);
   }

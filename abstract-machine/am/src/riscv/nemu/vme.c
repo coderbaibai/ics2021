@@ -69,14 +69,24 @@ void __am_switch(Context *c) {
 void map(AddrSpace *as, void *va, void *pa, int prot) {
   // 找到页目录项PTE所在地址，as的ptr默认已经初始化
   PTE* pte_outer = (PTE*)((uint32_t)as->ptr+4*(((uint32_t)va)>>22));
-  // 找到PTE
+  // 找到页表
+  PTE* pte_inner = NULL;
   // 如果页目录项为空，需要分配一个页来作为页表
   if(pte_outer->pte==0){
-    PTE* new_page_table = (PTE*)(pgalloc_usr(PGSIZE));
+    pte_inner = (PTE*)(pgalloc_usr(PGSIZE));
     // 这片空间以4K为单位，高4K为基地址
-    pte_outer->PPN_0 = ((uint32_t)new_page_table>>12)&&0x3ff;
-    pte_outer->PPN_1 = ((uint32_t)new_page_table>>22)&&0x3ff;
+    pte_outer->PPN_0 = (uint32_t)pte_inner>>12&0x3ff;
+    pte_outer->PPN_1 = (uint32_t)pte_inner>>22&0x3ff;
   }
+  // 如果页目录项不为空，直接找到页表
+  else pte_inner = (PTE*)(pte_outer->PPN_1<<22|pte_outer->PPN_0<<12|0);
+  // 根据虚拟地址偏移，找到页表项
+  pte_inner = (PTE*)((uint32_t)pte_inner+4*((uint32_t)va>>12&0x3ff));
+  // 无论是否原有页表项，都进行覆盖(如果写了回收，则需要将覆盖的页帧回收)
+  pte_inner->PPN_1 = (uint32_t)pa>>22&0x3ff;
+  pte_inner->PPN_0 = (uint32_t)pa>>12&0x3ff;
+  // 默认设置为有效
+  pte_inner->V = 1;
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {

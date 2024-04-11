@@ -3,7 +3,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
-#include "memory/paddr.h"
+#include "memory/vaddr.h"
 
 static int is_batch_mode = false;
 
@@ -110,7 +110,7 @@ static int cmd_x(char* args){
       printf("error addr: <0x%08x>\n",addr);
       return 0;
     }
-    val = paddr_read(addr+i*4,4);
+    val = vaddr_read(addr+i*4,4);
     printf("<0x%08x>: %08x\n",addr+i*4,val);
   }
   return 0;
