@@ -30,11 +30,11 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   PTE pte_outer,pte_inner;
   pte_outer.pte = paddr_read(pgt_addr+4*((uint32_t)vaddr>>22),4);
   if(!pte_outer.pte||!pte_outer.V){
-    panic("page fault");
+    panic("page fault: access vaddr:%p",vaddr);
   }
   pte_inner.pte = paddr_read((pte_outer.PPN_1<<22|pte_outer.PPN_0<<12|0)+4*((uint32_t)vaddr>>12&0x3ff),4);
   if(!pte_outer.pte||!pte_outer.V){
-    panic("page fault");
+    panic("page fault: access vaddr:%p",vaddr);
   }
   return pte_inner.PPN_1<<22|pte_inner.PPN_0<<12|(vaddr&0x00000fff);
 }
