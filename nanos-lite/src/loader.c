@@ -36,6 +36,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         ps = new_page(1);
         fs_read(fd,ps,PGSIZE);
         map(&pcb->as,(char*)p_pheader->p_vaddr+cur_size,ps,0);
+        printf("load: map %08x to %08x",(char*)p_pheader->p_vaddr+cur_size,ps);
         cur_size+=PGSIZE;
         // 将.bss节清零
         if(cur_size>p_pheader->p_filesz){
@@ -52,6 +53,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   }
   fs_close(fd);
   free(base);
+  printf("load: entry vaddr %08x\n",elf_header.e_entry);
   return elf_header.e_entry;
 }
 
