@@ -17,9 +17,10 @@ Context* sys_yield(Context *c){
 int sys_exit(){
   return 0;
 }
+int mm_brk(uintptr_t brk);
 
 int sys_brk(void*addr){
-  return 0;
+  return mm_brk((uintptr_t)addr);
 }
 // 文件操作
 int fs_open(const char *pathname, int flags, int mode);
