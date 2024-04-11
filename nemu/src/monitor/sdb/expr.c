@@ -5,6 +5,7 @@
  */
 #include <regex.h>
 #include "memory/paddr.h"
+#include "memory/vaddr.h"
 
 enum {
   TK_NOTYPE = 256, 
