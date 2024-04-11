@@ -28,8 +28,26 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     if(p_pheader->p_type==PT_LOAD){
       // 将目标载入到可执行文件中指定的虚拟地址
       fs_lseek(fd,p_pheader->p_offset,SEEK_SET);
+
+      #ifdef HAS_VME
+      int cur_size = 0;
+      void* ps;
+      while(cur_size<p_pheader->p_memsz){
+        ps = new_page(1);
+        fs_read(fd,ps,PGSIZE);
+        map(&pcb->as,(char*)p_pheader->p_vaddr+cur_size,ps,0);
+        cur_size+=PGSIZE;
+        // 将.bss节清零
+        if(cur_size>p_pheader->p_filesz){
+          for(char* t = (char*)ps+p_pheader->p_filesz-cur_size+PGSIZE;t<(char*)t+PGSIZE;t++){
+            *t = 0;
+          }
+        }
+      }
+      #else
       fs_read(fd,(void*)p_pheader->p_vaddr,p_pheader->p_memsz);
       for(char* t= (char*)(p_pheader->p_vaddr+p_pheader->p_filesz);t<(char*)(p_pheader->p_vaddr+p_pheader->p_memsz);t++) *t=0;
+      #endif
     }
   }
   fs_close(fd);

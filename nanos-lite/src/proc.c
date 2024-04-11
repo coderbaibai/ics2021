@@ -40,7 +40,7 @@ static inline int getSize(char *const target[]){
   }
   panic("error arr");
 }
-void context_uload(PCB*target,const char* fn_name,char *const argv[], char *const envp[]){
+void context_uload(PCB* target,const char* fn_name,char *const argv[], char *const envp[]){
   // 初始化传入参数,这是操作系统在创建进程的准备工作之一
   int app_argc = getSize(argv);
   int app_envpc = getSize(envp);
@@ -73,8 +73,11 @@ void context_uload(PCB*target,const char* fn_name,char *const argv[], char *cons
     s_cur+=strlen(envp[i])+1;
   }
   *cur = NULL;
-  // 在内核栈中创建上下文
+  // 初始化PCB
+  protect(&target->as);
+  // 载入用户程序
   void* fn = uload(target,fn_name);
+  // 在内核栈中创建上下文
   Area kstack;
   kstack.start = target->stack;
   kstack.end = target->stack+sizeof(target->stack);
