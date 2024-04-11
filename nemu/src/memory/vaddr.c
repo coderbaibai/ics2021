@@ -40,14 +40,13 @@ void vaddr_write(vaddr_t addr, int len, word_t data) {
   switch (checked)
   {
   case MMU_DIRECT:
-    return paddr_write(addr, len, data);
+    paddr_write(addr, len, data);
     break;
   case MMU_TRANSLATE:
-    return paddr_write(isa_mmu_translate(addr,len,0), len, data);
+    paddr_write(isa_mmu_translate(addr,len,0), len, data);
     break;
   default:
     panic("mmu error");
     break;
   }
-  return 0;
 }
