@@ -53,7 +53,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       }
       // 记录最大虚拟地址(对0xfff向上取整)，作为end_data
       if(end_data<p_pheader->p_vaddr+p_pheader->p_memsz) end_data = p_pheader->p_vaddr+p_pheader->p_memsz;
-      if(end_data&0xfff) end_data = (end_data+0x1000)&0x000;
+      if(end_data&0xfff) end_data = (end_data+0x1000)&0xfffff000;
       pcb->max_brk = end_data;
       printf("end_data:%08x\n",end_data);
       #else
