@@ -28,6 +28,7 @@ void context_kload(PCB*target,void(fn)(void*),void*args){
   kstack.end = target->stack+sizeof(target->stack);
   target->cp = kcontext(kstack,fn,args);
   protect(&target->as);
+  target->as.ptr = NULL;
 }
 
 void* uload(PCB *pcb,const char *filename);
