@@ -14,7 +14,6 @@ static Area segments[] = {      // Kernel memory mappings
 #define USER_SPACE RANGE(0x40000000, 0x80000000)
 
 static inline void set_satp(void *pdir) {
-  printf("set satp\n");
   uintptr_t mode = 1ul << (__riscv_xlen - 1);
   asm volatile("csrw satp, %0" : : "r"(mode | ((uintptr_t)pdir >> 12)));
 }
@@ -68,6 +67,7 @@ void __am_switch(Context *c) {
 }
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
+  printf("map %p to %p\n",va,pa);
   // 找到页目录项PTE所在地址，as的ptr默认已经初始化
   PTE* pte_outer = (PTE*)((uint32_t)as->ptr+4*(((uint32_t)va)>>22));
   // 找到页表
