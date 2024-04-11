@@ -6,7 +6,7 @@ extern Area heap;
 
 void* new_page(size_t nr_page) {
   pf = (void*)((size_t)pf-(nr_page*PGSIZE));
-  printf("pf:%p\n",pf);
+  // printf("pf:%p\n",pf);
   return pf;
 }
 
