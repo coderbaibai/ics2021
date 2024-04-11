@@ -98,7 +98,7 @@ void init_proc() {
   char* envp[]={NULL};
   context_uload(&pcb[1],argv[0],argv,envp);
 
-  argv[0] = "/bin/hello";
+  argv[0] = "/bin/nterm";
   context_uload(&pcb[0],argv[0],argv,envp);
   switch_boot_pcb();
 
