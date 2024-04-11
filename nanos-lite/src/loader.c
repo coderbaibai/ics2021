@@ -42,7 +42,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         cur_size+=PGSIZE;
         // 将.bss节清零
         if(cur_size-off>p_pheader->p_filesz){
-          int t_off = (p_pheader->p_filesz-cur_size+off+PGSIZE)>0?(p_pheader->p_filesz-cur_size+off+PGSIZE):0;
+          int t_off = (p_pheader->p_filesz-cur_size+off+PGSIZE)>0?0:(p_pheader->p_filesz-cur_size+off+PGSIZE);
           printf("t_off:%d t_off:%d\n",t_off>=0,t_off);
           printf("t from %08x %08x to %08x\n",(char*)ps,(char*)ps+t_off,(char*)ps+PGSIZE);
           for(char* t = (char*)ps+t_off;t<(char*)ps+PGSIZE;t++){
