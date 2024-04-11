@@ -17,7 +17,7 @@ int fs_close(int fd);
 int fs_open(const char *pathname, int flags, int mode);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  size_t end_data = 0;
+  uint32_t end_data = 0;
   int fd = fs_open(filename,0,0);
   Elf_Ehdr elf_header;
   fs_read(fd,&elf_header,sizeof(Elf_Ehdr));
@@ -53,9 +53,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       }
       // 记录最大虚拟地址(对0xfff向上取整)，作为end_data
       if(end_data<p_pheader->p_vaddr+p_pheader->p_memsz) end_data = p_pheader->p_vaddr+p_pheader->p_memsz;
-      if(end_data&0xfff) end_data = (end_data+0x1000)&0xfffff000;
+      if(end_data&0xfff) end_data = (end_data+PGSIZE)&0xfffff000;
       pcb->max_brk = end_data;
       printf("end_data:%08x\n",end_data);
+      // 默认先给堆区分配一次内存
+      map(&pcb->as,(void*)end_data,new_page(1),0);
       #else
       fs_read(fd,(void*)p_pheader->p_vaddr,p_pheader->p_memsz);
       for(char* t= (char*)(p_pheader->p_vaddr+p_pheader->p_filesz);t<(char*)(p_pheader->p_vaddr+p_pheader->p_memsz);t++) *t=0;

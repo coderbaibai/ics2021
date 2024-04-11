@@ -24,6 +24,11 @@ void free_page(void *p) {
 
 /* The brk() system call handler. */
 int mm_brk(uintptr_t brk) {
+  uint32_t former = current->max_brk;
+  current->max_brk+=brk;
+  for(uint32_t i=(former&0xfffff000)+PGSIZE;i<current->max_brk;i+=PGSIZE){
+    map(&current->as,(void*)i,new_page(1),0);
+  }
   return 0;
 }
 
