@@ -38,13 +38,13 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
         ps = new_page(1);
         fs_read(fd,ps,PGSIZE);
         map(&pcb->as,(char*)p_pheader->p_vaddr+cur_size,ps,0);
-        // printf("load: map %08x to %08x\n",(char*)p_pheader->p_vaddr+cur_size-off,ps);
+        printf("load: map %08x to %08x\n",(char*)p_pheader->p_vaddr+cur_size-off,ps);
         cur_size+=PGSIZE;
         // 将.bss节清零
         if(cur_size-off>p_pheader->p_filesz){
           int t_off = p_pheader->p_filesz-cur_size+off+PGSIZE;
           if(t_off<0) t_off = 0;
-          // printf("t from %08x %08x to %08x\n",(char*)ps,(char*)ps+t_off,(char*)ps+PGSIZE);
+          printf("t from %08x %08x to %08x\n",(char*)ps,(char*)ps+t_off,(char*)ps+PGSIZE);
           for(char* t = (char*)ps+t_off;t<(char*)ps+PGSIZE;t++){
             *t = 0;
           }
