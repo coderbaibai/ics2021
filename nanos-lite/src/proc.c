@@ -41,6 +41,7 @@ static inline int getSize(char *const target[]){
   panic("error arr");
 }
 void context_uload(PCB* target,const char* fn_name,char *const argv[], char *const envp[]){
+  // 分配用户栈，并将栈指针放入上下文
   // 初始化传入参数,这是操作系统在创建进程的准备工作之一
   int app_argc = getSize(argv);
   int app_envpc = getSize(envp);
@@ -55,7 +56,7 @@ void context_uload(PCB* target,const char* fn_name,char *const argv[], char *con
   // 保证四字节对齐
   str_area_size = 4*(str_area_size/4)+4;
   init_size+=str_area_size;
-  void* page_addr = new_page(8);
+  void* page_addr = (char*)new_page(8)+8*PGSIZE;
   int** cur = (int**)((int)page_addr-init_size);
   char* s_cur = (char*)((int)page_addr-str_area_size);
   *((int*)cur) = app_argc;
@@ -75,6 +76,10 @@ void context_uload(PCB* target,const char* fn_name,char *const argv[], char *con
   *cur = NULL;
   // 初始化PCB
   protect(&target->as);
+  // 将用户栈的映射写入页表
+  for(int i=8;i>0;i--){
+    map(&target->as,(char*)target->as.area.end-i*PGSIZE,(char*)page_addr-i*PGSIZE,0);
+  }
   // 载入用户程序
   void* fn = uload(target,fn_name);
   // 在内核栈中创建上下文
