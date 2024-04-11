@@ -28,11 +28,10 @@ int mm_brk(uintptr_t brk) {
   uint32_t former = current->max_brk;
   current->max_brk = brk;
   void* pg_addr;
-  // printf("i for %08x to %08x",(former&0xfffff000)+PGSIZE,current->max_brk);
   for(uint32_t i=(former&0xfffff000)+PGSIZE;i<=current->max_brk;i+=PGSIZE){
     pg_addr = new_page(1);
     map(&current->as,(void*)i,pg_addr,0);
-    printf("mm_brk: map %08x to %08x\n",(char*)i,(char*)pg_addr);
+    // printf("mm_brk: map %08x to %08x\n",(char*)i,(char*)pg_addr);
   }
   return 0;
 }
