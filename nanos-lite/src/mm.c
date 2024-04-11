@@ -31,7 +31,7 @@ int mm_brk(uintptr_t brk) {
   for(uint32_t i=(former&0xfffff000)+PGSIZE;i<current->max_brk;i+=PGSIZE){
     pg_addr = new_page(1);
     map(&current->as,(void*)i,pg_addr,0);
-    printf("mm_brk: map %08x to %08x\n",(char*)i,(char*)pg_addr);
+    // printf("mm_brk: map %08x to %08x\n",(char*)i,(char*)pg_addr);
   }
   return 0;
 }
