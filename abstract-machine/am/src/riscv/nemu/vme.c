@@ -67,7 +67,7 @@ void __am_switch(Context *c) {
 }
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
-  printf("map %p to %p\n",va,pa);
+  // printf("map %p to %p\n",va,pa);
   // 找到页目录项PTE所在地址，as的ptr默认已经初始化
   PTE* pte_outer = (PTE*)((uint32_t)as->ptr+4*(((uint32_t)va)>>22));
   // 找到页表
