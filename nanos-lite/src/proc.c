@@ -86,7 +86,7 @@ void context_uload(PCB* target,const char* fn_name,char *const argv[], char *con
   Area kstack;
   kstack.start = target->stack;
   kstack.end = target->stack+sizeof(target->stack);
-  target->cp = ucontext(NULL,kstack,fn);
+  target->cp = ucontext(&target->as,kstack,fn);
   // 初始化栈顶指针
   target->cp->GPRx = (uintptr_t)((int)page_addr-init_size);
 }
