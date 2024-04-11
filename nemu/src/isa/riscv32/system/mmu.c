@@ -29,7 +29,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   // 找到页目录项
   PTE pte_outer,pte_inner;
   pte_outer.pte = paddr_read(pgt_addr+4*((uint32_t)vaddr>>22),4);
-  printf("outer:%08x\n",pte_outer.pte);
+  // printf("outer:%08x\n",pte_outer.pte);
   if(!pte_outer.pte||!pte_outer.V){
     panic("outer:page fault: access vaddr:%08x",vaddr);
   }
@@ -37,6 +37,6 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   if(!pte_outer.pte||!pte_outer.V){
     panic("inner:page fault: access vaddr:%08x",vaddr);
   }
-  printf("inner:%08x\n",pte_outer.pte);
+  // printf("inner:%08x\n",pte_outer.pte);
   return pte_inner.PPN_1<<22|pte_inner.PPN_0<<12|(vaddr&0x00000fff);
 }
