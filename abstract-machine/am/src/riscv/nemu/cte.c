@@ -19,8 +19,10 @@ Context* __am_irq_handle(Context *c) {
       break;
     case EVENT_SYSCALL:
       ev.event = EVENT_SYSCALL;
+      break;
     case IRQ_TIMER:
       ev.event = EVENT_IRQ_TIMER;
+      break;
     default:
       ev.event = c->mcause;
       break;
