@@ -96,7 +96,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   Context* res = (Context*)(kstack.end-sizeof(Context));
   memset(res,0,sizeof(Context));
-  res->mstatus = 0x1800;
+  res->mstatus = 0x1880;
   res->mepc = ((uintptr_t)entry)-sizeof(uintptr_t);
   res->SP = (uintptr_t)res;
   res->pdir = as->ptr;

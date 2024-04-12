@@ -1,5 +1,6 @@
 #include <isa.h>
 
+// 这是所谓的中断隐指令
 word_t isa_raise_intr(word_t NO, vaddr_t mepc) {
   /* TODO: Trigger an interrupt/exception with ``NO''.
    * Then return the address of the interrupt/exception vector.
@@ -9,9 +10,15 @@ word_t isa_raise_intr(word_t NO, vaddr_t mepc) {
 #endif
   cpu.mepc = mepc;
   cpu.mcause = NO;
+  cpu.mstatus.MPIE = cpu.mstatus.MIE;
+  cpu.mstatus.MIE = 0;
   return cpu.mtvec;
 }
-
+#define IRQ_TIMER 0x80000007
 word_t isa_query_intr() {
+  if(cpu.INTR&&cpu.mstatus.MIE){
+    cpu.INTR = false;
+    return IRQ_TIMER;
+  }
   return INTR_EMPTY;
 }

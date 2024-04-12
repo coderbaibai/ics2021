@@ -35,5 +35,7 @@ def_EHelper(ecall){
 }
 
 def_EHelper(mret){
+  cpu.mstatus.MIE = cpu.mstatus.MPIE;
+  cpu.mstatus.MPIE = 1;
   s->dnpc = cpu.mepc+4;
 }

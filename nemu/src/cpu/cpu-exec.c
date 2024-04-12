@@ -104,6 +104,7 @@ void cpu_exec(uint64_t n) {
   uint64_t timer_start = get_time();
 
   Decode s;
+  word_t intr;
   for (;n > 0; n --) {
     // 取指_译码_执行_更新PC
     fetch_decode_exec_updatepc(&s);
@@ -113,6 +114,11 @@ void cpu_exec(uint64_t n) {
     if (nemu_state.state != NEMU_RUNNING) break;
     // 如果定义了外设，执行外设的函数。
     IFDEF(CONFIG_DEVICE, device_update());
+    // 每条指令完成以后，查看INTR引脚
+    intr = isa_query_intr();
+    if(intr!=INTR_EMPTY){
+      cpu.pc = isa_raise_intr(intr,cpu.pc);
+    }
   }
 
   uint64_t timer_end = get_time();

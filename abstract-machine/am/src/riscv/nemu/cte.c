@@ -3,6 +3,8 @@
 #include <klib.h>
 
 
+#define IRQ_TIMER 0x80000007
+
 static Context* (*user_handler)(Event, Context*) = NULL;
 void __am_get_cur_as(Context *c);
 void __am_switch(Context *c);
@@ -10,8 +12,19 @@ Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
     __am_get_cur_as(c);
-
-    ev.event = c->mcause;
+    switch (c->mcause)
+    {
+    case EVENT_YIELD:
+      ev.event = EVENT_YIELD;
+      break;
+    case EVENT_SYSCALL:
+      ev.event = EVENT_SYSCALL;
+    case IRQ_TIMER:
+      ev.event = EVENT_IRQ_TIMER;
+    default:
+      ev.event = c->mcause;
+      break;
+    }
 
     c = user_handler(ev, c);
     assert(c != NULL);
@@ -36,7 +49,7 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   Context* res = (Context*)(kstack.end-sizeof(Context));
   memset(res,0,sizeof(Context));
-  res->mstatus = 0x1800;
+  res->mstatus = 0x1880;
   res->mepc = ((uintptr_t)entry)-sizeof(uintptr_t);
   res->SP = (uintptr_t)res;
   res->GPR2 = (uintptr_t)arg;

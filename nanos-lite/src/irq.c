@@ -71,7 +71,11 @@ static Context* do_event(Event e, Context* c) {
       break;
     } break;
     case EVENT_YIELD:
-      c = sys_yield(c); 
+      c = sys_yield(c);
+      break;
+    case EVENT_IRQ_TIMER:
+      Log("alarm interrupt");
+      c = sys_yield(c);
       break;
     default: printf("event not impl:%d\n",e.event);
   }

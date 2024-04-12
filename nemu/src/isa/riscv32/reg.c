@@ -18,7 +18,7 @@ void isa_reg_display() {
   }
   printf("%7s = 0x%08x  ","mtvec  ",cpu.mtvec);
   printf("%7s = 0x%08x\n","mepc   ",cpu.mepc);
-  printf("%7s = 0x%08x  ","mstatus",cpu.mstatus);
+  printf("%7s = 0x%08x  ","mstatus",cpu.mstatus.val);
   printf("%7s = 0x%08x\n","mcause ",cpu.mcause);
   printf("%7s = 0x%08x  ","satp   ",cpu.satp);
 }
@@ -45,7 +45,7 @@ rtlreg_t* getCSR(uint32_t val){
   case 0x341:
     return &cpu.mepc;
   case 0x300:
-    return &cpu.mstatus;
+    return &cpu.mstatus.val;
   case 0x342:
     return &cpu.mcause;
   case 0x180:
