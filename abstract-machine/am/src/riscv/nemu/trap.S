@@ -49,6 +49,7 @@ __am_asm_trap:
 
   mv a0, sp
   # 将sp也保存在context中，因为sp前后不一定一致了
+  # 暂时没什么必要
   STORE sp,OFFSET_SP(sp)
 
   jal __am_irq_handle
