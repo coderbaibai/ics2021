@@ -26,7 +26,7 @@ void free_page(void *p) {
 int mm_brk(uintptr_t brk) {
   printf("brk:%08x\n",brk);
   uint32_t former = current->max_brk;
-  current->max_brk = brk;
+  current->max_brk = brk>current->max_brk?brk:current->max_brk;
   void* pg_addr;
   for(uint32_t i=(former&0xfffff000)+PGSIZE;i<=current->max_brk;i+=PGSIZE){
     pg_addr = new_page(1);
