@@ -119,7 +119,6 @@ void cpu_exec(uint64_t n) {
     if(intr!=INTR_EMPTY){
       Log("interrupt");
       cpu.pc = isa_raise_intr(intr,cpu.pc);
-      Log("pc:%d",cpu.pc);
     }
   }
 
