@@ -5,6 +5,7 @@
 
 typedef union
 {
+  rtlreg_t val;
   struct{
     uint32_t SD:1;
     uint32_t ZERO_3:8;
@@ -28,7 +29,6 @@ typedef union
     uint32_t SIE:1;
     uint32_t UIE:1;
   };
-  rtlreg_t val;
 }reg_mstatus;
 
 
