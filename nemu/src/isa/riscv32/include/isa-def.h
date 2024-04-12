@@ -7,27 +7,27 @@ typedef union
 {
   rtlreg_t val;
   struct{
-    uint32_t SD:1;
-    uint32_t ZERO_3:8;
-    uint32_t TSR:1;
-    uint32_t TW:1;
-    uint32_t TVM:1;
-    uint32_t MXR:1;
-    uint32_t SUM:1;
-    uint32_t MPRV:1;
-    uint32_t XS:2;
-    uint32_t FS:2;
-    uint32_t MPP:2;
-    uint32_t ZERO_2:2;
-    uint32_t SPP:1;
-    uint32_t MPIE:1;
-    uint32_t ZERO_1:1;
-    uint32_t SPIE:1;
-    uint32_t UPIE:1;
-    uint32_t MIE:1;
-    uint32_t ZERO_0:1;
-    uint32_t SIE:1;
     uint32_t UIE:1;
+    uint32_t SIE:1;
+    uint32_t ZERO_0:1;
+    uint32_t MIE:1;
+    uint32_t UPIE:1;
+    uint32_t SPIE:1;
+    uint32_t ZERO_1:1;
+    uint32_t MPIE:1;
+    uint32_t SPP:1;
+    uint32_t ZERO_2:2;
+    uint32_t MPP:2;
+    uint32_t FS:2;
+    uint32_t XS:2;
+    uint32_t MPRV:1;
+    uint32_t SUM:1;
+    uint32_t MXR:1;
+    uint32_t TVM:1;
+    uint32_t TW:1;
+    uint32_t TSR:1;
+    uint32_t ZERO_3:8;
+    uint32_t SD:1;
   };
 }reg_mstatus;
 
