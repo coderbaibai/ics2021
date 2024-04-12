@@ -77,7 +77,7 @@ static Context* do_event(Event e, Context* c) {
       Log("alarm interrupt");
       c = sys_yield(c);
       break;
-    default: printf("event not impl:%d\n",e.event);
+    default: printf("event not impl:%08x\n",e.event);
   }
   return c;
 }
