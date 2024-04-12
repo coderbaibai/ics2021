@@ -19,7 +19,7 @@ word_t isa_query_intr() {
   if(cpu.INTR&&cpu.mstatus.MIE){
     cpu.INTR = false;
     Log("size:%08lx\n",sizeof(cpu.mstatus));
-    Log("mstatus:%08x MIE:%08x\n",cpu.mstatus.val,cpu.mstatus.MIE);
+    Log("mstatus:%08x MIE:%08x\n",cpu.mstatus.val,cpu.mstatus.UIE);
     return IRQ_TIMER;
   }
   return INTR_EMPTY;
