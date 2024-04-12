@@ -117,6 +117,7 @@ void cpu_exec(uint64_t n) {
     // 每条指令完成以后，查看INTR引脚
     intr = isa_query_intr();
     if(intr!=INTR_EMPTY){
+      Log("interrupt");
       cpu.pc = isa_raise_intr(intr,cpu.pc);
     }
   }
