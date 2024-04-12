@@ -18,7 +18,7 @@ static void restart() {
   cpu.gpr[0]._32 = 0;
   cpu.mstatus.val = 0x1800;
     Log("before mstatus:%08x MIE:%08x\n",cpu.mstatus.val,cpu.mstatus.MIE);
-  cpu.mstatus.MIE = 1;
+  cpu.mstatus.MIE = 0x00000001;
     Log("after  mstatus:%08x MIE:%08x\n",cpu.mstatus.val,cpu.mstatus.MIE);
   cpu.satp = 0;
   cpu.INTR = false;
