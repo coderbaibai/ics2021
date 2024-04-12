@@ -18,8 +18,6 @@ word_t isa_raise_intr(word_t NO, vaddr_t mepc) {
 word_t isa_query_intr() {
   if(cpu.INTR&&cpu.mstatus.MIE){
     cpu.INTR = false;
-    Log("size:%08lx\n",sizeof(cpu.mstatus));
-    Log("mstatus:%08x MIE:%08x\n",cpu.mstatus.val,cpu.mstatus.MIE);
     return IRQ_TIMER;
   }
   return INTR_EMPTY;

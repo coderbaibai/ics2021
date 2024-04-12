@@ -28,9 +28,11 @@ int main() {
   init_proc();
 
   Log("Finish initialization");
-  
+
 #ifdef HAS_CTE
   // yield();
+  // 开中断
+  asm volatile("csrw mstatus,%0": : "r"(0x1808));
   while(1);
 #endif
 

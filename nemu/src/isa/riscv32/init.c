@@ -17,9 +17,7 @@ static void restart() {
   /* The zero register is always 0. */
   cpu.gpr[0]._32 = 0;
   cpu.mstatus.val = 0x1800;
-    Log("before mstatus:%08x MIE:%08x\n",cpu.mstatus.val,cpu.mstatus.MIE);
-  cpu.mstatus.MIE = 0x00000001;
-    Log("after  mstatus:%08x MIE:%08x\n",cpu.mstatus.val,cpu.mstatus.MIE);
+  cpu.mstatus.MIE = 0;
   cpu.satp = 0;
   cpu.INTR = false;
 }
