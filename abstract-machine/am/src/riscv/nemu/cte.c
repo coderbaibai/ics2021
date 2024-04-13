@@ -30,9 +30,10 @@ Context* __am_irq_handle(Context *c) {
 
     c = user_handler(ev, c);
     assert(c != NULL);
-    // int a=1;
+    int a=0x888;
+    printf("before:%08x %08x\n",&a,a);
     __am_switch(c);
-    // printf("%08x\n",&a);
+    printf("after: %08x %08x\n",&a,a);
   }
   return c;
 }
