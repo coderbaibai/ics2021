@@ -19,7 +19,6 @@ char* getFilenameById(int i);
 Context* sys_yield(Context*c);
 
 static Context* do_event(Event e, Context* c) {
-  printf("do event:%d\n",e.event);
   switch (e.event) {
     case EVENT_SYSCALL:{
       int ret = 0;
