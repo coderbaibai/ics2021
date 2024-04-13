@@ -73,13 +73,14 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   PTE* pte_outer = (PTE*)((uint32_t)as->ptr+4*(((uint32_t)va)>>22));
   // 找到页表
   PTE* pte_inner = NULL;
+  PTE* k_outer = (PTE*)((uint32_t)kas.ptr+4*(((uint32_t)va)>>22));
   // 如果页目录项为空，需要分配一个页来作为页表
   if(pte_outer->pte==0){
     pte_inner = (PTE*)(pgalloc_usr(PGSIZE));
     // 这片空间以4K为单位，高4K为基地址
-    pte_outer->PPN_0 = (uint32_t)pte_inner>>12&0x3ff;
-    pte_outer->PPN_1 = (uint32_t)pte_inner>>22&0x3ff;
-    pte_outer->V = 1;
+    k_outer->PPN_0 = pte_outer->PPN_0 = (uint32_t)pte_inner>>12&0x3ff;
+    k_outer->PPN_1 = pte_outer->PPN_1 = (uint32_t)pte_inner>>22&0x3ff;
+    k_outer->V = pte_outer->V = 1;
     // printf("outer:%08x\n",pte_outer->pte);
   }
   // 如果页目录项不为空，直接找到页表
