@@ -3,6 +3,7 @@
 #include <klib.h>
 
 static AddrSpace kas = {};
+static AddrSpace bas = {};
 static void* (*pgalloc_usr)(int) = NULL;
 static void (*pgfree_usr)(void*) = NULL;
 static int vme_enable = 0;
@@ -29,12 +30,14 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
   pgfree_usr = pgfree_f;
 
   kas.ptr = pgalloc_f(PGSIZE);
+  bas.ptr = pgalloc_f(PGSIZE);
 
   int i;
   for (i = 0; i < LENGTH(segments); i ++) {
     void *va = segments[i].start;
     for (; va < segments[i].end; va += PGSIZE) {
       map(&kas, va, va, 0);
+      map(&bas, va, va, 0);
     }
   }
 
@@ -50,7 +53,7 @@ void protect(AddrSpace *as) {
   as->area = USER_SPACE;
   as->pgsize = PGSIZE;
   // map kernel space
-  memcpy(updir, kas.ptr, PGSIZE);
+  memcpy(updir, bas.ptr, PGSIZE);
 }
 
 void unprotect(AddrSpace *as) {
