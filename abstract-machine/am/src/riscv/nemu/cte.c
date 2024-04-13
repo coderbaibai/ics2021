@@ -30,7 +30,6 @@ Context* __am_irq_handle(Context *c) {
 
     c = user_handler(ev, c);
     assert(c != NULL);
-    printf("pdir%08x\n",c->pdir);
     __am_switch(c);
   }
   return c;
