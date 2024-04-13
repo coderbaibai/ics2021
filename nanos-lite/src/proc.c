@@ -93,13 +93,13 @@ void context_uload(PCB* target,const char* fn_name,char *const argv[], char *con
 }
 
 void init_proc() {
-  context_kload(&pcb[0],hello_fun,(void*)0x1);
+  // context_kload(&pcb[0],hello_fun,(void*)0x1);
   char* argv[]={"/bin/nterm",NULL};
   char* envp[]={NULL};
   context_uload(&pcb[1],argv[0],argv,envp);
-
-  // argv[0] = "/bin/hello";
-  // context_uload(&pcb[0],argv[0],argv,envp);
+  
+  argv[0] = "/bin/hello";
+  context_uload(&pcb[0],argv[0],argv,envp);
   switch_boot_pcb();
 
   // Log("Initializing processes...");
