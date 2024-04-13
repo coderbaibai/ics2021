@@ -113,12 +113,12 @@ Context* schedule(Context *prev) {
   if(cur!=0){
     current = &pcb[0];
     cur = 0;
-    printf("turn to 0");
+    printf("turn to 0\n");
   }
   else{
     cur = 1;
     current = &pcb[1];
-    printf("turn to 0");
+    printf("turn to 1\n");
   }
   return current->cp;
 }
