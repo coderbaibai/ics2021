@@ -12,7 +12,6 @@ void do_syscall(Context *c) {
 }
 Context* schedule(Context *prev);
 Context* sys_yield(Context *c){
-  io_write(AM_GPU_CLEAR,NULL);
   return schedule(c);
 }
 int sys_exit(){

@@ -118,6 +118,9 @@ Context* schedule(Context *prev) {
   //   current = &pcb[1];
   // }
   current->cp = prev;
-  current = &pcb[cur_process];
+  if(current!=&pcb[cur_process]){
+    io_write(AM_GPU_CLEAR,NULL);
+    current = &pcb[cur_process];
+  }
   return current->cp;
 }
