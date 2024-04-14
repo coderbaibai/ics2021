@@ -1,9 +1,9 @@
 rtlreg_t* getCSR(uint32_t val);
 def_EHelper(csrrw){
   rtlreg_t* t = getCSR(id_src2->simm&0xfff);
-  int temp = *t;
+  rtlreg_t temp = *t;
   rtl_addi(s,t,dsrc1,0);
-  rtl_addi(s,ddest,temp,0);
+  rtl_addi(s,ddest,&temp,0);
 }
 def_EHelper(csrrs){
   rtlreg_t* t = getCSR(id_src2->simm&0xfff);
