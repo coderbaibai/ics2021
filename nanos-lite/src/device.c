@@ -31,6 +31,8 @@ size_t serial_read(void *buf, size_t offset, size_t len){
   return 0;
 }
 
+int cur_process = 0;
+
 size_t events_read(void *buf, size_t offset, size_t len) {
   yield();
   char str[20] = {'\0'};
@@ -40,6 +42,23 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   // strcat(str,"\n");
   strncpy((char*)buf,str,len);
   if(ev.keycode==AM_KEY_NONE) return 0;
+  switch (ev.keycode)
+  {
+  case AM_KEY_F1:
+    cur_process = 0;
+    break;
+  case AM_KEY_F2:
+    cur_process = 1;
+    break;
+  case AM_KEY_F3:
+    cur_process = 2;
+    break;
+  case AM_KEY_F4:
+    cur_process = 3;
+    break;
+  default:
+    break;
+  }
   return len<strlen((char*)buf)?len:strlen((char*)buf);
 }
 

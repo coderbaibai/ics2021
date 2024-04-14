@@ -96,27 +96,28 @@ void init_proc() {
   // context_kload(&pcb[0],hello_fun,(void*)0x1);
   char* argv[]={"/bin/nterm",NULL};
   char* envp[]={NULL};
-  context_uload(&pcb[1],argv[0],argv,envp);
-
-  argv[0] = "/bin/hello";
   context_uload(&pcb[0],argv[0],argv,envp);
+  context_uload(&pcb[1],argv[0],argv,envp);
+  context_uload(&pcb[2],argv[0],argv,envp);
   switch_boot_pcb();
 
   // Log("Initializing processes...");
   // naive_uload(NULL,"/bin/nterm");
   // load program here
 }
-
+extern int cur_process;
 Context* schedule(Context *prev) {
-  static int cur = -1;
+  // static int cur = -1;
+  // current->cp = prev;
+  // if(cur!=0){
+  //   current = &pcb[0];
+  //   cur = 0;
+  // }
+  // else{
+  //   cur = 1;
+  //   current = &pcb[1];
+  // }
   current->cp = prev;
-  if(cur!=0){
-    current = &pcb[0];
-    cur = 0;
-  }
-  else{
-    cur = 1;
-    current = &pcb[1];
-  }
+  current = &pcb[cur_process];
   return current->cp;
 }
