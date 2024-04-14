@@ -118,7 +118,7 @@ void cpu_exec(uint64_t n) {
     intr = isa_query_intr();
     if(intr!=INTR_EMPTY){
       Log("interrupt from pc:%08x",cpu.pc);
-      cpu.pc = isa_raise_intr(intr,cpu.pc-4)-4;
+      cpu.pc = isa_raise_intr(intr,cpu.pc-4);
     }
   }
 
