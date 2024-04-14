@@ -7,13 +7,16 @@ def_EHelper(csrrw){
 }
 def_EHelper(csrrs){
   rtlreg_t* t = getCSR(id_src2->simm&0xfff);
-  rtl_addi(s,ddest,t,0);
-  rtl_or(s,t,t,dsrc1);
+  rtlreg_t temp = *t;
+  rtl_or(s,t,&temp,dsrc1);
+  rtl_addi(s,ddest,&temp,0);
+  
 }
 def_EHelper(csrrc){
   rtlreg_t* t = getCSR(id_src2->simm&0xfff);
-  rtl_addi(s,ddest,t,0);
+  rtlreg_t temp = *t;
   rtl_and(s,t,t,dsrc1);
+  rtl_addi(s,ddest,&temp,0);
 }
 def_EHelper(csrrwi){
   rtlreg_t* t = getCSR(id_src2->simm&0xfff);
