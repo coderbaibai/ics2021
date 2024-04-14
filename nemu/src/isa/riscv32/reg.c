@@ -16,11 +16,12 @@ void isa_reg_display() {
     else
       printf("%3s = 0x%08x  ",regs[i],cpu.gpr[i]._32);
   }
-  printf("%7s = 0x%08x  ","mtvec  ",cpu.mtvec);
-  printf("%7s = 0x%08x\n","mepc   ",cpu.mepc);
-  printf("%7s = 0x%08x  ","mstatus",cpu.mstatus.val);
-  printf("%7s = 0x%08x\n","mcause ",cpu.mcause);
-  printf("%7s = 0x%08x  ","satp   ",cpu.satp);
+  printf("%7s = 0x%08x  ","mtvec   ",cpu.mtvec);
+  printf("%7s = 0x%08x\n","mepc    ",cpu.mepc);
+  printf("%7s = 0x%08x  ","mstatus ",cpu.mstatus.val);
+  printf("%7s = 0x%08x\n","mcause  ",cpu.mcause);
+  printf("%7s = 0x%08x  ","satp    ",cpu.satp);
+  printf("%7s = 0x%08x\n","mscratch",cpu.mscratch);
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
