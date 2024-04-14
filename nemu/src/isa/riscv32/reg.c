@@ -50,6 +50,8 @@ rtlreg_t* getCSR(uint32_t val){
     return &cpu.mcause;
   case 0x180:
     return &cpu.satp;
+  case 0x340:
+    return &cpu.mscratch;
   default:
     panic("unknown csr:0x%08x\n",val);
   }

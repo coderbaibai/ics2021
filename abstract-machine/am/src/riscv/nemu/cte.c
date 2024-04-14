@@ -30,11 +30,11 @@ Context* __am_irq_handle(Context *c) {
 
     c = user_handler(ev, c);
     assert(c != NULL);
-    int a=0x888;
-    int* b = &a;
-    printf("before:%08x %08x\n",b,a);
+    // int a=0x888;
+    // int* b = &a;
+    // printf("before:%08x %08x\n",b,a);
     __am_switch(c);
-    printf("after: %08x %08x\n",b,a);
+    // printf("after: %08x %08x\n",b,a);
   }
   return c;
 }
@@ -59,6 +59,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   res->mepc = ((uintptr_t)entry)-sizeof(uintptr_t);
   res->SP = (uintptr_t)res;
   res->GPR2 = (uintptr_t)arg;
+  res->np = 1;
   return res;
 }
 

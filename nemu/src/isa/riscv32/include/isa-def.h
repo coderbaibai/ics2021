@@ -41,6 +41,7 @@ typedef struct {
   reg_mstatus mstatus;
   rtlreg_t mcause;
   rtlreg_t satp;
+  rtlreg_t mscratch;
   vaddr_t pc;
   bool INTR;
 } riscv32_CPU_state;

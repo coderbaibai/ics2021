@@ -18,6 +18,7 @@ static void restart() {
   cpu.gpr[0]._32 = 0;
   cpu.mstatus.val = 0x1800;
   cpu.mstatus.MIE = 0;
+  cpu.mscratch = 0;
   cpu.satp = 0;
   cpu.INTR = false;
 }

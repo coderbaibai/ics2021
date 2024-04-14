@@ -21,17 +21,45 @@ f(30) f(31)
 #define PUSH(n) STORE concat(x, n), (n * XLEN)(sp);
 #define POP(n)  LOAD  concat(x, n), (n * XLEN)(sp);
 
-#define CONTEXT_SIZE  ((32 + 3 + 1) * XLEN)
+#define CONTEXT_SIZE  ((32 + 3 + 1 + 1) * XLEN)
 #define OFFSET_SP     ( 2 * XLEN)
 #define OFFSET_CAUSE  (32 * XLEN)
 #define OFFSET_STATUS (33 * XLEN)
 #define OFFSET_EPC    (34 * XLEN)
+#define OFFSET_NP     (35 * XLEN)
 
 .align 3
 .globl __am_asm_trap
 __am_asm_trap:
-  addi sp, sp, -CONTEXT_SIZE
+  # 先判断当前进程属于用户进程还是内核线程(初始状态下，mscratch=0，即为内核主线程)
+  csrrw sp,mscratch,sp
+  bnez sp,usr_save_context # 如果sp!=0,说明是用户线程；sp=0，说明是内核线程，需要恢复
+  csrr sp,mscratch
+  j kernel_save_context
+usr_save_context:
+  addi sp, sp, -CONTEXT_SIZE # 给context预留空间
+  
+  # 写入context中的SP寄存器，作为用户栈地址
+  csrrw t0,mscratch,t0
+  STORE t0,OFFSET_SP(sp)
+  # 用一个np来标志当前上下文是用户还是内核
+  li t0,0
+  STORE t0,OFFSET_NP(sp)
+  # 为了使得CTE可重入，在中断期间无论如何mscratch都是0，直到下一个用户进程载入为止
+  csrrw t0,mscratch,t0
+  j common_save_context
+kernel_save_context:
+  addi sp, sp, -CONTEXT_SIZE # 给context预留空间
 
+  csrrw t0,mscratch,t0
+  # 用一个np来标志当前上下文是用户还是内核
+  li t0,1
+  STORE t0,OFFSET_NP(sp)
+  li t0,0
+  # 为了使得CTE可重入，在中断期间无论如何mscratch都是0，直到下一个用户进程载入为止
+  csrrw t0,mscratch,t0
+
+common_save_context:
   MAP(REGS, PUSH)
 
   csrr t0, mcause
@@ -48,9 +76,6 @@ __am_asm_trap:
   csrw mstatus, t1
 
   mv a0, sp
-  # 将sp也保存在context中，因为sp前后不一定一致了
-  # 暂时没什么必要
-  STORE sp,OFFSET_SP(sp)
 
   jal __am_irq_handle
   # 重新获取sp
@@ -60,8 +85,24 @@ __am_asm_trap:
   LOAD t2, OFFSET_EPC(sp)
   csrw mstatus, t1
   csrw mepc, t2
+  
+  # 判断新的上下文是用户还是内核,如果是用户的话，需要设置mscratch，并且重新设置SP为用户栈地址
+  LOAD t0, OFFSET_NP(sp)
+  bnez t0,kernel_restore_context # np为0代表用户进程,非0则跳转
 
+user_restore_context:
+  # 将mscratch重新设置为栈底
+  addi t0, sp, CONTEXT_SIZE
+  csrw mscratch,t0
+  MAP(REGS,POP)
+  # 重新设置SP为用户栈地址
+  LOAD sp,OFFSET_SP(sp)
+  j common_restore_context
+
+kernel_restore_context:
   MAP(REGS, POP)
 
   addi sp, sp, CONTEXT_SIZE
+
+common_restore_context:
   mret
