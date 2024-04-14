@@ -31,6 +31,8 @@ AM_DEVREG(21, NET_CONFIG,   RD, bool present);
 AM_DEVREG(22, NET_STATUS,   RD, int rx_len, tx_len);
 AM_DEVREG(23, NET_TX,       WR, Area buf);
 AM_DEVREG(24, NET_RX,       WR, Area buf);
+// 自己添加的
+AM_DEVREG(25, GPU_CLEAR,    WR, bool t);
 
 // Input
 

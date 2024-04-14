@@ -31,6 +31,12 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   }
 }
 
+void __am_gpu_clear(AM_GPU_CLEAR_T*){
+  uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
+  memset(fb,0,hei*wid*4);
+  outl(SYNC_ADDR, 1);
+}
+
 void __am_gpu_status(AM_GPU_STATUS_T *status) {
   status->ready = true;
 }
