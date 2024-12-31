@@ -37,22 +37,41 @@ busybox有BUG，会循环执行命令
 #### 配置这个项目
 ##### 1.安装以下工具
 ```shell
-apt-get install build-essential    # build-essential packages, include binary utilities, gcc, make, and so on
-apt-get install man                # on-line reference manual
-apt-get install gcc-doc            # on-line reference manual for gcc
-apt-get install gdb                # GNU debugger
-apt-get install git                # revision control system
-apt-get install libreadline-dev    # a library used later
-apt-get install libsdl2-dev        # a library used later
-apt-get install llvm               # llvm project, which contains libraries used later
-apt-get install bison               # llvm project, which contains libraries used later
-apt-get install flex               # llvm project, which contains libraries used later
+sudo apt-get install build-essential    # build-essential packages, include binary utilities, gcc, make, and so on
+sudo apt-get install man                # on-line reference manual
+sudo apt-get install gcc-doc            # on-line reference manual for gcc
+sudo apt-get install gdb                # GNU debugger
+sudo apt-get install git                # revision control system
+sudo apt-get install libreadline-dev    # a library used later
+sudo apt-get install libsdl2-dev        # a library used later
+sudo apt-get install llvm               # llvm project, which contains libraries used later
+sudo apt-get install bison              # bison
+sudo apt-get install riscv64               # flex
+sudo apt-get install flex               # flex
+sudo apt-get install ccache
+sudo apt install gcc-riscv64-linux-gnu
+sudo apt install g++-riscv64-linux-gnu
+
 ```
 
 
 ##### 2.设置环境变量
 在~/.zshrc中加入下面两行
 ```shell
-export NAVY_HOME=/home/bhx/work/ics2021/navy-apps
 export NEMU_HOME=/home/bhx/work/ics2021/nemu
+export AM_HOME=/home/bhx/work/ics2021/abstract-machine
+export NAVY_HOME=/home/bhx/work/ics2021/navy-apps
 ```
+
+##### 3.配置NEMU
+在nemu目录下执行
+```shell
+make menuconfig
+```
+
+##### 4.编译
+在nanos-lite目录下执行
+```shell
+make ARCH=riscv32-nemu update
+```
+由于版本原因，个别应用程序可能报错，能编译出来的都是可以运行的。可以在src/files.h中查看可运行的程序
