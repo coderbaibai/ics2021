@@ -45,6 +45,8 @@ apt-get install git                # revision control system
 apt-get install libreadline-dev    # a library used later
 apt-get install libsdl2-dev        # a library used later
 apt-get install llvm               # llvm project, which contains libraries used later
+apt-get install bison               # llvm project, which contains libraries used later
+apt-get install flex               # llvm project, which contains libraries used later
 ```
 
 
