@@ -74,4 +74,4 @@ make menuconfig
 ```shell
 make ARCH=riscv32-nemu update
 ```
-由于版本原因，个别应用程序可能报错，能编译出来的都是可以运行的。可以在src/files.h中查看可运行的程序
+会出现一个缺少头文件的报错，进入引用的头文件中注释掉即可。
