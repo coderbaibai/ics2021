@@ -34,3 +34,23 @@ PA3的一些很有价值的选做：系统声卡、am环境迁移、多道程序
 busybox有BUG，会循环执行命令
 ```
 
+#### 配置这个项目
+##### 1.安装以下工具
+```shell
+apt-get install build-essential    # build-essential packages, include binary utilities, gcc, make, and so on
+apt-get install man                # on-line reference manual
+apt-get install gcc-doc            # on-line reference manual for gcc
+apt-get install gdb                # GNU debugger
+apt-get install git                # revision control system
+apt-get install libreadline-dev    # a library used later
+apt-get install libsdl2-dev        # a library used later
+apt-get install llvm               # llvm project, which contains libraries used later
+```
+
+
+##### 2.设置环境变量
+在~/.zshrc中加入下面两行
+```shell
+export NAVY_HOME=/home/bhx/work/ics2021/navy-apps
+export NEMU_HOME=/home/bhx/work/ics2021/nemu
+```
